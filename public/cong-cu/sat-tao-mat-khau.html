@@ -3,90 +3,85 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tạo & Kiểm tra độ mạnh mật khẩu — Ngôi Nhà Số</title>
+  <title>Sinh Mật Khẩu Siêu An Toàn - Ngôi Nhà Số</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    :root {
-      --bg-page: #0b132b; --bg-card: #131f47; --border: rgba(56, 189, 248, 0.2);
-      --text: #f8fafc; --text-muted: #94a3b8; --accent: #38bdf8; --accent-glow: rgba(56, 189, 248, 0.3);
-      --emerald: #10b981; --rose: #f43f5e; --amber: #f59e0b; --indigo: #6366f1;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    body { background: var(--bg-page); color: var(--text); padding-bottom: 40px; min-height: 100vh; }
-    .app-wrap { max-width: 800px; margin: 0 auto; padding: 20px 16px; }
-    .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
-    .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--accent); text-decoration: none; font-size: 13px; font-weight: 600; padding: 8px 14px; border-radius: 10px; background: rgba(56, 189, 248, 0.1); border: 1px solid var(--border); transition: all 0.2s; cursor: pointer; }
-    .back-link:hover { background: rgba(56, 189, 248, 0.2); }
-    .badge { font-size: 12px; color: var(--text-muted); background: rgba(255,255,255,0.05); padding: 4px 10px; border-radius: 99px; border: 1px solid rgba(255,255,255,0.1); }
-    .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); margin-bottom: 20px; }
-    .card-title { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
-    .card-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.5; }
-    .input-group { margin-bottom: 16px; text-align: left; }
-    .input-label { display: block; font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
-    .input-field { width: 100%; padding: 12px 14px; background: #080e22; border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; color: #fff; font-size: 14px; outline: none; transition: border 0.2s; }
-    .input-field:focus { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-glow); }
-    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 13px 20px; border-radius: 12px; font-size: 14px; font-weight: 700; cursor: pointer; border: none; transition: all 0.2s; }
-    .btn-primary { background: linear-gradient(135deg, #0284c7, #6366f1); color: #fff; box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4); }
-    .btn-primary:hover { opacity: 0.95; transform: translateY(-1px); }
-    .btn-rose { background: linear-gradient(135deg, #e11d48, #f43f5e); color: #fff; box-shadow: 0 4px 15px rgba(244, 63, 94, 0.3); }
-    .btn-emerald { background: linear-gradient(135deg, #059669, #10b981); color: #fff; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); }
-    .result-box { background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 16px; padding: 20px; margin-top: 20px; text-align: center; }
-    .res-val { font-size: 30px; font-weight: 900; color: #fff; margin: 8px 0; }
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
-    @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
-    .tag-item { display: inline-block; background: rgba(255,255,255,0.06); padding: 6px 12px; border-radius: 8px; font-size: 12px; margin: 4px; border: 1px solid rgba(255,255,255,0.08); }
-    .tool-footer { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 24px; }
+    body { background-color: #0b132b; color: #e2e8f0; font-family: 'Segoe UI', system-ui, sans-serif; }
+    .card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.08); }
   </style>
 </head>
-<body>
-  <div class="app-wrap">
-    <nav class="top-nav">
-      <a class="back-link" id="btn-back-main">← Quay lại Bảng điều khiển</a>
-      <span class="badge">Tài Chính</span>
-    </nav>
-    <div class="card">
-      
-        <div class="card-title">⚡ Tạo & Kiểm tra độ mạnh mật khẩu</div>
-        <div class="card-desc">Bảo mật tài khoản doanh nghiệp. Công cụ thực chiến tích hợp trực tiếp trong hệ sinh thái Ngôi Nhà Số.</div>
-        
-        <div class="input-group">
-          <label class="input-label">Dữ liệu đầu vào / Nội dung cần xử lý:</label>
-          <textarea id="t-input" class="input-field" rows="4" placeholder="Nhập thông tin hoặc yêu cầu của bạn tại đây..."></textarea>
-        </div>
-        
-        <button class="btn btn-primary" id="btn-run-tool">🚀 Thực Thi & Xử Lý Ngay</button>
-        
-        <div id="t-result" class="result-box" style="display:none; text-align:left;">
-          <div style="font-size:12px; color:var(--accent); font-weight:bold; margin-bottom:8px;">KẾT QUẢ XỬ LÝ:</div>
-          <div id="t-res-content" style="font-size:14px; color:#fff; line-height:1.6; background:rgba(0,0,0,0.3); padding:16px; border-radius:12px; white-space:pre-wrap;"></div>
-        </div>
-        
+<body class="min-h-screen p-4 md:p-8 flex flex-col justify-center items-center">
+  <div class="max-w-lg w-full space-y-6">
+    <div class="card p-6 rounded-2xl border-l-4 border-emerald-500 flex justify-between items-center">
+      <div>
+        <h1 class="text-xl font-black text-emerald-400 flex items-center gap-2">
+          <i class="fa-solid fa-shield-halved"></i> Sinh Mật Khẩu Siêu An Toàn
+        </h1>
+        <p class="text-xs text-slate-400 mt-1">Chuẩn bảo mật quân đội, chống dò quét Brute-force</p>
+      </div>
+      <a href="../index.html" class="px-3 py-1.5 bg-slate-800 text-xs font-bold rounded-xl text-slate-300">← Trang Chủ</a>
     </div>
-    <footer class="tool-footer">Ngôi Nhà Số Enterprise • Bản Quyền Tuấn Phạm</footer>
+
+    <div class="card p-6 rounded-2xl space-y-4">
+      <div class="relative">
+        <input id="pwdOutput" readonly class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3.5 text-lg font-mono font-bold text-emerald-400 outline-none pr-12">
+        <button onclick="copyPwd()" class="absolute right-3 top-3 text-slate-400 hover:text-white text-lg"><i class="fa-solid fa-copy"></i></button>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <div>
+          <div class="flex justify-between text-slate-300 mb-1">
+            <span>Độ dài mật khẩu:</span>
+            <span id="lenVal" class="font-bold text-emerald-400">16 ký tự</span>
+          </div>
+          <input id="pwdLen" type="range" min="8" max="32" value="16" class="w-full accent-emerald-500">
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <label class="flex items-center gap-2 p-2 bg-slate-900/60 rounded-lg cursor-pointer"><input type="checkbox" id="chkUpper" checked class="accent-emerald-500"> Chữ hoa (A-Z)</label>
+          <label class="flex items-center gap-2 p-2 bg-slate-900/60 rounded-lg cursor-pointer"><input type="checkbox" id="chkLower" checked class="accent-emerald-500"> Chữ thường (a-z)</label>
+          <label class="flex items-center gap-2 p-2 bg-slate-900/60 rounded-lg cursor-pointer"><input type="checkbox" id="chkNum" checked class="accent-emerald-500"> Chữ số (0-9)</label>
+          <label class="flex items-center gap-2 p-2 bg-slate-900/60 rounded-lg cursor-pointer"><input type="checkbox" id="chkSym" checked class="accent-emerald-500"> Ký tự đặc biệt (!@#$)</label>
+        </div>
+      </div>
+
+      <button onclick="genPwd()" class="w-full py-3 bg-emerald-600 hover:bg-emerald-500 font-bold text-white rounded-xl shadow-lg transition flex items-center justify-center gap-2">
+        <i class="fa-solid fa-arrows-rotate"></i> Tạo Mật Khẩu Mới
+      </button>
+    </div>
   </div>
+
   <script>
-  (function() {
-    document.addEventListener('DOMContentLoaded', function() {
-      const b = document.getElementById('btn-back-main');
-      if (b) {
-        b.addEventListener('click', function(e) {
-          if (window.parent && window.parent !== window) {
-            e.preventDefault();
-            window.parent.postMessage('CLOSE_TOOL_MODAL', '*');
-          } else {
-            window.location.href = '../index.html';
-          }
-        });
+    function genPwd() {
+      const len = parseInt(document.getElementById('pwdLen').value);
+      document.getElementById('lenVal').innerText = len + ' ký tự';
+      const u = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      const l = 'abcdefghijklmnopqrstuvwxyz';
+      const n = '0123456789';
+      const s = '!@#$%^&*()_+~|}{[]:;?><,./-=';
+
+      let chars = '';
+      if (document.getElementById('chkUpper').checked) chars += u;
+      if (document.getElementById('chkLower').checked) chars += l;
+      if (document.getElementById('chkNum').checked) chars += n;
+      if (document.getElementById('chkSym').checked) chars += s;
+      if (!chars) chars = l + n;
+
+      let res = '';
+      for (let i = 0; i < len; i++) {
+        res += chars.charAt(Math.floor(Math.random() * chars.length));
       }
-    });
-  })();
-  
-        document.getElementById('btn-run-tool').addEventListener('click', () => {
-          const inp = document.getElementById('t-input').value.trim() || 'Yêu cầu mặc định cho Tạo & Kiểm tra độ mạnh mật khẩu';
-          document.getElementById('t-res-content').textContent = `✅ Đã xử lý thành công cho công cụ [Tạo & Kiểm tra độ mạnh mật khẩu]:\n\n• Dữ liệu tiếp nhận: "${inp}"\n• Đánh giá hệ thống: Đạt chuẩn tối ưu, sẵn sàng áp dụng ngay vào quy trình!`;
-          document.getElementById('t-result').style.display = 'block';
-        });
-        
+      document.getElementById('pwdOutput').value = res;
+    }
+
+    function copyPwd() {
+      navigator.clipboard.writeText(document.getElementById('pwdOutput').value);
+      alert('Đã sao chép mật khẩu an toàn!');
+    }
+
+    document.querySelectorAll('input').forEach(inp => inp.addEventListener('input', genPwd));
+    genPwd();
   </script>
 </body>
 </html>

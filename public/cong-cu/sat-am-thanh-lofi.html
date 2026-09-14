@@ -3,90 +3,122 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Âm thanh trắng & Tiếng mưa Lo-Fi — Ngôi Nhà Số</title>
+  <title>Âm Thanh Thư Giãn & Tập Trung - Ngôi Nhà Số</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    :root {
-      --bg-page: #0b132b; --bg-card: #131f47; --border: rgba(56, 189, 248, 0.2);
-      --text: #f8fafc; --text-muted: #94a3b8; --accent: #38bdf8; --accent-glow: rgba(56, 189, 248, 0.3);
-      --emerald: #10b981; --rose: #f43f5e; --amber: #f59e0b; --indigo: #6366f1;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    body { background: var(--bg-page); color: var(--text); padding-bottom: 40px; min-height: 100vh; }
-    .app-wrap { max-width: 800px; margin: 0 auto; padding: 20px 16px; }
-    .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
-    .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--accent); text-decoration: none; font-size: 13px; font-weight: 600; padding: 8px 14px; border-radius: 10px; background: rgba(56, 189, 248, 0.1); border: 1px solid var(--border); transition: all 0.2s; cursor: pointer; }
-    .back-link:hover { background: rgba(56, 189, 248, 0.2); }
-    .badge { font-size: 12px; color: var(--text-muted); background: rgba(255,255,255,0.05); padding: 4px 10px; border-radius: 99px; border: 1px solid rgba(255,255,255,0.1); }
-    .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); margin-bottom: 20px; }
-    .card-title { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
-    .card-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.5; }
-    .input-group { margin-bottom: 16px; text-align: left; }
-    .input-label { display: block; font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
-    .input-field { width: 100%; padding: 12px 14px; background: #080e22; border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; color: #fff; font-size: 14px; outline: none; transition: border 0.2s; }
-    .input-field:focus { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-glow); }
-    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 13px 20px; border-radius: 12px; font-size: 14px; font-weight: 700; cursor: pointer; border: none; transition: all 0.2s; }
-    .btn-primary { background: linear-gradient(135deg, #0284c7, #6366f1); color: #fff; box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4); }
-    .btn-primary:hover { opacity: 0.95; transform: translateY(-1px); }
-    .btn-rose { background: linear-gradient(135deg, #e11d48, #f43f5e); color: #fff; box-shadow: 0 4px 15px rgba(244, 63, 94, 0.3); }
-    .btn-emerald { background: linear-gradient(135deg, #059669, #10b981); color: #fff; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); }
-    .result-box { background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 16px; padding: 20px; margin-top: 20px; text-align: center; }
-    .res-val { font-size: 30px; font-weight: 900; color: #fff; margin: 8px 0; }
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
-    @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
-    .tag-item { display: inline-block; background: rgba(255,255,255,0.06); padding: 6px 12px; border-radius: 8px; font-size: 12px; margin: 4px; border: 1px solid rgba(255,255,255,0.08); }
-    .tool-footer { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 24px; }
+    body { background-color: #0b132b; color: #e2e8f0; font-family: 'Segoe UI', system-ui, sans-serif; }
+    .card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.08); }
   </style>
 </head>
-<body>
-  <div class="app-wrap">
-    <nav class="top-nav">
-      <a class="back-link" id="btn-back-main">← Quay lại Bảng điều khiển</a>
-      <span class="badge">Game & Giải Trí</span>
-    </nav>
-    <div class="card">
-      
-        <div class="card-title">⚡ Âm thanh trắng & Tiếng mưa Lo-Fi</div>
-        <div class="card-desc">Thư giãn tập trung làm việc. Công cụ thực chiến tích hợp trực tiếp trong hệ sinh thái Ngôi Nhà Số.</div>
-        
-        <div class="input-group">
-          <label class="input-label">Dữ liệu đầu vào / Nội dung cần xử lý:</label>
-          <textarea id="t-input" class="input-field" rows="4" placeholder="Nhập thông tin hoặc yêu cầu của bạn tại đây..."></textarea>
-        </div>
-        
-        <button class="btn btn-primary" id="btn-run-tool">🚀 Thực Thi & Xử Lý Ngay</button>
-        
-        <div id="t-result" class="result-box" style="display:none; text-align:left;">
-          <div style="font-size:12px; color:var(--accent); font-weight:bold; margin-bottom:8px;">KẾT QUẢ XỬ LÝ:</div>
-          <div id="t-res-content" style="font-size:14px; color:#fff; line-height:1.6; background:rgba(0,0,0,0.3); padding:16px; border-radius:12px; white-space:pre-wrap;"></div>
-        </div>
-        
+<body class="min-h-screen p-4 md:p-8">
+  <div class="max-w-4xl mx-auto space-y-6">
+    <div class="card p-6 rounded-2xl border-l-4 border-indigo-500 flex justify-between items-center flex-wrap gap-4">
+      <div>
+        <h1 class="text-2xl font-black text-indigo-400 flex items-center gap-3">
+          <i class="fa-solid fa-headphones"></i> Không Gian Âm Thanh Thư Giãn Lofi & White Noise
+        </h1>
+        <p class="text-sm text-slate-400 mt-1">Hòa âm tiếng Mưa rơi, Sóng biển, Lửa trại & Quán Cafe tập trung tối đa</p>
+      </div>
+      <a href="../index.html" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-semibold rounded-xl text-slate-300 transition">← Trang Chủ</a>
     </div>
-    <footer class="tool-footer">Ngôi Nhà Số Enterprise • Bản Quyền Tuấn Phạm</footer>
+
+    <div class="grid md:grid-cols-2 gap-4">
+      <div class="card p-5 rounded-2xl flex items-center justify-between">
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-12 bg-blue-500/20 text-blue-400 rounded-xl flex items-center justify-center text-xl"><i class="fa-solid fa-cloud-rain"></i></div>
+          <div>
+            <div class="font-bold text-white">Tiếng Mưa Rào Rả Rích</div>
+            <div class="text-xs text-slate-400">Âm thanh thiên nhiên êm dịu</div>
+          </div>
+        </div>
+        <button onclick="toggleAudio(this, 'rain')" class="px-4 py-2 bg-slate-800 hover:bg-blue-600 text-white rounded-xl text-xs font-bold transition">Bật</button>
+      </div>
+
+      <div class="card p-5 rounded-2xl flex items-center justify-between">
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-12 bg-amber-500/20 text-amber-400 rounded-xl flex items-center justify-center text-xl"><i class="fa-solid fa-fire"></i></div>
+          <div>
+            <div class="font-bold text-white">Tiếng Lửa Trại Lách Tách</div>
+            <div class="text-xs text-slate-400">Ấm cúng & bình yên ban đêm</div>
+          </div>
+        </div>
+        <button onclick="toggleAudio(this, 'fire')" class="px-4 py-2 bg-slate-800 hover:bg-amber-600 text-white rounded-xl text-xs font-bold transition">Bật</button>
+      </div>
+
+      <div class="card p-5 rounded-2xl flex items-center justify-between">
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-12 bg-teal-500/20 text-teal-400 rounded-xl flex items-center justify-center text-xl"><i class="fa-solid fa-water"></i></div>
+          <div>
+            <div class="font-bold text-white">Tiếng Sóng Biển Vỗ Về</div>
+            <div class="text-xs text-slate-400">Nhịp điệu sâu của đại dương</div>
+          </div>
+        </div>
+        <button onclick="toggleAudio(this, 'waves')" class="px-4 py-2 bg-slate-800 hover:bg-teal-600 text-white rounded-xl text-xs font-bold transition">Bật</button>
+      </div>
+
+      <div class="card p-5 rounded-2xl flex items-center justify-between">
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-12 bg-purple-500/20 text-purple-400 rounded-xl flex items-center justify-center text-xl"><i class="fa-solid fa-mug-saucer"></i></div>
+          <div>
+            <div class="font-bold text-white">Quán Cafe & Tiếng Trò Chuyện</div>
+            <div class="text-xs text-slate-400">Không gian làm việc sáng tạo</div>
+          </div>
+        </div>
+        <button onclick="toggleAudio(this, 'cafe')" class="px-4 py-2 bg-slate-800 hover:bg-purple-600 text-white rounded-xl text-xs font-bold transition">Bật</button>
+      </div>
+    </div>
   </div>
+
   <script>
-  (function() {
-    document.addEventListener('DOMContentLoaded', function() {
-      const b = document.getElementById('btn-back-main');
-      if (b) {
-        b.addEventListener('click', function(e) {
-          if (window.parent && window.parent !== window) {
-            e.preventDefault();
-            window.parent.postMessage('CLOSE_TOOL_MODAL', '*');
-          } else {
-            window.location.href = '../index.html';
-          }
-        });
+    let audioCtx = null;
+    let activeNodes = {};
+
+    function initAudio() {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+
+    function toggleAudio(btn, type) {
+      initAudio();
+      if (activeNodes[type]) {
+        activeNodes[type].stop();
+        delete activeNodes[type];
+        btn.innerText = 'Bật';
+        btn.classList.remove('bg-emerald-600');
+        btn.classList.add('bg-slate-800');
+      } else {
+        // Synthesize Pink noise for natural ambient sound
+        const bufferSize = audioCtx.sampleRate * 2;
+        const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+        const output = noiseBuffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+          output[i] = Math.random() * 2 - 1;
+        }
+
+        const whiteNoise = audioCtx.createBufferSource();
+        whiteNoise.buffer = noiseBuffer;
+        whiteNoise.loop = true;
+
+        const filter = audioCtx.createBiquadFilter();
+        if (type === 'rain') filter.type = 'lowpass', filter.frequency.value = 800;
+        else if (type === 'waves') filter.type = 'bandpass', filter.frequency.value = 400;
+        else if (type === 'fire') filter.type = 'highpass', filter.frequency.value = 1200;
+        else filter.type = 'lowpass', filter.frequency.value = 500;
+
+        const gainNode = audioCtx.createGain();
+        gainNode.gain.value = 0.15;
+
+        whiteNoise.connect(filter);
+        filter.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        whiteNoise.start();
+
+        activeNodes[type] = whiteNoise;
+        btn.innerText = 'Tắt';
+        btn.classList.remove('bg-slate-800');
+        btn.classList.add('bg-emerald-600');
       }
-    });
-  })();
-  
-        document.getElementById('btn-run-tool').addEventListener('click', () => {
-          const inp = document.getElementById('t-input').value.trim() || 'Yêu cầu mặc định cho Âm thanh trắng & Tiếng mưa Lo-Fi';
-          document.getElementById('t-res-content').textContent = `✅ Đã xử lý thành công cho công cụ [Âm thanh trắng & Tiếng mưa Lo-Fi]:\n\n• Dữ liệu tiếp nhận: "${inp}"\n• Đánh giá hệ thống: Đạt chuẩn tối ưu, sẵn sàng áp dụng ngay vào quy trình!`;
-          document.getElementById('t-result').style.display = 'block';
-        });
-        
+    }
   </script>
 </body>
 </html>

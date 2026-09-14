@@ -3,90 +3,73 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trợ lý Thiết Kế Minigame AI — Ngôi Nhà Số</title>
+  <title>AI Lên Kịch Bản Minigame Bán Hàng - Ngôi Nhà Số</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    :root {
-      --bg-page: #0b132b; --bg-card: #131f47; --border: rgba(56, 189, 248, 0.2);
-      --text: #f8fafc; --text-muted: #94a3b8; --accent: #38bdf8; --accent-glow: rgba(56, 189, 248, 0.3);
-      --emerald: #10b981; --rose: #f43f5e; --amber: #f59e0b; --indigo: #6366f1;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    body { background: var(--bg-page); color: var(--text); padding-bottom: 40px; min-height: 100vh; }
-    .app-wrap { max-width: 800px; margin: 0 auto; padding: 20px 16px; }
-    .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
-    .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--accent); text-decoration: none; font-size: 13px; font-weight: 600; padding: 8px 14px; border-radius: 10px; background: rgba(56, 189, 248, 0.1); border: 1px solid var(--border); transition: all 0.2s; cursor: pointer; }
-    .back-link:hover { background: rgba(56, 189, 248, 0.2); }
-    .badge { font-size: 12px; color: var(--text-muted); background: rgba(255,255,255,0.05); padding: 4px 10px; border-radius: 99px; border: 1px solid rgba(255,255,255,0.1); }
-    .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); margin-bottom: 20px; }
-    .card-title { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
-    .card-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.5; }
-    .input-group { margin-bottom: 16px; text-align: left; }
-    .input-label { display: block; font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
-    .input-field { width: 100%; padding: 12px 14px; background: #080e22; border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; color: #fff; font-size: 14px; outline: none; transition: border 0.2s; }
-    .input-field:focus { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-glow); }
-    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 13px 20px; border-radius: 12px; font-size: 14px; font-weight: 700; cursor: pointer; border: none; transition: all 0.2s; }
-    .btn-primary { background: linear-gradient(135deg, #0284c7, #6366f1); color: #fff; box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4); }
-    .btn-primary:hover { opacity: 0.95; transform: translateY(-1px); }
-    .btn-rose { background: linear-gradient(135deg, #e11d48, #f43f5e); color: #fff; box-shadow: 0 4px 15px rgba(244, 63, 94, 0.3); }
-    .btn-emerald { background: linear-gradient(135deg, #059669, #10b981); color: #fff; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); }
-    .result-box { background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 16px; padding: 20px; margin-top: 20px; text-align: center; }
-    .res-val { font-size: 30px; font-weight: 900; color: #fff; margin: 8px 0; }
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
-    @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
-    .tag-item { display: inline-block; background: rgba(255,255,255,0.06); padding: 6px 12px; border-radius: 8px; font-size: 12px; margin: 4px; border: 1px solid rgba(255,255,255,0.08); }
-    .tool-footer { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 24px; }
+    body { background-color: #0b132b; color: #e2e8f0; font-family: 'Segoe UI', system-ui, sans-serif; }
+    .card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.08); }
   </style>
 </head>
-<body>
-  <div class="app-wrap">
-    <nav class="top-nav">
-      <a class="back-link" id="btn-back-main">← Quay lại Bảng điều khiển</a>
-      <span class="badge">AI Pro</span>
-    </nav>
-    <div class="card">
-      
-        <div class="card-title">⚡ Trợ lý Thiết Kế Minigame AI</div>
-        <div class="card-desc">Ý tưởng game tương tác hút khách. Công cụ thực chiến tích hợp trực tiếp trong hệ sinh thái Ngôi Nhà Số.</div>
-        
-        <div class="input-group">
-          <label class="input-label">Dữ liệu đầu vào / Nội dung cần xử lý:</label>
-          <textarea id="t-input" class="input-field" rows="4" placeholder="Nhập thông tin hoặc yêu cầu của bạn tại đây..."></textarea>
-        </div>
-        
-        <button class="btn btn-primary" id="btn-run-tool">🚀 Thực Thi & Xử Lý Ngay</button>
-        
-        <div id="t-result" class="result-box" style="display:none; text-align:left;">
-          <div style="font-size:12px; color:var(--accent); font-weight:bold; margin-bottom:8px;">KẾT QUẢ XỬ LÝ:</div>
-          <div id="t-res-content" style="font-size:14px; color:#fff; line-height:1.6; background:rgba(0,0,0,0.3); padding:16px; border-radius:12px; white-space:pre-wrap;"></div>
-        </div>
-        
+<body class="min-h-screen p-4 md:p-8">
+  <div class="max-w-4xl mx-auto space-y-6">
+    <div class="card p-6 rounded-2xl border-l-4 border-pink-500 flex justify-between items-center flex-wrap gap-4">
+      <div>
+        <h1 class="text-2xl font-black text-pink-400 flex items-center gap-3">
+          <i class="fa-solid fa-gift"></i> AI Tạo Kịch Bản Minigame & Khuyến Mãi Viral
+        </h1>
+        <p class="text-sm text-slate-400 mt-1">Kéo tương tác Fanpage & Bùng nổ đơn hàng với thể lệ minigame hấp dẫn</p>
+      </div>
+      <a href="../index.html" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-semibold rounded-xl text-slate-300 transition">← Trang Chủ</a>
     </div>
-    <footer class="tool-footer">Ngôi Nhà Số Enterprise • Bản Quyền Tuấn Phạm</footer>
+
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="card p-6 rounded-2xl space-y-4">
+        <div>
+          <label class="text-xs text-slate-400 block mb-1">Loại sản phẩm / Dịch vụ:</label>
+          <input id="prodName" value="Thời trang nam cao cấp" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-white font-bold outline-none">
+        </div>
+        <div>
+          <label class="text-xs text-slate-400 block mb-1">Dịp khuyến mãi:</label>
+          <input id="promoEvent" value="Chào hè 2026 - Giảm giá tới 50%" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-white font-bold outline-none">
+        </div>
+        <button onclick="genGame()" class="w-full py-3 bg-pink-600 hover:bg-pink-500 font-bold text-white rounded-xl shadow-lg transition">Tạo bài đăng Minigame</button>
+      </div>
+
+      <div class="card p-6 rounded-2xl space-y-4">
+        <div class="flex justify-between items-center border-b border-slate-700 pb-2">
+          <span class="font-bold text-white text-xs">MẪU BÀI VIẾT FACEBOOK</span>
+          <button onclick="copyGame()" class="text-xs text-pink-400 hover:underline"><i class="fa-solid fa-copy"></i> Sao chép</button>
+        </div>
+        <pre id="gameOut" class="whitespace-pre-wrap font-sans text-xs text-slate-300 leading-relaxed bg-slate-900/80 p-4 rounded-xl border border-slate-800"></pre>
+      </div>
+    </div>
   </div>
+
   <script>
-  (function() {
-    document.addEventListener('DOMContentLoaded', function() {
-      const b = document.getElementById('btn-back-main');
-      if (b) {
-        b.addEventListener('click', function(e) {
-          if (window.parent && window.parent !== window) {
-            e.preventDefault();
-            window.parent.postMessage('CLOSE_TOOL_MODAL', '*');
-          } else {
-            window.location.href = '../index.html';
-          }
-        });
-      }
-    });
-  })();
-  
-        document.getElementById('btn-run-tool').addEventListener('click', () => {
-          const inp = document.getElementById('t-input').value.trim() || 'Yêu cầu mặc định cho Trợ lý Thiết Kế Minigame AI';
-          document.getElementById('t-res-content').textContent = `✅ Đã xử lý thành công cho công cụ [Trợ lý Thiết Kế Minigame AI]:\n\n• Dữ liệu tiếp nhận: "${inp}"\n• Đánh giá hệ thống: Đạt chuẩn tối ưu, sẵn sàng áp dụng ngay vào quy trình!`;
-          document.getElementById('t-result').style.display = 'block';
-        });
-        
+    function genGame() {
+      const p = document.getElementById('prodName').value;
+      const e = document.getElementById('promoEvent').value;
+      const text = `🎉 [MINIGAME CỰC HOT]: ĐOÁN ĐÚNG TRÚNG QUÀ KHỦNG 🎁
+
+Chào đón ${e}, shop xin gửi tặng 03 phần quà ${p} trị giá 1.500.000đ cho 3 bạn may mắn nhất!
+
+👉 THỂ LỆ THAM GIA SIÊU DỄ:
+1. Like & Share bài viết này ở chế độ công khai.
+2. Comment 2 chữ số may mắn (00 - 99) + Tag 3 người bạn thân.
+
+🏆 GIẢI THƯỞNG:
+- 01 Giải Nhất: Bộ quà tặng cao cấp trị giá 1.500.000đ.
+- 02 Giải Nhì: Voucher mua hàng trị giá 500.000đ.
+
+⏰ Kết quả dựa trên 2 số cuối Giải Đặc Biệt XSMB ngày Chủ Nhật tới. Chơi ngay kẻo lỡ!`;
+      document.getElementById('gameOut').innerText = text;
+    }
+    function copyGame() {
+      navigator.clipboard.writeText(document.getElementById('gameOut').innerText);
+      alert('Đã sao chép bài viết minigame!');
+    }
+    genGame();
   </script>
 </body>
 </html>

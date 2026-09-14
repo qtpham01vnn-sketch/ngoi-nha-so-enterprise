@@ -3,90 +3,105 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tính giá thành sản xuất theo lô — Ngôi Nhà Số</title>
+  <title>Tính Giá Thành Sản Xuất Theo Lô - Ngôi Nhà Số</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    :root {
-      --bg-page: #0b132b; --bg-card: #131f47; --border: rgba(56, 189, 248, 0.2);
-      --text: #f8fafc; --text-muted: #94a3b8; --accent: #38bdf8; --accent-glow: rgba(56, 189, 248, 0.3);
-      --emerald: #10b981; --rose: #f43f5e; --amber: #f59e0b; --indigo: #6366f1;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    body { background: var(--bg-page); color: var(--text); padding-bottom: 40px; min-height: 100vh; }
-    .app-wrap { max-width: 800px; margin: 0 auto; padding: 20px 16px; }
-    .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
-    .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--accent); text-decoration: none; font-size: 13px; font-weight: 600; padding: 8px 14px; border-radius: 10px; background: rgba(56, 189, 248, 0.1); border: 1px solid var(--border); transition: all 0.2s; cursor: pointer; }
-    .back-link:hover { background: rgba(56, 189, 248, 0.2); }
-    .badge { font-size: 12px; color: var(--text-muted); background: rgba(255,255,255,0.05); padding: 4px 10px; border-radius: 99px; border: 1px solid rgba(255,255,255,0.1); }
-    .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); margin-bottom: 20px; }
-    .card-title { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
-    .card-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.5; }
-    .input-group { margin-bottom: 16px; text-align: left; }
-    .input-label { display: block; font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
-    .input-field { width: 100%; padding: 12px 14px; background: #080e22; border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; color: #fff; font-size: 14px; outline: none; transition: border 0.2s; }
-    .input-field:focus { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-glow); }
-    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 13px 20px; border-radius: 12px; font-size: 14px; font-weight: 700; cursor: pointer; border: none; transition: all 0.2s; }
-    .btn-primary { background: linear-gradient(135deg, #0284c7, #6366f1); color: #fff; box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4); }
-    .btn-primary:hover { opacity: 0.95; transform: translateY(-1px); }
-    .btn-rose { background: linear-gradient(135deg, #e11d48, #f43f5e); color: #fff; box-shadow: 0 4px 15px rgba(244, 63, 94, 0.3); }
-    .btn-emerald { background: linear-gradient(135deg, #059669, #10b981); color: #fff; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); }
-    .result-box { background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 16px; padding: 20px; margin-top: 20px; text-align: center; }
-    .res-val { font-size: 30px; font-weight: 900; color: #fff; margin: 8px 0; }
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
-    @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
-    .tag-item { display: inline-block; background: rgba(255,255,255,0.06); padding: 6px 12px; border-radius: 8px; font-size: 12px; margin: 4px; border: 1px solid rgba(255,255,255,0.08); }
-    .tool-footer { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 24px; }
+    body { background-color: #0b132b; color: #e2e8f0; font-family: 'Segoe UI', system-ui, sans-serif; }
+    .card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.08); }
   </style>
 </head>
-<body>
-  <div class="app-wrap">
-    <nav class="top-nav">
-      <a class="back-link" id="btn-back-main">← Quay lại Bảng điều khiển</a>
-      <span class="badge">Doanh Nghiệp</span>
-    </nav>
-    <div class="card">
-      
-        <div class="card-title">⚡ Tính giá thành sản xuất theo lô</div>
-        <div class="card-desc">Định mức nguyên vật liệu & nhân công. Công cụ thực chiến tích hợp trực tiếp trong hệ sinh thái Ngôi Nhà Số.</div>
-        
-        <div class="input-group">
-          <label class="input-label">Dữ liệu đầu vào / Nội dung cần xử lý:</label>
-          <textarea id="t-input" class="input-field" rows="4" placeholder="Nhập thông tin hoặc yêu cầu của bạn tại đây..."></textarea>
-        </div>
-        
-        <button class="btn btn-primary" id="btn-run-tool">🚀 Thực Thi & Xử Lý Ngay</button>
-        
-        <div id="t-result" class="result-box" style="display:none; text-align:left;">
-          <div style="font-size:12px; color:var(--accent); font-weight:bold; margin-bottom:8px;">KẾT QUẢ XỬ LÝ:</div>
-          <div id="t-res-content" style="font-size:14px; color:#fff; line-height:1.6; background:rgba(0,0,0,0.3); padding:16px; border-radius:12px; white-space:pre-wrap;"></div>
-        </div>
-        
+<body class="min-h-screen p-4 md:p-8">
+  <div class="max-w-4xl mx-auto space-y-6">
+    <div class="card p-6 rounded-2xl border-l-4 border-teal-500 flex justify-between items-center flex-wrap gap-4">
+      <div>
+        <h1 class="text-2xl font-black text-teal-400 flex items-center gap-3">
+          <i class="fa-solid fa-boxes-stacked"></i> Tính Giá Thành Theo Lô & Đơn Giá Bán
+        </h1>
+        <p class="text-sm text-slate-400 mt-1">Định phí + Biến phí + Biên lợi nhuận mong muốn</p>
+      </div>
+      <a href="../index.html" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-semibold rounded-xl text-slate-300 transition">← Trang Chủ</a>
     </div>
-    <footer class="tool-footer">Ngôi Nhà Số Enterprise • Bản Quyền Tuấn Phạm</footer>
+
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="card p-6 rounded-2xl space-y-4">
+        <h2 class="font-bold text-white border-b border-slate-700 pb-2">Chi phí sản xuất lô hàng</h2>
+        <div>
+          <label class="text-xs text-slate-400 block mb-1">Số lượng sản phẩm trong lô (cái)</label>
+          <input id="batchQty" type="number" value="1000" min="1" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-white font-bold outline-none">
+        </div>
+        <div>
+          <label class="text-xs text-slate-400 block mb-1">Chi phí nguyên vật liệu trực tiếp (VNĐ)</label>
+          <input id="matCost" type="number" value="50000000" step="1000000" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-white font-bold outline-none">
+        </div>
+        <div>
+          <label class="text-xs text-slate-400 block mb-1">Chi phí nhân công sản xuất (VNĐ)</label>
+          <input id="laborCost" type="number" value="20000000" step="1000000" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-white font-bold outline-none">
+        </div>
+        <div>
+          <label class="text-xs text-slate-400 block mb-1">Chi phí bao bì, vận chuyển & hao hụt (VNĐ)</label>
+          <input id="pkgCost" type="number" value="10000000" step="500000" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-white font-bold outline-none">
+        </div>
+        <div>
+          <label class="text-xs text-slate-400 block mb-1">Biên lợi nhuận mục tiêu (%)</label>
+          <input id="margin" type="number" value="40" step="5" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-white font-bold outline-none">
+        </div>
+        <button onclick="calcCost()" class="w-full py-3 bg-teal-600 hover:bg-teal-500 font-bold text-white rounded-xl transition">Tính đơn giá bán</button>
+      </div>
+
+      <div class="card p-6 rounded-2xl space-y-6">
+        <div class="grid grid-cols-2 gap-3">
+          <div class="card p-4 rounded-xl text-center">
+            <div class="text-xs text-slate-400">Giá vốn / Sản phẩm</div>
+            <div id="costPerUnit" class="text-xl font-black text-rose-400 mt-1">80,000 đ</div>
+          </div>
+          <div class="card p-4 rounded-xl text-center border border-teal-500/40 bg-teal-950/20">
+            <div class="text-xs text-teal-300">Giá bán đề xuất</div>
+            <div id="sellPrice" class="text-xl font-black text-teal-400 mt-1">133,333 đ</div>
+          </div>
+        </div>
+
+        <div class="space-y-2 text-xs">
+          <div class="flex justify-between p-2 bg-slate-900/60 rounded-lg">
+            <span class="text-slate-400">Tổng chi phí sản xuất cả lô:</span>
+            <span id="totalCost" class="font-bold text-white">80,000,000 đ</span>
+          </div>
+          <div class="flex justify-between p-2 bg-slate-900/60 rounded-lg">
+            <span class="text-slate-400">Tổng doanh thu dự kiến:</span>
+            <span id="totalRev" class="font-bold text-white">133,333,333 đ</span>
+          </div>
+          <div class="flex justify-between p-2 bg-emerald-950/50 rounded-lg font-bold text-emerald-400">
+            <span>Tổng lợi nhuận gộp lô hàng:</span>
+            <span id="grossProfit">53,333,333 đ</span>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+
   <script>
-  (function() {
-    document.addEventListener('DOMContentLoaded', function() {
-      const b = document.getElementById('btn-back-main');
-      if (b) {
-        b.addEventListener('click', function(e) {
-          if (window.parent && window.parent !== window) {
-            e.preventDefault();
-            window.parent.postMessage('CLOSE_TOOL_MODAL', '*');
-          } else {
-            window.location.href = '../index.html';
-          }
-        });
-      }
-    });
-  })();
-  
-        document.getElementById('btn-run-tool').addEventListener('click', () => {
-          const inp = document.getElementById('t-input').value.trim() || 'Yêu cầu mặc định cho Tính giá thành sản xuất theo lô';
-          document.getElementById('t-res-content').textContent = `✅ Đã xử lý thành công cho công cụ [Tính giá thành sản xuất theo lô]:\n\n• Dữ liệu tiếp nhận: "${inp}"\n• Đánh giá hệ thống: Đạt chuẩn tối ưu, sẵn sàng áp dụng ngay vào quy trình!`;
-          document.getElementById('t-result').style.display = 'block';
-        });
-        
+    function fmt(n) { return Math.round(n).toLocaleString('vi-VN') + ' đ'; }
+    function calcCost() {
+      const qty = parseInt(document.getElementById('batchQty').value) || 1;
+      const mat = parseFloat(document.getElementById('matCost').value) || 0;
+      const labor = parseFloat(document.getElementById('laborCost').value) || 0;
+      const pkg = parseFloat(document.getElementById('pkgCost').value) || 0;
+      const m = (parseFloat(document.getElementById('margin').value) || 0) / 100;
+
+      const total = mat + labor + pkg;
+      const unitCost = total / qty;
+      const targetSell = unitCost / (1 - m);
+      const totalRevenue = targetSell * qty;
+      const profit = totalRevenue - total;
+
+      document.getElementById('costPerUnit').innerText = fmt(unitCost);
+      document.getElementById('sellPrice').innerText = fmt(targetSell);
+      document.getElementById('totalCost').innerText = fmt(total);
+      document.getElementById('totalRev').innerText = fmt(totalRevenue);
+      document.getElementById('grossProfit').innerText = fmt(profit);
+    }
+    document.querySelectorAll('input').forEach(el => el.addEventListener('input', calcCost));
+    calcCost();
   </script>
 </body>
 </html>

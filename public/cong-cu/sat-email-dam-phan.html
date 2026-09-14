@@ -3,90 +3,114 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Soạn email đàm phán & từ chối — Ngôi Nhà Số</title>
+  <title>Mẫu Email Đàm Phán & Thương Thảo - Ngôi Nhà Số</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    :root {
-      --bg-page: #0b132b; --bg-card: #131f47; --border: rgba(56, 189, 248, 0.2);
-      --text: #f8fafc; --text-muted: #94a3b8; --accent: #38bdf8; --accent-glow: rgba(56, 189, 248, 0.3);
-      --emerald: #10b981; --rose: #f43f5e; --amber: #f59e0b; --indigo: #6366f1;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    body { background: var(--bg-page); color: var(--text); padding-bottom: 40px; min-height: 100vh; }
-    .app-wrap { max-width: 800px; margin: 0 auto; padding: 20px 16px; }
-    .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
-    .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--accent); text-decoration: none; font-size: 13px; font-weight: 600; padding: 8px 14px; border-radius: 10px; background: rgba(56, 189, 248, 0.1); border: 1px solid var(--border); transition: all 0.2s; cursor: pointer; }
-    .back-link:hover { background: rgba(56, 189, 248, 0.2); }
-    .badge { font-size: 12px; color: var(--text-muted); background: rgba(255,255,255,0.05); padding: 4px 10px; border-radius: 99px; border: 1px solid rgba(255,255,255,0.1); }
-    .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); margin-bottom: 20px; }
-    .card-title { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
-    .card-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.5; }
-    .input-group { margin-bottom: 16px; text-align: left; }
-    .input-label { display: block; font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
-    .input-field { width: 100%; padding: 12px 14px; background: #080e22; border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; color: #fff; font-size: 14px; outline: none; transition: border 0.2s; }
-    .input-field:focus { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-glow); }
-    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 13px 20px; border-radius: 12px; font-size: 14px; font-weight: 700; cursor: pointer; border: none; transition: all 0.2s; }
-    .btn-primary { background: linear-gradient(135deg, #0284c7, #6366f1); color: #fff; box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4); }
-    .btn-primary:hover { opacity: 0.95; transform: translateY(-1px); }
-    .btn-rose { background: linear-gradient(135deg, #e11d48, #f43f5e); color: #fff; box-shadow: 0 4px 15px rgba(244, 63, 94, 0.3); }
-    .btn-emerald { background: linear-gradient(135deg, #059669, #10b981); color: #fff; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); }
-    .result-box { background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 16px; padding: 20px; margin-top: 20px; text-align: center; }
-    .res-val { font-size: 30px; font-weight: 900; color: #fff; margin: 8px 0; }
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
-    @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
-    .tag-item { display: inline-block; background: rgba(255,255,255,0.06); padding: 6px 12px; border-radius: 8px; font-size: 12px; margin: 4px; border: 1px solid rgba(255,255,255,0.08); }
-    .tool-footer { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 24px; }
+    body { background-color: #0b132b; color: #e2e8f0; font-family: 'Segoe UI', system-ui, sans-serif; }
+    .card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.08); }
   </style>
 </head>
-<body>
-  <div class="app-wrap">
-    <nav class="top-nav">
-      <a class="back-link" id="btn-back-main">← Quay lại Bảng điều khiển</a>
-      <span class="badge">Doanh Nghiệp</span>
-    </nav>
-    <div class="card">
-      
-        <div class="card-title">⚡ Soạn email đàm phán & từ chối</div>
-        <div class="card-desc">Lịch sự, giữ quan hệ đối tác. Công cụ thực chiến tích hợp trực tiếp trong hệ sinh thái Ngôi Nhà Số.</div>
-        
-        <div class="input-group">
-          <label class="input-label">Dữ liệu đầu vào / Nội dung cần xử lý:</label>
-          <textarea id="t-input" class="input-field" rows="4" placeholder="Nhập thông tin hoặc yêu cầu của bạn tại đây..."></textarea>
-        </div>
-        
-        <button class="btn btn-primary" id="btn-run-tool">🚀 Thực Thi & Xử Lý Ngay</button>
-        
-        <div id="t-result" class="result-box" style="display:none; text-align:left;">
-          <div style="font-size:12px; color:var(--accent); font-weight:bold; margin-bottom:8px;">KẾT QUẢ XỬ LÝ:</div>
-          <div id="t-res-content" style="font-size:14px; color:#fff; line-height:1.6; background:rgba(0,0,0,0.3); padding:16px; border-radius:12px; white-space:pre-wrap;"></div>
-        </div>
-        
+<body class="min-h-screen p-4 md:p-8">
+  <div class="max-w-4xl mx-auto space-y-6">
+    <div class="card p-6 rounded-2xl border-l-4 border-indigo-500 flex justify-between items-center flex-wrap gap-4">
+      <div>
+        <h1 class="text-2xl font-black text-indigo-400 flex items-center gap-3">
+          <i class="fa-solid fa-handshake"></i> Kịch Bản Email Đàm Phán & Thương Thảo
+        </h1>
+        <p class="text-sm text-slate-400 mt-1">Cẩm nang email đàm phán giá cả đối tác, đề xuất tăng lương & giải quyết khiếu nại</p>
+      </div>
+      <a href="../index.html" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-semibold rounded-xl text-slate-300 transition">← Trang Chủ</a>
     </div>
-    <footer class="tool-footer">Ngôi Nhà Số Enterprise • Bản Quyền Tuấn Phạm</footer>
+
+    <div class="flex gap-2 flex-wrap">
+      <button onclick="loadTemplate('price')" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl text-xs">Đàm phán giảm giá NCC</button>
+      <button onclick="loadTemplate('salary')" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold rounded-xl text-xs">Đề xuất tăng lương</button>
+      <button onclick="loadTemplate('deadline')" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold rounded-xl text-xs">Xin gia hạn tiến độ</button>
+      <button onclick="loadTemplate('complaint')" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold rounded-xl text-xs">Xử lý khiếu nại khách</button>
+    </div>
+
+    <div class="card p-6 rounded-2xl space-y-4">
+      <div class="flex justify-between items-center border-b border-slate-700 pb-2">
+        <h2 id="emailTitle" class="font-bold text-white text-base">Tiêu đề: Đề xuất xem xét lại mức chiết khấu hợp đồng năm 2026</h2>
+        <button onclick="copyMail()" class="px-4 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl text-xs"><i class="fa-solid fa-copy"></i> Sao chép</button>
+      </div>
+      <pre id="emailBody" class="whitespace-pre-wrap font-sans text-xs text-slate-300 leading-relaxed bg-slate-900/80 p-5 rounded-xl border border-slate-800"></pre>
+    </div>
   </div>
+
   <script>
-  (function() {
-    document.addEventListener('DOMContentLoaded', function() {
-      const b = document.getElementById('btn-back-main');
-      if (b) {
-        b.addEventListener('click', function(e) {
-          if (window.parent && window.parent !== window) {
-            e.preventDefault();
-            window.parent.postMessage('CLOSE_TOOL_MODAL', '*');
-          } else {
-            window.location.href = '../index.html';
-          }
-        });
+    const templates = {
+      price: {
+        title: 'Tiêu đề: Đề xuất xem xét lại mức chiết khấu hợp đồng năm 2026',
+        body: `Kính gửi: [Tên Đối Tác / Nhà Cung Cấp],
+
+Trước hết, chúng tôi xin chân thành cảm ơn sự đồng hành và hỗ trợ tận tâm của Quý công ty trong suốt thời gian qua.
+
+Dựa trên kế hoạch mở rộng quy mô kinh doanh và dự kiến tăng trưởng sản lượng đặt hàng thêm 30% trong năm 2026, chúng tôi mong muốn hai bên cùng trao đổi để tối ưu hóa chính sách giá và chiết khấu thương mại.
+
+Cụ thể, chúng tôi đề xuất mức chiết khấu bổ sung [5-8%] cho các đơn hàng đạt hạn mức định kỳ. Điều này sẽ giúp đôi bên gia tăng tính cạnh tranh trên thị trường và gắn kết mối quan hệ hợp tác dài hạn.
+
+Rất mong nhận được phản hồi và có buổi gặp mặt trao đổi chi tiết cùng Quý đối tác.
+
+Trân trọng,
+[Tên của bạn]
+[Chức vụ & Công ty]`
+      },
+      salary: {
+        title: 'Tiêu đề: Đề xuất xem xét và điều chỉnh chế độ đãi ngộ - [Họ và Tên]',
+        body: `Kính gửi: [Tên Trưởng bộ phận / Ban Giám Đốc],
+
+Em xin cảm ơn Anh/Chị và Ban lãnh đạo đã luôn tạo điều kiện và hỗ trợ em hoàn thành tốt các nhiệm vụ trong suốt [Số năm/tháng] gắn bó vừa qua.
+
+Trong giai đoạn vừa qua, em đã nỗ lực đóng góp vào các cột mốc quan trọng như: [Kể ra 2-3 thành tựu định lượng cụ thể: tăng 20% doanh thu, tối ưu 15% chi phí...]. 
+
+Dựa trên khối lượng trách nhiệm hiện tại cũng như mặt bằng thu nhập thị trường, em trân trọng kính đề xuất Anh/Chị xem xét điều chỉnh mức lương của em lên [Mức lương đề xuất] VNĐ.
+
+Em rất mong có cơ hội được lắng nghe ý kiến phản hồi và chia sẻ thêm về định hướng phát triển của bộ phận.
+
+Trân trọng,
+[Họ và tên của bạn]`
+      },
+      deadline: {
+        title: 'Tiêu đề: [Dự án X] - Báo cáo tiến độ và đề xuất điều chỉnh ngày bàn giao',
+        body: `Kính gửi: [Tên Khách Hàng / Đối Tác],
+
+Đội ngũ chúng tôi đang tập trung cao độ để hoàn thiện các hạng mục của dự án [Tên dự án]. 
+
+Trong quá trình nghiệm thu kỹ thuật nội bộ, nhằm đảm bảo chất lượng sản phẩm đạt tiêu chuẩn vận hành cao nhất và không phát sinh lỗi thực tế, chúng tôi kính đề xuất được gia hạn ngày bàn giao thêm [Số ngày, vd: 3 ngày làm việc], tức ngày [Ngày mới].
+
+Chúng tôi cam kết sẽ hoàn thiện toàn bộ tính năng và bàn giao đúng thời hạn điều chỉnh trên. Rất mong nhận được sự thông cảm và hỗ trợ từ Quý khách hàng.
+
+Trân trọng,
+[Tên quản lý dự án]`
+      },
+      complaint: {
+        title: 'Tiêu đề: Thư xin lỗi và phương án giải quyết sự cố - [Tên Công Ty]',
+        body: `Kính gửi: Quý khách hàng [Tên Khách Hàng],
+
+Chúng tôi đã tiếp nhận phản hồi của Quý khách liên quan đến sự cố [Nêu sự cố]. Trước hết, chúng tôi xin gửi lời xin lỗi chân thành nhất vì trải nghiệm chưa trọn vẹn này.
+
+Đội ngũ kỹ thuật và chăm sóc khách hàng đã ngay lập tức khắc phục và đưa ra phương án xử lý như sau:
+1. Đổi mới/Khắc phục toàn bộ phần phát sinh lỗi trong vòng 24 giờ.
+2. Tặng kèm voucher/ưu đãi [Nêu ưu đãi đền bù] như một lời tri ân sự kiên nhẫn của Quý khách.
+
+Sự hài lòng của Quý khách luôn là ưu tiên cao nhất của chúng tôi. Kính chúc Quý khách nhiều niềm vui.
+
+Trân trọng,
+[Bộ phận Chăm sóc Khách hàng]`
       }
-    });
-  })();
-  
-        document.getElementById('btn-run-tool').addEventListener('click', () => {
-          const inp = document.getElementById('t-input').value.trim() || 'Yêu cầu mặc định cho Soạn email đàm phán & từ chối';
-          document.getElementById('t-res-content').textContent = `✅ Đã xử lý thành công cho công cụ [Soạn email đàm phán & từ chối]:\n\n• Dữ liệu tiếp nhận: "${inp}"\n• Đánh giá hệ thống: Đạt chuẩn tối ưu, sẵn sàng áp dụng ngay vào quy trình!`;
-          document.getElementById('t-result').style.display = 'block';
-        });
-        
+    };
+
+    function loadTemplate(k) {
+      document.getElementById('emailTitle').innerText = templates[k].title;
+      document.getElementById('emailBody').innerText = templates[k].body;
+    }
+    function copyMail() {
+      navigator.clipboard.writeText(document.getElementById('emailBody').innerText);
+      alert('Đã sao chép nội dung email!');
+    }
+    loadTemplate('price');
   </script>
 </body>
 </html>

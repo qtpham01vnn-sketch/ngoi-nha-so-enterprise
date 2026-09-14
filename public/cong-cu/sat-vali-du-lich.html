@@ -3,90 +3,82 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Checklist vali du lịch & công tác — Ngôi Nhà Số</title>
+  <title>Checklist Soạn Vali Du Lịch Thông Minh - Ngôi Nhà Số</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    :root {
-      --bg-page: #0b132b; --bg-card: #131f47; --border: rgba(56, 189, 248, 0.2);
-      --text: #f8fafc; --text-muted: #94a3b8; --accent: #38bdf8; --accent-glow: rgba(56, 189, 248, 0.3);
-      --emerald: #10b981; --rose: #f43f5e; --amber: #f59e0b; --indigo: #6366f1;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    body { background: var(--bg-page); color: var(--text); padding-bottom: 40px; min-height: 100vh; }
-    .app-wrap { max-width: 800px; margin: 0 auto; padding: 20px 16px; }
-    .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
-    .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--accent); text-decoration: none; font-size: 13px; font-weight: 600; padding: 8px 14px; border-radius: 10px; background: rgba(56, 189, 248, 0.1); border: 1px solid var(--border); transition: all 0.2s; cursor: pointer; }
-    .back-link:hover { background: rgba(56, 189, 248, 0.2); }
-    .badge { font-size: 12px; color: var(--text-muted); background: rgba(255,255,255,0.05); padding: 4px 10px; border-radius: 99px; border: 1px solid rgba(255,255,255,0.1); }
-    .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); margin-bottom: 20px; }
-    .card-title { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
-    .card-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.5; }
-    .input-group { margin-bottom: 16px; text-align: left; }
-    .input-label { display: block; font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
-    .input-field { width: 100%; padding: 12px 14px; background: #080e22; border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; color: #fff; font-size: 14px; outline: none; transition: border 0.2s; }
-    .input-field:focus { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-glow); }
-    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 13px 20px; border-radius: 12px; font-size: 14px; font-weight: 700; cursor: pointer; border: none; transition: all 0.2s; }
-    .btn-primary { background: linear-gradient(135deg, #0284c7, #6366f1); color: #fff; box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4); }
-    .btn-primary:hover { opacity: 0.95; transform: translateY(-1px); }
-    .btn-rose { background: linear-gradient(135deg, #e11d48, #f43f5e); color: #fff; box-shadow: 0 4px 15px rgba(244, 63, 94, 0.3); }
-    .btn-emerald { background: linear-gradient(135deg, #059669, #10b981); color: #fff; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); }
-    .result-box { background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 16px; padding: 20px; margin-top: 20px; text-align: center; }
-    .res-val { font-size: 30px; font-weight: 900; color: #fff; margin: 8px 0; }
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
-    @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
-    .tag-item { display: inline-block; background: rgba(255,255,255,0.06); padding: 6px 12px; border-radius: 8px; font-size: 12px; margin: 4px; border: 1px solid rgba(255,255,255,0.08); }
-    .tool-footer { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 24px; }
+    body { background-color: #0b132b; color: #e2e8f0; font-family: 'Segoe UI', system-ui, sans-serif; }
+    .card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.08); }
   </style>
 </head>
-<body>
-  <div class="app-wrap">
-    <nav class="top-nav">
-      <a class="back-link" id="btn-back-main">← Quay lại Bảng điều khiển</a>
-      <span class="badge">Sức Khỏe</span>
-    </nav>
-    <div class="card">
-      
-        <div class="card-title">⚡ Checklist vali du lịch & công tác</div>
-        <div class="card-desc">Không lo quên đồ cá nhân. Công cụ thực chiến tích hợp trực tiếp trong hệ sinh thái Ngôi Nhà Số.</div>
-        
-        <div class="input-group">
-          <label class="input-label">Dữ liệu đầu vào / Nội dung cần xử lý:</label>
-          <textarea id="t-input" class="input-field" rows="4" placeholder="Nhập thông tin hoặc yêu cầu của bạn tại đây..."></textarea>
-        </div>
-        
-        <button class="btn btn-primary" id="btn-run-tool">🚀 Thực Thi & Xử Lý Ngay</button>
-        
-        <div id="t-result" class="result-box" style="display:none; text-align:left;">
-          <div style="font-size:12px; color:var(--accent); font-weight:bold; margin-bottom:8px;">KẾT QUẢ XỬ LÝ:</div>
-          <div id="t-res-content" style="font-size:14px; color:#fff; line-height:1.6; background:rgba(0,0,0,0.3); padding:16px; border-radius:12px; white-space:pre-wrap;"></div>
-        </div>
-        
+<body class="min-h-screen p-4 md:p-8">
+  <div class="max-w-4xl mx-auto space-y-6">
+    <div class="card p-6 rounded-2xl border-l-4 border-sky-500 flex justify-between items-center flex-wrap gap-4">
+      <div>
+        <h1 class="text-2xl font-black text-sky-400 flex items-center gap-3">
+          <i class="fa-solid fa-suitcase-rolling"></i> Checklist Soạn Vali Du Lịch Thông Minh
+        </h1>
+        <p class="text-sm text-slate-400 mt-1">Chuẩn bị hành lý theo loại hình chuyến đi: Biển, Leo núi, Công tác, Quốc tế</p>
+      </div>
+      <a href="../index.html" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-semibold rounded-xl text-slate-300 transition">← Trang Chủ</a>
     </div>
-    <footer class="tool-footer">Ngôi Nhà Số Enterprise • Bản Quyền Tuấn Phạm</footer>
+
+    <div class="flex gap-2 flex-wrap">
+      <button onclick="loadType('beach')" class="px-4 py-2 bg-sky-600 hover:bg-sky-500 text-white font-bold rounded-xl text-xs"><i class="fa-solid fa-umbrella-beach"></i> Đi Biển Nghỉ Dưỡng</button>
+      <button onclick="loadType('mountain')" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold rounded-xl text-xs"><i class="fa-solid fa-mountain"></i> Đi Phượt / Leo Núi</button>
+      <button onclick="loadType('business')" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold rounded-xl text-xs"><i class="fa-solid fa-briefcase"></i> Đi Công Tác</button>
+      <button onclick="loadType('abroad')" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold rounded-xl text-xs"><i class="fa-solid fa-plane-departure"></i> Du Lịch Nước Ngoài</button>
+    </div>
+
+    <div class="card p-6 rounded-2xl space-y-4">
+      <div class="flex justify-between items-center">
+        <h2 id="packTitle" class="font-bold text-white text-lg flex items-center gap-2">Danh mục đồ cần xếp vào vali:</h2>
+        <span id="packProgress" class="text-xs px-3 py-1 bg-sky-950 text-sky-400 rounded-lg font-bold">Đã chuẩn bị 0/0</span>
+      </div>
+      <div id="packList" class="grid md:grid-cols-2 gap-3 text-sm"></div>
+    </div>
   </div>
+
   <script>
-  (function() {
-    document.addEventListener('DOMContentLoaded', function() {
-      const b = document.getElementById('btn-back-main');
-      if (b) {
-        b.addEventListener('click', function(e) {
-          if (window.parent && window.parent !== window) {
-            e.preventDefault();
-            window.parent.postMessage('CLOSE_TOOL_MODAL', '*');
-          } else {
-            window.location.href = '../index.html';
-          }
-        });
+    const presets = {
+      beach: {
+        title: '🏖️ Hành lý đi Biển & Nghỉ Dưỡng',
+        items: ['CCCD / Hộ chiếu & Vé máy bay', 'Đồ bơi & Khăn tắm biển', 'Kem chống nắng SPF 50+ & Xịt khoáng', 'Kính râm & Mũ rộng vành', 'Dép xỏ ngón & Túi chống nước cho điện thoại', 'Sạc dự phòng & Tai nghe', 'Váy maxi / Áo sơ mi hoa', 'Thuốc đau bụng & Băng cá nhân']
+      },
+      mountain: {
+        title: '⛰️ Hành lý Phượt & Leo Núi',
+        items: ['Giày trekking chống trượt', 'Áo gió chống nước & Áo giữ nhiệt', 'Balo leo núi có đai trợ lực', 'Gậy leo núi & Găng tay bảo hộ', 'Đèn pin siêu sáng & Pin dự phòng', 'Thuốc xịt côn trùng & Băng bó cơ', 'Lương khô & Nước bù khoáng điện giải', 'Bật lửa & Dao đa năng']
+      },
+      business: {
+        title: '💼 Hành lý Đi Công Tác Chuyên Nghiệp',
+        items: ['Laptop, sạc máy tính & Chuột', 'Áo sơ mi là phẳng & Quần tây / Vest', 'Danh thiếp (Namecard)', 'Sổ tay ghi chép & Bút ký', 'Bàn ủi du lịch gấp gọn', 'Nước hoa & Lăn khử mùi', 'Cáp HDMI / Đầu chuyển trình chiếu', 'Giày tây / Giày cao gót thanh lịch']
+      },
+      abroad: {
+        title: '✈️ Hành lý Du Lịch Quốc Tế',
+        items: ['Hộ chiếu (còn hạn > 6 tháng) & Visa', 'Thẻ tín dụng quốc tế Visa/Mastercard', 'Tiền mặt ngoại tệ của nước sở tại', 'Củ sạc chuyển đổi chân đa năng (Universal Plug)', 'Sim 4G du lịch hoặc eSIM', 'Bảo hiểm du lịch quốc tế', 'Áo ấm dày (nếu đi xứ lạnh)', 'Bản in xác nhận đặt phòng khách sạn']
       }
-    });
-  })();
-  
-        document.getElementById('btn-run-tool').addEventListener('click', () => {
-          const inp = document.getElementById('t-input').value.trim() || 'Yêu cầu mặc định cho Checklist vali du lịch & công tác';
-          document.getElementById('t-res-content').textContent = `✅ Đã xử lý thành công cho công cụ [Checklist vali du lịch & công tác]:\n\n• Dữ liệu tiếp nhận: "${inp}"\n• Đánh giá hệ thống: Đạt chuẩn tối ưu, sẵn sàng áp dụng ngay vào quy trình!`;
-          document.getElementById('t-result').style.display = 'block';
-        });
-        
+    };
+
+    function loadType(key) {
+      const data = presets[key];
+      document.getElementById('packTitle').innerText = data.title;
+      const container = document.getElementById('packList');
+      container.innerHTML = data.items.map((item, idx) => `
+        <label class="flex items-center gap-3 p-3 bg-slate-900/60 rounded-xl border border-slate-800 hover:border-slate-700 cursor-pointer">
+          <input type="checkbox" onchange="updateProgress()" class="w-4 h-4 rounded text-sky-500 bg-slate-800 border-slate-700">
+          <span class="text-slate-200 text-xs">${item}</span>
+        </label>
+      `).join('');
+      updateProgress();
+    }
+
+    function updateProgress() {
+      const all = document.querySelectorAll('#packList input[type="checkbox"]');
+      const checked = document.querySelectorAll('#packList input[type="checkbox"]:checked');
+      document.getElementById('packProgress').innerText = `Đã chuẩn bị ${checked.length}/${all.length}`;
+    }
+
+    loadType('beach');
   </script>
 </body>
 </html>

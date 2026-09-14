@@ -3,90 +3,79 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vòng quay may mắn tùy biến — Ngôi Nhà Số</title>
+  <title>Vòng Quay May Mắn - Ngôi Nhà Số</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    :root {
-      --bg-page: #0b132b; --bg-card: #131f47; --border: rgba(56, 189, 248, 0.2);
-      --text: #f8fafc; --text-muted: #94a3b8; --accent: #38bdf8; --accent-glow: rgba(56, 189, 248, 0.3);
-      --emerald: #10b981; --rose: #f43f5e; --amber: #f59e0b; --indigo: #6366f1;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    body { background: var(--bg-page); color: var(--text); padding-bottom: 40px; min-height: 100vh; }
-    .app-wrap { max-width: 800px; margin: 0 auto; padding: 20px 16px; }
-    .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
-    .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--accent); text-decoration: none; font-size: 13px; font-weight: 600; padding: 8px 14px; border-radius: 10px; background: rgba(56, 189, 248, 0.1); border: 1px solid var(--border); transition: all 0.2s; cursor: pointer; }
-    .back-link:hover { background: rgba(56, 189, 248, 0.2); }
-    .badge { font-size: 12px; color: var(--text-muted); background: rgba(255,255,255,0.05); padding: 4px 10px; border-radius: 99px; border: 1px solid rgba(255,255,255,0.1); }
-    .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); margin-bottom: 20px; }
-    .card-title { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
-    .card-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.5; }
-    .input-group { margin-bottom: 16px; text-align: left; }
-    .input-label { display: block; font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
-    .input-field { width: 100%; padding: 12px 14px; background: #080e22; border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; color: #fff; font-size: 14px; outline: none; transition: border 0.2s; }
-    .input-field:focus { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-glow); }
-    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 13px 20px; border-radius: 12px; font-size: 14px; font-weight: 700; cursor: pointer; border: none; transition: all 0.2s; }
-    .btn-primary { background: linear-gradient(135deg, #0284c7, #6366f1); color: #fff; box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4); }
-    .btn-primary:hover { opacity: 0.95; transform: translateY(-1px); }
-    .btn-rose { background: linear-gradient(135deg, #e11d48, #f43f5e); color: #fff; box-shadow: 0 4px 15px rgba(244, 63, 94, 0.3); }
-    .btn-emerald { background: linear-gradient(135deg, #059669, #10b981); color: #fff; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); }
-    .result-box { background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 16px; padding: 20px; margin-top: 20px; text-align: center; }
-    .res-val { font-size: 30px; font-weight: 900; color: #fff; margin: 8px 0; }
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
-    @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
-    .tag-item { display: inline-block; background: rgba(255,255,255,0.06); padding: 6px 12px; border-radius: 8px; font-size: 12px; margin: 4px; border: 1px solid rgba(255,255,255,0.08); }
-    .tool-footer { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 24px; }
+    body { background-color: #0b132b; color: #e2e8f0; font-family: 'Segoe UI', system-ui, sans-serif; }
+    .card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.08); }
+    #wheel { transition: transform 4s cubic-bezier(0.15, 0.9, 0.2, 1); }
   </style>
 </head>
-<body>
-  <div class="app-wrap">
-    <nav class="top-nav">
-      <a class="back-link" id="btn-back-main">← Quay lại Bảng điều khiển</a>
-      <span class="badge">Game & Giải Trí</span>
-    </nav>
-    <div class="card">
-      
-        <div class="card-title">⚡ Vòng quay may mắn tùy biến</div>
-        <div class="card-desc">Chia quà / phạt trong tiệc. Công cụ thực chiến tích hợp trực tiếp trong hệ sinh thái Ngôi Nhà Số.</div>
-        
-        <div class="input-group">
-          <label class="input-label">Dữ liệu đầu vào / Nội dung cần xử lý:</label>
-          <textarea id="t-input" class="input-field" rows="4" placeholder="Nhập thông tin hoặc yêu cầu của bạn tại đây..."></textarea>
-        </div>
-        
-        <button class="btn btn-primary" id="btn-run-tool">🚀 Thực Thi & Xử Lý Ngay</button>
-        
-        <div id="t-result" class="result-box" style="display:none; text-align:left;">
-          <div style="font-size:12px; color:var(--accent); font-weight:bold; margin-bottom:8px;">KẾT QUẢ XỬ LÝ:</div>
-          <div id="t-res-content" style="font-size:14px; color:#fff; line-height:1.6; background:rgba(0,0,0,0.3); padding:16px; border-radius:12px; white-space:pre-wrap;"></div>
-        </div>
-        
+<body class="min-h-screen p-4 md:p-8 flex flex-col justify-center items-center">
+  <div class="max-w-xl w-full space-y-6 text-center">
+    <div class="card p-6 rounded-2xl border-l-4 border-amber-500 flex justify-between items-center">
+      <div class="text-left">
+        <h1 class="text-xl font-black text-amber-400 flex items-center gap-2">
+          <i class="fa-solid fa-dharmachakra"></i> Vòng Quay May Mắn Team Building
+        </h1>
+        <p class="text-xs text-slate-400 mt-1">Quay ngẫu nhiên phần thưởng & mini-game cho hội nhóm</p>
+      </div>
+      <a href="../index.html" class="px-3 py-1.5 bg-slate-800 text-xs font-bold rounded-xl text-slate-300">← Trang Chủ</a>
     </div>
-    <footer class="tool-footer">Ngôi Nhà Số Enterprise • Bản Quyền Tuấn Phạm</footer>
+
+    <div class="card p-8 rounded-3xl flex flex-col items-center space-y-6">
+      <div class="relative flex items-center justify-center">
+        <div class="absolute -top-3 z-20 text-3xl text-rose-500"><i class="fa-solid fa-caret-down"></i></div>
+        <canvas id="wheel" width="300" height="300" class="rounded-full shadow-2xl border-4 border-amber-400"></canvas>
+      </div>
+
+      <button onclick="spinWheel()" class="px-8 py-3 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black rounded-xl shadow-lg transition flex items-center gap-2">
+        <i class="fa-solid fa-rotate"></i> QUAY THƯỞNG NGAY
+      </button>
+
+      <div id="resultText" class="text-lg font-black text-emerald-400 min-h-[28px]"></div>
+    </div>
   </div>
+
   <script>
-  (function() {
-    document.addEventListener('DOMContentLoaded', function() {
-      const b = document.getElementById('btn-back-main');
-      if (b) {
-        b.addEventListener('click', function(e) {
-          if (window.parent && window.parent !== window) {
-            e.preventDefault();
-            window.parent.postMessage('CLOSE_TOOL_MODAL', '*');
-          } else {
-            window.location.href = '../index.html';
-          }
-        });
+    const items = ['Trúng 500k 💵', 'Chúc may mắn 🍀', 'Voucher 200k 🎁', 'Uống 1 ly 🍻', 'Hát 1 bài 🎤', 'Ôm người bên cạnh ❤️'];
+    const colors = ['#f59e0b', '#10b981', '#3b82f6', '#ec4899', '#8b5cf6', '#64748b'];
+    const canvas = document.getElementById('wheel');
+    const ctx = canvas.getContext('2d');
+    let currentAngle = 0;
+
+    function drawWheel() {
+      const arc = (2 * Math.PI) / items.length;
+      for (let i = 0; i < items.length; i++) {
+        const angle = i * arc;
+        ctx.fillStyle = colors[i];
+        ctx.beginPath();
+        ctx.arc(150, 150, 150, angle, angle + arc);
+        ctx.lineTo(150, 150);
+        ctx.fill();
+
+        ctx.save();
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 12px Segoe UI';
+        ctx.translate(150 + Math.cos(angle + arc / 2) * 90, 150 + Math.sin(angle + arc / 2) * 90);
+        ctx.rotate(angle + arc / 2 + Math.PI / 2);
+        ctx.fillText(items[i], -ctx.measureText(items[i]).width / 2, 0);
+        ctx.restore();
       }
-    });
-  })();
-  
-        document.getElementById('btn-run-tool').addEventListener('click', () => {
-          const inp = document.getElementById('t-input').value.trim() || 'Yêu cầu mặc định cho Vòng quay may mắn tùy biến';
-          document.getElementById('t-res-content').textContent = `✅ Đã xử lý thành công cho công cụ [Vòng quay may mắn tùy biến]:\n\n• Dữ liệu tiếp nhận: "${inp}"\n• Đánh giá hệ thống: Đạt chuẩn tối ưu, sẵn sàng áp dụng ngay vào quy trình!`;
-          document.getElementById('t-result').style.display = 'block';
-        });
-        
+    }
+
+    function spinWheel() {
+      const extraRounds = Math.floor(Math.random() * 5 + 5) * 360;
+      const randomDeg = Math.floor(Math.random() * 360);
+      currentAngle += extraRounds + randomDeg;
+      document.getElementById('wheel').style.transform = `rotate(${currentAngle}deg)`;
+      setTimeout(() => {
+        document.getElementById('resultText').innerText = '🎉 Chúc mừng bạn đã trúng thưởng!';
+      }, 4000);
+    }
+
+    drawWheel();
   </script>
 </body>
 </html>

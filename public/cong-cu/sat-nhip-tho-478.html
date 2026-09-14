@@ -3,90 +3,115 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nhịp thở 4-7-8 ngủ sâu — Ngôi Nhà Số</title>
+  <title>Luyện Thở 4-7-8 Thư Giãn Sâu - Ngôi Nhà Số</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    :root {
-      --bg-page: #0b132b; --bg-card: #131f47; --border: rgba(56, 189, 248, 0.2);
-      --text: #f8fafc; --text-muted: #94a3b8; --accent: #38bdf8; --accent-glow: rgba(56, 189, 248, 0.3);
-      --emerald: #10b981; --rose: #f43f5e; --amber: #f59e0b; --indigo: #6366f1;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    body { background: var(--bg-page); color: var(--text); padding-bottom: 40px; min-height: 100vh; }
-    .app-wrap { max-width: 800px; margin: 0 auto; padding: 20px 16px; }
-    .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
-    .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--accent); text-decoration: none; font-size: 13px; font-weight: 600; padding: 8px 14px; border-radius: 10px; background: rgba(56, 189, 248, 0.1); border: 1px solid var(--border); transition: all 0.2s; cursor: pointer; }
-    .back-link:hover { background: rgba(56, 189, 248, 0.2); }
-    .badge { font-size: 12px; color: var(--text-muted); background: rgba(255,255,255,0.05); padding: 4px 10px; border-radius: 99px; border: 1px solid rgba(255,255,255,0.1); }
-    .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); margin-bottom: 20px; }
-    .card-title { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
-    .card-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.5; }
-    .input-group { margin-bottom: 16px; text-align: left; }
-    .input-label { display: block; font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
-    .input-field { width: 100%; padding: 12px 14px; background: #080e22; border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; color: #fff; font-size: 14px; outline: none; transition: border 0.2s; }
-    .input-field:focus { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-glow); }
-    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 13px 20px; border-radius: 12px; font-size: 14px; font-weight: 700; cursor: pointer; border: none; transition: all 0.2s; }
-    .btn-primary { background: linear-gradient(135deg, #0284c7, #6366f1); color: #fff; box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4); }
-    .btn-primary:hover { opacity: 0.95; transform: translateY(-1px); }
-    .btn-rose { background: linear-gradient(135deg, #e11d48, #f43f5e); color: #fff; box-shadow: 0 4px 15px rgba(244, 63, 94, 0.3); }
-    .btn-emerald { background: linear-gradient(135deg, #059669, #10b981); color: #fff; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); }
-    .result-box { background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 16px; padding: 20px; margin-top: 20px; text-align: center; }
-    .res-val { font-size: 30px; font-weight: 900; color: #fff; margin: 8px 0; }
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
-    @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
-    .tag-item { display: inline-block; background: rgba(255,255,255,0.06); padding: 6px 12px; border-radius: 8px; font-size: 12px; margin: 4px; border: 1px solid rgba(255,255,255,0.08); }
-    .tool-footer { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 24px; }
+    body { background-color: #0b132b; color: #e2e8f0; font-family: 'Segoe UI', system-ui, sans-serif; }
+    .card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.08); }
+    .breathe-circle { transition: all 4s cubic-bezier(0.4, 0, 0.2, 1); }
   </style>
 </head>
-<body>
-  <div class="app-wrap">
-    <nav class="top-nav">
-      <a class="back-link" id="btn-back-main">← Quay lại Bảng điều khiển</a>
-      <span class="badge">Sức Khỏe</span>
-    </nav>
-    <div class="card">
-      
-        <div class="card-title">⚡ Nhịp thở 4-7-8 ngủ sâu</div>
-        <div class="card-desc">Xả stress & dễ ngủ. Công cụ thực chiến tích hợp trực tiếp trong hệ sinh thái Ngôi Nhà Số.</div>
-        
-        <div class="input-group">
-          <label class="input-label">Dữ liệu đầu vào / Nội dung cần xử lý:</label>
-          <textarea id="t-input" class="input-field" rows="4" placeholder="Nhập thông tin hoặc yêu cầu của bạn tại đây..."></textarea>
-        </div>
-        
-        <button class="btn btn-primary" id="btn-run-tool">🚀 Thực Thi & Xử Lý Ngay</button>
-        
-        <div id="t-result" class="result-box" style="display:none; text-align:left;">
-          <div style="font-size:12px; color:var(--accent); font-weight:bold; margin-bottom:8px;">KẾT QUẢ XỬ LÝ:</div>
-          <div id="t-res-content" style="font-size:14px; color:#fff; line-height:1.6; background:rgba(0,0,0,0.3); padding:16px; border-radius:12px; white-space:pre-wrap;"></div>
-        </div>
-        
+<body class="min-h-screen p-4 md:p-8 flex flex-col justify-center items-center">
+  <div class="max-w-xl w-full space-y-6 text-center">
+    <div class="card p-6 rounded-2xl border-l-4 border-teal-500 flex justify-between items-center">
+      <div class="text-left">
+        <h1 class="text-xl font-black text-teal-400 flex items-center gap-2">
+          <i class="fa-solid fa-wind"></i> Kỹ Thuật Thở Sâu 4-7-8
+        </h1>
+        <p class="text-xs text-slate-400 mt-1">Giảm stress trong 60 giây & Giúp đi vào giấc ngủ nhanh</p>
+      </div>
+      <a href="../index.html" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-xs font-semibold rounded-xl text-slate-300">← Trang Chủ</a>
     </div>
-    <footer class="tool-footer">Ngôi Nhà Số Enterprise • Bản Quyền Tuấn Phạm</footer>
+
+    <div class="card p-8 rounded-3xl flex flex-col items-center justify-center space-y-6">
+      <div class="relative flex items-center justify-center w-64 h-64">
+        <div id="circle" class="w-40 h-40 bg-teal-500/20 border-2 border-teal-400 rounded-full flex flex-col items-center justify-center shadow-[0_0_50px_rgba(20,184,166,0.3)] breathe-circle">
+          <div id="breathText" class="text-xl font-black text-teal-300 uppercase tracking-widest">Sẵn sàng</div>
+          <div id="countdown" class="text-3xl font-black text-white mt-1">4</div>
+        </div>
+      </div>
+
+      <div class="flex gap-4">
+        <button id="btnStart" onclick="toggleBreathe()" class="px-8 py-3 bg-teal-600 hover:bg-teal-500 font-bold text-white rounded-xl shadow-lg transition flex items-center gap-2">
+          <i class="fa-solid fa-play"></i> Bắt đầu luyện thở
+        </button>
+      </div>
+
+      <p class="text-xs text-slate-400 max-w-sm">Hít vào bằng mũi trong 4s → Giữ hơi trong 7s → Thở ra từ từ bằng miệng trong 8s.</p>
+    </div>
   </div>
+
   <script>
-  (function() {
-    document.addEventListener('DOMContentLoaded', function() {
-      const b = document.getElementById('btn-back-main');
-      if (b) {
-        b.addEventListener('click', function(e) {
-          if (window.parent && window.parent !== window) {
-            e.preventDefault();
-            window.parent.postMessage('CLOSE_TOOL_MODAL', '*');
-          } else {
-            window.location.href = '../index.html';
-          }
-        });
+    let isRunning = false;
+    let timer = null;
+
+    function toggleBreathe() {
+      if (isRunning) {
+        isRunning = false;
+        clearInterval(timer);
+        document.getElementById('btnStart').innerHTML = '<i class="fa-solid fa-play"></i> Bắt đầu luyện thở';
+        document.getElementById('breathText').innerText = 'Sẵn sàng';
+        document.getElementById('circle').style.transform = 'scale(1)';
+        return;
       }
-    });
-  })();
-  
-        document.getElementById('btn-run-tool').addEventListener('click', () => {
-          const inp = document.getElementById('t-input').value.trim() || 'Yêu cầu mặc định cho Nhịp thở 4-7-8 ngủ sâu';
-          document.getElementById('t-res-content').textContent = `✅ Đã xử lý thành công cho công cụ [Nhịp thở 4-7-8 ngủ sâu]:\n\n• Dữ liệu tiếp nhận: "${inp}"\n• Đánh giá hệ thống: Đạt chuẩn tối ưu, sẵn sàng áp dụng ngay vào quy trình!`;
-          document.getElementById('t-result').style.display = 'block';
-        });
-        
+
+      isRunning = true;
+      document.getElementById('btnStart').innerHTML = '<i class="fa-solid fa-pause"></i> Dừng lại';
+      runCycle();
+    }
+
+    function runCycle() {
+      if (!isRunning) return;
+      // Phase 1: Inhale 4s
+      const circle = document.getElementById('circle');
+      const text = document.getElementById('breathText');
+      const count = document.getElementById('countdown');
+
+      text.innerText = 'Hít Vào';
+      circle.style.transitionDuration = '4s';
+      circle.style.transform = 'scale(1.4)';
+      let sec = 4;
+      count.innerText = sec;
+
+      let cInt = setInterval(() => {
+        sec--;
+        if (sec > 0) count.innerText = sec;
+        else clearInterval(cInt);
+      }, 1000);
+
+      setTimeout(() => {
+        if (!isRunning) return;
+        // Phase 2: Hold 7s
+        text.innerText = 'Giữ Hơi';
+        sec = 7;
+        count.innerText = sec;
+        let cInt2 = setInterval(() => {
+          sec--;
+          if (sec > 0) count.innerText = sec;
+          else clearInterval(cInt2);
+        }, 1000);
+
+        setTimeout(() => {
+          if (!isRunning) return;
+          // Phase 3: Exhale 8s
+          text.innerText = 'Thở Ra';
+          circle.style.transitionDuration = '8s';
+          circle.style.transform = 'scale(1)';
+          sec = 8;
+          count.innerText = sec;
+          let cInt3 = setInterval(() => {
+            sec--;
+            if (sec > 0) count.innerText = sec;
+            else clearInterval(cInt3);
+          }, 1000);
+
+          setTimeout(() => {
+            if (isRunning) runCycle();
+          }, 8000);
+        }, 7000);
+      }, 4000);
+    }
   </script>
 </body>
 </html>
