@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tính điểm hòa vốn (Break-even) — Ngôi Nhà Số</title>
+  <title>Tính Điểm Hòa Vốn Doanh Nghiệp (Break-Even Analysis) — Ngôi Nhà Số</title>
   <style>
     :root {
       --bg-page: #0b132b; --bg-card: #131f47; --border: rgba(56, 189, 248, 0.2);
@@ -29,38 +29,61 @@
     .btn-primary:hover { opacity: 0.95; transform: translateY(-1px); }
     .btn-rose { background: linear-gradient(135deg, #e11d48, #f43f5e); color: #fff; box-shadow: 0 4px 15px rgba(244, 63, 94, 0.3); }
     .btn-emerald { background: linear-gradient(135deg, #059669, #10b981); color: #fff; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); }
+    .btn-amber { background: linear-gradient(135deg, #d97706, #f59e0b); color: #fff; }
+    .btn-copy { background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; }
+    .btn-copy:hover { background: rgba(56, 189, 248, 0.3); }
     .result-box { background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 16px; padding: 20px; margin-top: 20px; text-align: center; }
-    .res-val { font-size: 30px; font-weight: 900; color: #fff; margin: 8px 0; }
+    .res-val { font-size: 28px; font-weight: 900; color: #fff; margin: 8px 0; }
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
     .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
     @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
-    .tag-item { display: inline-block; background: rgba(255,255,255,0.06); padding: 6px 12px; border-radius: 8px; font-size: 12px; margin: 4px; border: 1px solid rgba(255,255,255,0.08); }
+    .preset-chip { display: inline-block; background: rgba(255,255,255,0.06); padding: 6px 12px; border-radius: 99px; font-size: 12px; margin: 4px; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; transition: all 0.2s; }
+    .preset-chip:hover, .preset-chip.active { background: #38bdf8; color: #0b132b; font-weight: bold; border-color: #38bdf8; }
     .tool-footer { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 24px; }
+    .task-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; margin-bottom: 8px; }
   </style>
 </head>
 <body>
   <div class="app-wrap">
     <nav class="top-nav">
       <a class="back-link" id="btn-back-main">← Quay lại Bảng điều khiển</a>
-      <span class="badge">Doanh Nghiệp</span>
+      <span class="badge">💼 Tài Chính Doanh Nghiệp</span>
     </nav>
     <div class="card">
       
-        <div class="card-title">⚡ Tính điểm hòa vốn (Break-even)</div>
-        <div class="card-desc">Sản lượng tối thiểu cần đạt. Công cụ thực chiến tích hợp trực tiếp trong hệ sinh thái Ngôi Nhà Số.</div>
-        
-        <div class="input-group">
-          <label class="input-label">Dữ liệu đầu vào / Nội dung cần xử lý:</label>
-          <textarea id="t-input" class="input-field" rows="4" placeholder="Nhập thông tin hoặc yêu cầu của bạn tại đây..."></textarea>
-        </div>
-        
-        <button class="btn btn-primary" id="btn-run-tool">🚀 Thực Thi & Xử Lý Ngay</button>
-        
-        <div id="t-result" class="result-box" style="display:none; text-align:left;">
-          <div style="font-size:12px; color:var(--accent); font-weight:bold; margin-bottom:8px;">KẾT QUẢ XỬ LÝ:</div>
-          <div id="t-res-content" style="font-size:14px; color:#fff; line-height:1.6; background:rgba(0,0,0,0.3); padding:16px; border-radius:12px; white-space:pre-wrap;"></div>
-        </div>
-        
+    <div class="card-title">⚖️ Tính Điểm Hòa Vốn Sản Xuất & Kinh Doanh</div>
+    <div class="card-desc">Xác định chính xác bạn cần bán bao nhiêu sản phẩm hoặc đạt bao nhiêu doanh thu trong tháng để bù đắp hết chi phí cố định và bắt đầu có lãi.</div>
+    <div class="grid-2">
+      <div class="input-group">
+        <label class="input-label">Tổng chi phí cố định/tháng (Mặt bằng, Lương cố định, Khấu hao...):</label>
+        <input type="number" id="be-fc" class="input-field" value="50000000" step="5000000">
+      </div>
+      <div class="input-group">
+        <label class="input-label">Giá bán trên 1 sản phẩm (VNĐ):</label>
+        <input type="number" id="be-price" class="input-field" value="250000" step="10000">
+      </div>
+      <div class="input-group">
+        <label class="input-label">Biến phí trên 1 sản phẩm (Nguyên vật liệu, Điện gas nung, Đóng gói...):</label>
+        <input type="number" id="be-vc" class="input-field" value="100000" step="10000">
+      </div>
+      <div class="input-group">
+        <label class="input-label">Sản lượng dự kiến bán/tháng:</label>
+        <input type="number" id="be-exp" class="input-field" value="500" step="50">
+      </div>
+    </div>
+    <button class="btn btn-emerald" id="btn-calc-be">📊 Phân Tích Điểm Hòa Vốn</button>
+    <div id="be-res" class="result-box" style="display:none; text-align:left;">
+      <div style="text-align:center;">
+        <div style="font-size:12px; color:var(--accent); font-weight:bold;">SẢN LƯỢNG HÒA VỐN TỐI THIỂU CẦN BÁN TRONG THÁNG</div>
+        <div class="res-val" id="be-units" style="color:#f59e0b;">334 Sản Phẩm</div>
+      </div>
+      <div style="margin-top:16px; font-size:13px; color:#cbd5e1; line-height:1.8; border-top:1px solid rgba(255,255,255,0.1); padding-top:12px;">
+        <div style="display:flex; justify-content:space-between;"><span>Doanh thu hòa vốn tối thiểu:</span><strong id="be-rev" style="color:#38bdf8;">0 đ</strong></div>
+        <div style="display:flex; justify-content:space-between;"><span>Lãi trên 1 đơn vị (Đóng góp biên):</span><strong id="be-margin">0 đ</strong></div>
+        <div style="display:flex; justify-content:space-between; color:#10b981; font-weight:bold; font-size:14px; margin-top:6px;"><span>Lợi nhuận dự kiến tháng này:</span><strong id="be-profit">0 đ</strong></div>
+      </div>
+    </div>
+    
     </div>
     <footer class="tool-footer">Ngôi Nhà Số Enterprise • Bản Quyền Tuấn Phạm</footer>
   </div>
@@ -81,12 +104,33 @@
     });
   })();
   
-        document.getElementById('btn-run-tool').addEventListener('click', () => {
-          const inp = document.getElementById('t-input').value.trim() || 'Yêu cầu mặc định cho Tính điểm hòa vốn (Break-even)';
-          document.getElementById('t-res-content').textContent = `✅ Đã xử lý thành công cho công cụ [Tính điểm hòa vốn (Break-even)]:\n\n• Dữ liệu tiếp nhận: "${inp}"\n• Đánh giá hệ thống: Đạt chuẩn tối ưu, sẵn sàng áp dụng ngay vào quy trình!`;
-          document.getElementById('t-result').style.display = 'block';
-        });
-        
+    function fmt(n) { return new Intl.NumberFormat('vi-VN').format(Math.round(n)) + ' đ'; }
+    document.getElementById('btn-calc-be').addEventListener('click', () => {
+      const fc = parseFloat(document.getElementById('be-fc').value) || 0;
+      const price = parseFloat(document.getElementById('be-price').value) || 1;
+      const vc = parseFloat(document.getElementById('be-vc').value) || 0;
+      const exp = parseFloat(document.getElementById('be-exp').value) || 0;
+      
+      const margin = price - vc;
+      if (margin <= 0) {
+        alert('Cảnh báo: Biến phí đang lớn hơn hoặc bằng giá bán! Bạn đang bán lỗ trên từng sản phẩm.');
+        return;
+      }
+      
+      const beUnits = Math.ceil(fc / margin);
+      const beRev = beUnits * price;
+      const totalRev = exp * price;
+      const totalCost = fc + (exp * vc);
+      const profit = totalRev - totalCost;
+      
+      document.getElementById('be-units').textContent = beUnits + ' Sản Phẩm';
+      document.getElementById('be-rev').textContent = fmt(beRev);
+      document.getElementById('be-margin').textContent = fmt(margin);
+      document.getElementById('be-profit').textContent = fmt(profit);
+      document.getElementById('be-profit').style.color = profit >= 0 ? '#10b981' : '#f43f5e';
+      document.getElementById('be-res').style.display = 'block';
+    });
+    
   </script>
 </body>
 </html>

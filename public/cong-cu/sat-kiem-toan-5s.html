@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Checklist kiểm toán 5S Xưởng — Ngôi Nhà Số</title>
+  <title>Bảng Checklist Kiểm Toán 5S Xưởng Sản Xuất & Văn Phòng — Ngôi Nhà Số</title>
   <style>
     :root {
       --bg-page: #0b132b; --bg-card: #131f47; --border: rgba(56, 189, 248, 0.2);
@@ -29,38 +29,40 @@
     .btn-primary:hover { opacity: 0.95; transform: translateY(-1px); }
     .btn-rose { background: linear-gradient(135deg, #e11d48, #f43f5e); color: #fff; box-shadow: 0 4px 15px rgba(244, 63, 94, 0.3); }
     .btn-emerald { background: linear-gradient(135deg, #059669, #10b981); color: #fff; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); }
+    .btn-amber { background: linear-gradient(135deg, #d97706, #f59e0b); color: #fff; }
+    .btn-copy { background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; }
+    .btn-copy:hover { background: rgba(56, 189, 248, 0.3); }
     .result-box { background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 16px; padding: 20px; margin-top: 20px; text-align: center; }
-    .res-val { font-size: 30px; font-weight: 900; color: #fff; margin: 8px 0; }
+    .res-val { font-size: 28px; font-weight: 900; color: #fff; margin: 8px 0; }
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
     .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
     @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
-    .tag-item { display: inline-block; background: rgba(255,255,255,0.06); padding: 6px 12px; border-radius: 8px; font-size: 12px; margin: 4px; border: 1px solid rgba(255,255,255,0.08); }
+    .preset-chip { display: inline-block; background: rgba(255,255,255,0.06); padding: 6px 12px; border-radius: 99px; font-size: 12px; margin: 4px; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; transition: all 0.2s; }
+    .preset-chip:hover, .preset-chip.active { background: #38bdf8; color: #0b132b; font-weight: bold; border-color: #38bdf8; }
     .tool-footer { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 24px; }
+    .task-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; margin-bottom: 8px; }
   </style>
 </head>
 <body>
   <div class="app-wrap">
     <nav class="top-nav">
       <a class="back-link" id="btn-back-main">← Quay lại Bảng điều khiển</a>
-      <span class="badge">Doanh Nghiệp</span>
+      <span class="badge">💼 Quản Trị 5S</span>
     </nav>
     <div class="card">
       
-        <div class="card-title">⚡ Checklist kiểm toán 5S Xưởng</div>
-        <div class="card-desc">Sàng lọc, Sắp xếp, Sạch sẽ. Công cụ thực chiến tích hợp trực tiếp trong hệ sinh thái Ngôi Nhà Số.</div>
-        
-        <div class="input-group">
-          <label class="input-label">Dữ liệu đầu vào / Nội dung cần xử lý:</label>
-          <textarea id="t-input" class="input-field" rows="4" placeholder="Nhập thông tin hoặc yêu cầu của bạn tại đây..."></textarea>
-        </div>
-        
-        <button class="btn btn-primary" id="btn-run-tool">🚀 Thực Thi & Xử Lý Ngay</button>
-        
-        <div id="t-result" class="result-box" style="display:none; text-align:left;">
-          <div style="font-size:12px; color:var(--accent); font-weight:bold; margin-bottom:8px;">KẾT QUẢ XỬ LÝ:</div>
-          <div id="t-res-content" style="font-size:14px; color:#fff; line-height:1.6; background:rgba(0,0,0,0.3); padding:16px; border-radius:12px; white-space:pre-wrap;"></div>
-        </div>
-        
+    <div class="card-title">🏭 Checklist Đánh Giá & Chấm Điểm 5S Xưởng Sản Xuất</div>
+    <div class="card-desc">Thang điểm 100 đánh giá 5 tiêu chuẩn vàng: Sàng lọc - Sắp xếp - Sạch sẽ - Săn sóc - Sẵn sàng, giúp tăng năng suất và giảm thiểu tai nạn lao động.</div>
+    <div id="checklist-container" style="margin-bottom:20px;">
+      <!-- 5S Items -->
+    </div>
+    <button class="btn btn-emerald" id="btn-grade-5s">📝 Tổng Kết Điểm & Xếp Loại 5S</button>
+    <div id="grade-res" class="result-box" style="display:none;">
+      <div style="font-size:12px; color:var(--accent); font-weight:bold;">TỔNG ĐIỂM ĐẠT ĐƯỢC:</div>
+      <div class="res-val" id="total-score" style="color:#10b981;">0 / 100 ĐIỂM</div>
+      <div id="eval-5s" style="font-size:14px; font-weight:bold; margin-top:8px;"></div>
+    </div>
+    
     </div>
     <footer class="tool-footer">Ngôi Nhà Số Enterprise • Bản Quyền Tuấn Phạm</footer>
   </div>
@@ -81,12 +83,46 @@
     });
   })();
   
-        document.getElementById('btn-run-tool').addEventListener('click', () => {
-          const inp = document.getElementById('t-input').value.trim() || 'Yêu cầu mặc định cho Checklist kiểm toán 5S Xưởng';
-          document.getElementById('t-res-content').textContent = `✅ Đã xử lý thành công cho công cụ [Checklist kiểm toán 5S Xưởng]:\n\n• Dữ liệu tiếp nhận: "${inp}"\n• Đánh giá hệ thống: Đạt chuẩn tối ưu, sẵn sàng áp dụng ngay vào quy trình!`;
-          document.getElementById('t-result').style.display = 'block';
-        });
-        
+    const criteria = [
+      { id: 's1_1', text: '1. SÀNG LỌC: Đã loại bỏ rác thải, phế liệu và đồ không dùng ra khỏi khu vực làm việc (10đ)' },
+      { id: 's1_2', text: '2. SÀNG LỌC: Vật dụng cần thiết được phân loại rõ ràng theo mức độ thường xuyên sử dụng (10đ)' },
+      { id: 's2_1', text: '3. SẮP XẾP: Dụng cụ, máy móc, nguyên liệu có vị trí cố định và dán nhãn nhận diện (10đ)' },
+      { id: 's2_2', text: '4. SẮP XẾP: Lối đi thông thoáng, có vạch kẻ đường line phân định rõ ràng (10đ)' },
+      { id: 's3_1', text: '5. SẠCH SẼ: Máy móc lò nung, bàn làm việc được lau chùi sạch bụi bẩn, không rò rỉ dầu mỡ (10đ)' },
+      { id: 's3_2', text: '6. SẠCH SẼ: Phân công lịch vệ sinh hàng ngày cho từng cá nhân phụ trách (10đ)' },
+      { id: 's4_1', text: '7. SĂN SÓC: Có bảng kiểm tra 5S định kỳ và duy trì 3S đầu mỗi ngày (10đ)' },
+      { id: 's4_2', text: '8. SĂN SÓC: Mọi người đều mặc đầy đủ đồ bảo hộ lao động đạt chuẩn (10đ)' },
+      { id: 's5_1', text: '9. SẴN SÀNG: Toàn bộ nhân sự tuân thủ nghiêm túc nội quy xưởng không cần nhắc nhở (10đ)' },
+      { id: 's5_2', text: '10. SẴN SÀNG: Có ý thức liên tục cải tiến (Kaizen) nâng cao năng suất (10đ)' }
+    ];
+    
+    const container = document.getElementById('checklist-container');
+    criteria.forEach(c => {
+      const row = document.createElement('div');
+      row.className = 'task-row';
+      row.innerHTML = `
+        <label style="font-size:13px; color:#f8fafc; cursor:pointer; display:flex; align-items:center; gap:10px; flex:1;">
+          <input type="checkbox" class="chk-5s" id="${c.id}" style="width:18px; height:18px; cursor:pointer;" checked>
+          <span>${c.text}</span>
+        </label>
+      `;
+      container.appendChild(row);
+    });
+    
+    document.getElementById('btn-grade-5s').addEventListener('click', () => {
+      const chks = document.querySelectorAll('.chk-5s:checked');
+      const score = chks.length * 10;
+      document.getElementById('total-score').textContent = `${score} / 100 ĐIỂM`;
+      
+      let ev = "";
+      if (score >= 90) ev = "<span style='color:#10b981;'>🌟 XUẤT SẮC: Xưởng đạt chuẩn 5S kiểu mẫu, vận hành tối ưu!</span>";
+      else if (score >= 70) ev = "<span style='color:#f59e0b;'>⚠️ KHÁ: Đạt yêu cầu cơ bản, cần chấn chỉnh các hạng mục chưa đạt.</span>";
+      else ev = "<span style='color:#f43f5e;'>❌ KHÔNG ĐẠT: Nguy cơ lãng phí và mất an toàn cao, cần tổng vệ sinh và đào tạo lại ngay!</span>";
+      
+      document.getElementById('eval-5s').innerHTML = ev;
+      document.getElementById('grade-res').style.display = 'block';
+    });
+    
   </script>
 </body>
 </html>

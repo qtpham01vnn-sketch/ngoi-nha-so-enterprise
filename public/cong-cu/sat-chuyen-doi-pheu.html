@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tính tỷ lệ chuyển đổi phễu — Ngôi Nhà Số</title>
+  <title>Tính Tỷ Lệ Chuyển Đổi Phễu Bán Hàng (Funnel Conversion Rate) — Ngôi Nhà Số</title>
   <style>
     :root {
       --bg-page: #0b132b; --bg-card: #131f47; --border: rgba(56, 189, 248, 0.2);
@@ -29,38 +29,62 @@
     .btn-primary:hover { opacity: 0.95; transform: translateY(-1px); }
     .btn-rose { background: linear-gradient(135deg, #e11d48, #f43f5e); color: #fff; box-shadow: 0 4px 15px rgba(244, 63, 94, 0.3); }
     .btn-emerald { background: linear-gradient(135deg, #059669, #10b981); color: #fff; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); }
+    .btn-amber { background: linear-gradient(135deg, #d97706, #f59e0b); color: #fff; }
+    .btn-copy { background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; }
+    .btn-copy:hover { background: rgba(56, 189, 248, 0.3); }
     .result-box { background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 16px; padding: 20px; margin-top: 20px; text-align: center; }
-    .res-val { font-size: 30px; font-weight: 900; color: #fff; margin: 8px 0; }
+    .res-val { font-size: 28px; font-weight: 900; color: #fff; margin: 8px 0; }
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
     .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
     @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
-    .tag-item { display: inline-block; background: rgba(255,255,255,0.06); padding: 6px 12px; border-radius: 8px; font-size: 12px; margin: 4px; border: 1px solid rgba(255,255,255,0.08); }
+    .preset-chip { display: inline-block; background: rgba(255,255,255,0.06); padding: 6px 12px; border-radius: 99px; font-size: 12px; margin: 4px; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; transition: all 0.2s; }
+    .preset-chip:hover, .preset-chip.active { background: #38bdf8; color: #0b132b; font-weight: bold; border-color: #38bdf8; }
     .tool-footer { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 24px; }
+    .task-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; margin-bottom: 8px; }
   </style>
 </head>
 <body>
   <div class="app-wrap">
     <nav class="top-nav">
       <a class="back-link" id="btn-back-main">← Quay lại Bảng điều khiển</a>
-      <span class="badge">Doanh Nghiệp</span>
+      <span class="badge">💼 Tối Ưu Bán Hàng</span>
     </nav>
     <div class="card">
       
-        <div class="card-title">⚡ Tính tỷ lệ chuyển đổi phễu</div>
-        <div class="card-desc">Tối ưu từng bước khách hàng. Công cụ thực chiến tích hợp trực tiếp trong hệ sinh thái Ngôi Nhà Số.</div>
-        
-        <div class="input-group">
-          <label class="input-label">Dữ liệu đầu vào / Nội dung cần xử lý:</label>
-          <textarea id="t-input" class="input-field" rows="4" placeholder="Nhập thông tin hoặc yêu cầu của bạn tại đây..."></textarea>
-        </div>
-        
-        <button class="btn btn-primary" id="btn-run-tool">🚀 Thực Thi & Xử Lý Ngay</button>
-        
-        <div id="t-result" class="result-box" style="display:none; text-align:left;">
-          <div style="font-size:12px; color:var(--accent); font-weight:bold; margin-bottom:8px;">KẾT QUẢ XỬ LÝ:</div>
-          <div id="t-res-content" style="font-size:14px; color:#fff; line-height:1.6; background:rgba(0,0,0,0.3); padding:16px; border-radius:12px; white-space:pre-wrap;"></div>
-        </div>
-        
+    <div class="card-title">📊 Tính Tỷ Lệ Chuyển Đổi Phễu Bán Hàng</div>
+    <div class="card-desc">Nhập số liệu qua từng giai đoạn của khách hàng để đo lường tỷ lệ rớt phễu và tìm ra nút thắt cần tối ưu ngay lập tức.</div>
+    <div class="grid-2">
+      <div class="input-group">
+        <label class="input-label">1. Lượt tiếp cận (Reach / Traffic):</label>
+        <input type="number" id="f-reach" class="input-field" value="10000" step="100">
+      </div>
+      <div class="input-group">
+        <label class="input-label">2. Lượt quan tâm / Click vào xem:</label>
+        <input type="number" id="f-click" class="input-field" value="1200" step="10">
+      </div>
+      <div class="input-group">
+        <label class="input-label">3. Số khách để lại SĐT / Nhắn tin:</label>
+        <input type="number" id="f-lead" class="input-field" value="250" step="5">
+      </div>
+      <div class="input-group">
+        <label class="input-label">4. Số đơn hàng chốt thành công:</label>
+        <input type="number" id="f-order" class="input-field" value="45" step="1">
+      </div>
+    </div>
+    <button class="btn btn-primary" id="btn-calc-funnel">🚀 Phân Tích Hiệu Quả Phễu</button>
+    <div id="funnel-res" class="result-box" style="display:none; text-align:left;">
+      <div style="text-align:center;">
+        <div style="font-size:12px; color:var(--accent); font-weight:bold;">TỔNG TỶ LỆ CHUYỂN ĐỔI TOÀN PHỄU (END-TO-END)</div>
+        <div class="res-val" id="funnel-total-rate" style="color:#10b981;">0.45%</div>
+      </div>
+      <div style="margin-top:16px; font-size:13px; color:#cbd5e1; line-height:1.8; border-top:1px solid rgba(255,255,255,0.1); padding-top:12px;">
+        <div style="display:flex; justify-content:space-between;"><span>Click qua Tiếp Cận:</span><strong id="f-c-r" style="color:#38bdf8;">0%</strong></div>
+        <div style="display:flex; justify-content:space-between;"><span>Khách Nhắn qua Click:</span><strong id="f-l-c" style="color:#38bdf8;">0%</strong></div>
+        <div style="display:flex; justify-content:space-between;"><span>Tỷ lệ Chốt Đơn (Closing Rate):</span><strong id="f-o-l" style="color:#f59e0b;">0%</strong></div>
+      </div>
+      <div id="funnel-eval" style="margin-top:14px; padding:12px; background:rgba(255,255,255,0.05); border-radius:10px; font-size:13px; color:#f8fafc; line-height:1.5;"></div>
+    </div>
+    
     </div>
     <footer class="tool-footer">Ngôi Nhà Số Enterprise • Bản Quyền Tuấn Phạm</footer>
   </div>
@@ -81,12 +105,32 @@
     });
   })();
   
-        document.getElementById('btn-run-tool').addEventListener('click', () => {
-          const inp = document.getElementById('t-input').value.trim() || 'Yêu cầu mặc định cho Tính tỷ lệ chuyển đổi phễu';
-          document.getElementById('t-res-content').textContent = `✅ Đã xử lý thành công cho công cụ [Tính tỷ lệ chuyển đổi phễu]:\n\n• Dữ liệu tiếp nhận: "${inp}"\n• Đánh giá hệ thống: Đạt chuẩn tối ưu, sẵn sàng áp dụng ngay vào quy trình!`;
-          document.getElementById('t-result').style.display = 'block';
-        });
-        
+    document.getElementById('btn-calc-funnel').addEventListener('click', () => {
+      const reach = parseFloat(document.getElementById('f-reach').value) || 1;
+      const click = parseFloat(document.getElementById('f-click').value) || 0;
+      const lead = parseFloat(document.getElementById('f-lead').value) || 0;
+      const order = parseFloat(document.getElementById('f-order').value) || 0;
+      
+      const r_total = ((order / reach) * 100).toFixed(2);
+      const r_cr = ((click / reach) * 100).toFixed(1);
+      const r_lc = ((lead / click) * 100).toFixed(1);
+      const r_ol = ((order / lead) * 100).toFixed(1);
+      
+      document.getElementById('funnel-total-rate').textContent = r_total + '%';
+      document.getElementById('f-c-r').textContent = r_cr + '%';
+      document.getElementById('f-l-c').textContent = r_lc + '%';
+      document.getElementById('f-o-l').textContent = r_ol + '%';
+      
+      let evalText = "💡 **Đánh giá & Khuyến nghị:**\n";
+      if (parseFloat(r_ol) < 15) {
+        evalText += "• Tỷ lệ chốt sale đang thấp (<15%). Hãy tối ưu lại kịch bản tư vấn telesale, xử lý từ chối giá và tăng quà tặng đính kèm!";
+      } else {
+        evalText += "• Tỷ lệ chốt đơn rất tốt (" + r_ol + "%). Nút thắt lớn nhất đang ở khâu kéo Traffic đầu vào, hãy mở rộng kênh quảng cáo!";
+      }
+      document.getElementById('funnel-eval').innerHTML = evalText.replace(/\n/g, '<br>');
+      document.getElementById('funnel-res').style.display = 'block';
+    });
+    
   </script>
 </body>
 </html>

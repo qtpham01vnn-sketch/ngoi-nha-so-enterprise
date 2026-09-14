@@ -1,9 +1,9 @@
 import React from 'react';
-import { Search, Settings, Bell, Calendar, Sparkles } from 'lucide-react';
+import { Search, Settings, Bell, Calendar, Sparkles, Menu } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
 export const Header: React.FC = () => {
-  const { state, searchTerm, setSearchTerm, setIsSettingsOpen } = useApp();
+  const { state, searchTerm, setSearchTerm, setIsSettingsOpen, setIsMobileMenuOpen } = useApp();
 
   const now = new Date();
   const daysOfWeek = ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'];
@@ -12,8 +12,17 @@ export const Header: React.FC = () => {
   const pendingTasks = state.phong.viec.tasks.filter(t => !t.done).length;
 
   return (
-    <header className="sticky top-0 z-30 flex items-center justify-between gap-4 px-4 lg:px-8 py-3.5 bg-[#0b132b]/80 backdrop-blur-md border-b border-slate-800/80">
-      <div className="flex items-center gap-3 flex-1 max-w-md">
+    <header className="sticky top-0 z-30 flex items-center justify-between gap-2 sm:gap-4 px-3 sm:px-4 lg:px-8 py-3 bg-[#0b132b]/90 backdrop-blur-md border-b border-slate-800/80">
+      <div className="flex items-center gap-2 sm:gap-3 flex-1 max-w-md">
+        {/* Mobile Hamburger Menu Button */}
+        <button
+          onClick={() => setIsMobileMenuOpen(true)}
+          className="lg:hidden p-2 rounded-xl bg-[#14224a]/80 text-sky-400 hover:text-white border border-sky-500/25 shrink-0 shadow-sm"
+          title="Mở danh mục menu"
+        >
+          <Menu className="w-4 h-4" />
+        </button>
+
         <div className="relative w-full">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
           <input

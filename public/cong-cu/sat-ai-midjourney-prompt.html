@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trợ lý Tạo Prompt Vẽ Ảnh Midjourney — Ngôi Nhà Số</title>
+  <title>Trợ Lý Ghép Prompt Vẽ Ảnh Nghệ Thuật Siêu Thực Midjourney — Ngôi Nhà Số</title>
   <style>
     :root {
       --bg-page: #0b132b; --bg-card: #131f47; --border: rgba(56, 189, 248, 0.2);
@@ -25,16 +25,16 @@
     .input-field { width: 100%; padding: 12px 14px; background: #080e22; border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; color: #fff; font-size: 14px; outline: none; transition: border 0.2s; }
     .input-field:focus { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-glow); }
     .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 13px 20px; border-radius: 12px; font-size: 14px; font-weight: 700; cursor: pointer; border: none; transition: all 0.2s; }
-    .btn-primary { background: linear-gradient(135deg, #0284c7, #6366f1); color: #fff; box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4); }
-    .btn-primary:hover { opacity: 0.95; transform: translateY(-1px); }
-    .btn-rose { background: linear-gradient(135deg, #e11d48, #f43f5e); color: #fff; box-shadow: 0 4px 15px rgba(244, 63, 94, 0.3); }
     .btn-emerald { background: linear-gradient(135deg, #059669, #10b981); color: #fff; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); }
+    .btn-primary { background: linear-gradient(135deg, #0284c7, #6366f1); color: #fff; box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4); }
+    .btn-copy { background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; }
+    .btn-copy:hover { background: rgba(56, 189, 248, 0.3); }
     .result-box { background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 16px; padding: 20px; margin-top: 20px; text-align: center; }
-    .res-val { font-size: 30px; font-weight: 900; color: #fff; margin: 8px 0; }
+    .res-val { font-size: 28px; font-weight: 900; color: #fff; margin: 8px 0; }
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
     @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
-    .tag-item { display: inline-block; background: rgba(255,255,255,0.06); padding: 6px 12px; border-radius: 8px; font-size: 12px; margin: 4px; border: 1px solid rgba(255,255,255,0.08); }
+    .preset-chip { display: inline-block; background: rgba(255,255,255,0.06); padding: 6px 12px; border-radius: 99px; font-size: 12px; margin: 4px; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; transition: all 0.2s; }
+    .preset-chip:hover, .preset-chip.active { background: #10b981; color: #0b132b; font-weight: bold; border-color: #10b981; }
     .tool-footer { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 24px; }
   </style>
 </head>
@@ -42,25 +42,52 @@
   <div class="app-wrap">
     <nav class="top-nav">
       <a class="back-link" id="btn-back-main">← Quay lại Bảng điều khiển</a>
-      <span class="badge">AI Pro</span>
+      <span class="badge">🤖 Sáng Tạo Hình Ảnh AI</span>
     </nav>
     <div class="card">
       
-        <div class="card-title">⚡ Trợ lý Tạo Prompt Vẽ Ảnh Midjourney</div>
-        <div class="card-desc">Prompt nghệ thuật siêu thực. Công cụ thực chiến tích hợp trực tiếp trong hệ sinh thái Ngôi Nhà Số.</div>
-        
-        <div class="input-group">
-          <label class="input-label">Dữ liệu đầu vào / Nội dung cần xử lý:</label>
-          <textarea id="t-input" class="input-field" rows="4" placeholder="Nhập thông tin hoặc yêu cầu của bạn tại đây..."></textarea>
-        </div>
-        
-        <button class="btn btn-primary" id="btn-run-tool">🚀 Thực Thi & Xử Lý Ngay</button>
-        
-        <div id="t-result" class="result-box" style="display:none; text-align:left;">
-          <div style="font-size:12px; color:var(--accent); font-weight:bold; margin-bottom:8px;">KẾT QUẢ XỬ LÝ:</div>
-          <div id="t-res-content" style="font-size:14px; color:#fff; line-height:1.6; background:rgba(0,0,0,0.3); padding:16px; border-radius:12px; white-space:pre-wrap;"></div>
-        </div>
-        
+    <div class="card-title">🎨 Trình Ghép Prompt Midjourney / Stable Diffusion Pro</div>
+    <div class="card-desc">Tạo câu lệnh Prompt tiếng Anh chuẩn studio nhiếp ảnh cao cấp, ánh sáng điện ảnh và chi tiết 8K cho Midjourney v6.</div>
+    <div class="grid-2">
+      <div class="input-group">
+        <label class="input-label">Mô tả vật thể / Nhân vật chính:</label>
+        <input type="text" id="mj-subj" class="input-field" value="Vietnamese luxury ceramic tea set, intricate glaze patterns">
+      </div>
+      <div class="input-group">
+        <label class="input-label">Phong cách ánh sáng:</label>
+        <select id="mj-light" class="input-field">
+          <option value="cinematic volumetric lighting, warm golden hour glow">Ánh sáng hoàng hôn điện ảnh (Golden Hour)</option>
+          <option value="studio lighting, soft diffusion, commercial photography">Ánh sáng studio chụp sản phẩm (Studio Light)</option>
+          <option value="moody dark aesthetic, dramatic rim light, neon accents">Huyền bí, tương phản cao (Moody Dark)</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label class="input-label">Bối cảnh / Không gian:</label>
+        <select id="mj-bg" class="input-field">
+          <option value="placed on rustic wooden table, minimalist zen garden background, morning mist">Bàn gỗ mộc, vườn Zen thiền tịnh, sương sớm</option>
+          <option value="luxury modern showroom, marble surface, elegant depth of field">Showroom sang trọng, mặt đá cẩm thạch</option>
+          <option value="traditional Vietnamese pottery workshop with glowing kiln in background">Xưởng gốm truyền thống, lò nung đỏ lửa phía sau</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label class="input-label">Tỷ lệ khung hình:</label>
+        <select id="mj-ar" class="input-field">
+          <option value="--ar 16:9">Ngang 16:9 (Máy tính / Youtube)</option>
+          <option value="--ar 9:16">Dọc 9:16 (TikTok / Story)</option>
+          <option value="--ar 1:1">Vuông 1:1 (Facebook / Instagram)</option>
+          <option value="--ar 3:2">Nhiếp ảnh 3:2</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn btn-emerald" id="btn-gen-mj">✨ Ghép Câu Lệnh Midjourney Chuẩn Studio</button>
+    <div id="mj-res" class="result-box" style="display:none; text-align:left;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+        <span style="font-size:13px; font-weight:bold; color:#10b981;">CÂU LỆNH PROMPT MIDJOURNEY ĐÃ TẠO:</span>
+        <button class="btn-copy" id="btn-copy-mj">Sao chép Prompt</button>
+      </div>
+      <div id="mj-prompt" style="font-size:13px; color:#38bdf8; font-family:monospace; background:rgba(0,0,0,0.4); padding:16px; border-radius:10px; line-height:1.6; word-break:break-all;"></div>
+    </div>
+    
     </div>
     <footer class="tool-footer">Ngôi Nhà Số Enterprise • Bản Quyền Tuấn Phạm</footer>
   </div>
@@ -81,12 +108,23 @@
     });
   })();
   
-        document.getElementById('btn-run-tool').addEventListener('click', () => {
-          const inp = document.getElementById('t-input').value.trim() || 'Yêu cầu mặc định cho Trợ lý Tạo Prompt Vẽ Ảnh Midjourney';
-          document.getElementById('t-res-content').textContent = `✅ Đã xử lý thành công cho công cụ [Trợ lý Tạo Prompt Vẽ Ảnh Midjourney]:\n\n• Dữ liệu tiếp nhận: "${inp}"\n• Đánh giá hệ thống: Đạt chuẩn tối ưu, sẵn sàng áp dụng ngay vào quy trình!`;
-          document.getElementById('t-result').style.display = 'block';
-        });
-        
+    document.getElementById('btn-gen-mj').addEventListener('click', () => {
+      const subj = document.getElementById('mj-subj').value.trim() || 'Ceramic art piece';
+      const light = document.getElementById('mj-light').value;
+      const bg = document.getElementById('mj-bg').value;
+      const ar = document.getElementById('mj-ar').value;
+      
+      const fullPrompt = `/imagine prompt: ${subj}, ${bg}, ${light}, shot on Hasselblad H6D-100c, 85mm lens, f/1.8, ultra-detailed textures, photorealistic, 8k resolution, award-winning product photography ${ar} --v 6.0 --style raw`;
+      
+      document.getElementById('mj-prompt').textContent = fullPrompt;
+      document.getElementById('mj-res').style.display = 'block';
+    });
+    
+    document.getElementById('btn-copy-mj').addEventListener('click', () => {
+      navigator.clipboard.writeText(document.getElementById('mj-prompt').textContent);
+      alert('Đã sao chép prompt Midjourney!');
+    });
+    
   </script>
 </body>
 </html>

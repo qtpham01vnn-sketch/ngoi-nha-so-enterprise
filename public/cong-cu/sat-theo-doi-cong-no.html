@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Theo dõi công nợ & Tuổi nợ — Ngôi Nhà Số</title>
+  <title>Quản Lý Công Nợ Khách Hàng & Phân Loại Tuổi Nợ (Aging) — Ngôi Nhà Số</title>
   <style>
     :root {
       --bg-page: #0b132b; --bg-card: #131f47; --border: rgba(56, 189, 248, 0.2);
@@ -29,12 +29,12 @@
     .btn-primary:hover { opacity: 0.95; transform: translateY(-1px); }
     .btn-rose { background: linear-gradient(135deg, #e11d48, #f43f5e); color: #fff; box-shadow: 0 4px 15px rgba(244, 63, 94, 0.3); }
     .btn-emerald { background: linear-gradient(135deg, #059669, #10b981); color: #fff; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); }
+    .btn-copy { background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; }
+    .btn-copy:hover { background: rgba(56, 189, 248, 0.3); }
     .result-box { background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 16px; padding: 20px; margin-top: 20px; text-align: center; }
-    .res-val { font-size: 30px; font-weight: 900; color: #fff; margin: 8px 0; }
+    .res-val { font-size: 28px; font-weight: 900; color: #fff; margin: 8px 0; }
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
     @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
-    .tag-item { display: inline-block; background: rgba(255,255,255,0.06); padding: 6px 12px; border-radius: 8px; font-size: 12px; margin: 4px; border: 1px solid rgba(255,255,255,0.08); }
     .tool-footer { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 24px; }
   </style>
 </head>
@@ -42,25 +42,39 @@
   <div class="app-wrap">
     <nav class="top-nav">
       <a class="back-link" id="btn-back-main">← Quay lại Bảng điều khiển</a>
-      <span class="badge">Doanh Nghiệp</span>
+      <span class="badge">💼 Quản Lý Công Nợ</span>
     </nav>
     <div class="card">
       
-        <div class="card-title">⚡ Theo dõi công nợ & Tuổi nợ</div>
-        <div class="card-desc">Nhắc nợ đúng hạn chuẩn. Công cụ thực chiến tích hợp trực tiếp trong hệ sinh thái Ngôi Nhà Số.</div>
-        
-        <div class="input-group">
-          <label class="input-label">Dữ liệu đầu vào / Nội dung cần xử lý:</label>
-          <textarea id="t-input" class="input-field" rows="4" placeholder="Nhập thông tin hoặc yêu cầu của bạn tại đây..."></textarea>
-        </div>
-        
-        <button class="btn btn-primary" id="btn-run-tool">🚀 Thực Thi & Xử Lý Ngay</button>
-        
-        <div id="t-result" class="result-box" style="display:none; text-align:left;">
-          <div style="font-size:12px; color:var(--accent); font-weight:bold; margin-bottom:8px;">KẾT QUẢ XỬ LÝ:</div>
-          <div id="t-res-content" style="font-size:14px; color:#fff; line-height:1.6; background:rgba(0,0,0,0.3); padding:16px; border-radius:12px; white-space:pre-wrap;"></div>
-        </div>
-        
+    <div class="card-title">📑 Sổ Theo Dõi Công Nợ & Kịch Bản Nhắc Nợ Lịch Sự</div>
+    <div class="card-desc">Theo dõi các khoản phải thu theo tuổi nợ (Dưới 30 ngày, 30-60 ngày, Quá hạn >60 ngày) và tự động tạo tin nhắn đòi nợ tinh tế.</div>
+    <div class="grid-2">
+      <div class="input-group">
+        <label class="input-label">Tên khách hàng / Đại lý:</label>
+        <input type="text" id="deb-name" class="input-field" value="Đại lý Gốm Sứ Minh Tâm">
+      </div>
+      <div class="input-group">
+        <label class="input-label">Số tiền nợ (VNĐ):</label>
+        <input type="number" id="deb-amount" class="input-field" value="45000000" step="1000000">
+      </div>
+      <div class="input-group">
+        <label class="input-label">Số ngày đã quá hạn:</label>
+        <input type="number" id="deb-days" class="input-field" value="15" min="0">
+      </div>
+      <div class="input-group">
+        <label class="input-label">Số hóa đơn / Hợp đồng:</label>
+        <input type="text" id="deb-invoice" class="input-field" value="HD-2026/09-XUONG">
+      </div>
+    </div>
+    <button class="btn btn-amber" id="btn-gen-debt">✉️ Tạo Tin Nhắn Nhắc Nợ Tự Động</button>
+    <div id="debt-res" class="result-box" style="display:none; text-align:left;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+        <span style="font-size:13px; font-weight:bold; color:#f59e0b;">MẪU TIN NHẮN GỬI ZALO / EMAIL:</span>
+        <button class="btn-copy" id="btn-copy-debt">Sao chép</button>
+      </div>
+      <div id="debt-msg" style="font-size:13px; color:#fff; line-height:1.6; background:rgba(0,0,0,0.3); padding:14px; border-radius:10px; white-space:pre-wrap;"></div>
+    </div>
+    
     </div>
     <footer class="tool-footer">Ngôi Nhà Số Enterprise • Bản Quyền Tuấn Phạm</footer>
   </div>
@@ -81,12 +95,32 @@
     });
   })();
   
-        document.getElementById('btn-run-tool').addEventListener('click', () => {
-          const inp = document.getElementById('t-input').value.trim() || 'Yêu cầu mặc định cho Theo dõi công nợ & Tuổi nợ';
-          document.getElementById('t-res-content').textContent = `✅ Đã xử lý thành công cho công cụ [Theo dõi công nợ & Tuổi nợ]:\n\n• Dữ liệu tiếp nhận: "${inp}"\n• Đánh giá hệ thống: Đạt chuẩn tối ưu, sẵn sàng áp dụng ngay vào quy trình!`;
-          document.getElementById('t-result').style.display = 'block';
-        });
-        
+    function fmt(n) { return new Intl.NumberFormat('vi-VN').format(Math.round(n)) + ' đ'; }
+    document.getElementById('btn-gen-debt').addEventListener('click', () => {
+      const name = document.getElementById('deb-name').value.trim() || 'Quý khách';
+      const amt = parseFloat(document.getElementById('deb-amount').value) || 0;
+      const days = parseInt(document.getElementById('deb-days').value) || 0;
+      const inv = document.getElementById('deb-invoice').value.trim() || 'Hóa đơn';
+      
+      let msg = "";
+      if (days <= 0) {
+        msg = `Kính gửi ${name},\n\nKế toán Ngôi Nhà Số xin gửi lời chúc sức khỏe và may mắn tới Quý khách!\n\nChúng tôi xin gửi thông tin đối soát đơn hàng ${inv} với tổng giá trị ${fmt(amt)}, thời hạn thanh toán là ngày mai. Nhờ Quý khách sắp xếp đối chiếu và chuyển khoản giúp công ty theo số tài khoản:\n• Ngân hàng: MB Bank\n• STK: 0988888888 (Tuan Pham)\n\nTrân trọng cảm ơn sự hợp tác của Quý khách!`;
+      } else if (days <= 30) {
+        msg = `Chào ${name},\n\nEm bên bộ phận kế toán xin phép nhắc nhẹ về khoản thanh toán đơn hàng ${inv} trị giá ${fmt(amt)} hiện đã quá hạn ${days} ngày ạ. Do công ty đang chốt sổ công nợ tháng để nhập nguyên vật liệu mới, nhờ anh/chị hỗ trợ giải ngân thanh toán giúp em trong hôm nay hoặc ngày mai với ạ! Em cảm ơn nhiều ạ.`;
+      } else {
+        msg = `KÍNH GỬI BAN GIÁM ĐỐC ${name.toUpperCase()},` +
+        `\n\nTheo hợp đồng kinh tế ${inv}, khoản công nợ trị giá ${fmt(amt)} của Quý khách hiện đã quá hạn ${days} ngày mặc dù hai bên đã nhiều lần trao đổi. Để không làm gián đoạn việc cung cấp hàng hóa cho các lô tiếp theo, kính đề nghị Quý khách hoàn tất thanh toán chậm nhất trước 17h00 ngày mai. Rất mong nhận được sự hợp tác thiện chí từ Quý công ty!`;
+      }
+      
+      document.getElementById('debt-msg').textContent = msg;
+      document.getElementById('debt-res').style.display = 'block';
+    });
+    
+    document.getElementById('btn-copy-debt').addEventListener('click', () => {
+      navigator.clipboard.writeText(document.getElementById('debt-msg').textContent);
+      alert('Đã sao chép tin nhắn nhắc nợ!');
+    });
+    
   </script>
 </body>
 </html>

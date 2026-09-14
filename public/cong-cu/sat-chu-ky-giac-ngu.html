@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tính chu kỳ giấc ngủ khoa học — Ngôi Nhà Số</title>
+  <title>Tính Chu Kỳ Giấc Ngủ Khoa Học — Thức Dậy Sảng Khoái — Ngôi Nhà Số</title>
   <style>
     :root {
       --bg-page: #0b132b; --bg-card: #131f47; --border: rgba(56, 189, 248, 0.2);
@@ -30,11 +30,9 @@
     .btn-rose { background: linear-gradient(135deg, #e11d48, #f43f5e); color: #fff; box-shadow: 0 4px 15px rgba(244, 63, 94, 0.3); }
     .btn-emerald { background: linear-gradient(135deg, #059669, #10b981); color: #fff; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); }
     .result-box { background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 16px; padding: 20px; margin-top: 20px; text-align: center; }
-    .res-val { font-size: 30px; font-weight: 900; color: #fff; margin: 8px 0; }
+    .res-val { font-size: 28px; font-weight: 900; color: #fff; margin: 8px 0; }
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
     @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
-    .tag-item { display: inline-block; background: rgba(255,255,255,0.06); padding: 6px 12px; border-radius: 8px; font-size: 12px; margin: 4px; border: 1px solid rgba(255,255,255,0.08); }
     .tool-footer { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 24px; }
   </style>
 </head>
@@ -42,25 +40,23 @@
   <div class="app-wrap">
     <nav class="top-nav">
       <a class="back-link" id="btn-back-main">← Quay lại Bảng điều khiển</a>
-      <span class="badge">Sức Khỏe</span>
+      <span class="badge">🌿 Sức Khỏe Giấc Ngủ</span>
     </nav>
     <div class="card">
       
-        <div class="card-title">⚡ Tính chu kỳ giấc ngủ khoa học</div>
-        <div class="card-desc">Thức dậy tỉnh táo tràn năng lượng. Công cụ thực chiến tích hợp trực tiếp trong hệ sinh thái Ngôi Nhà Số.</div>
-        
-        <div class="input-group">
-          <label class="input-label">Dữ liệu đầu vào / Nội dung cần xử lý:</label>
-          <textarea id="t-input" class="input-field" rows="4" placeholder="Nhập thông tin hoặc yêu cầu của bạn tại đây..."></textarea>
-        </div>
-        
-        <button class="btn btn-primary" id="btn-run-tool">🚀 Thực Thi & Xử Lý Ngay</button>
-        
-        <div id="t-result" class="result-box" style="display:none; text-align:left;">
-          <div style="font-size:12px; color:var(--accent); font-weight:bold; margin-bottom:8px;">KẾT QUẢ XỬ LÝ:</div>
-          <div id="t-res-content" style="font-size:14px; color:#fff; line-height:1.6; background:rgba(0,0,0,0.3); padding:16px; border-radius:12px; white-space:pre-wrap;"></div>
-        </div>
-        
+    <div class="card-title">🌙 Tính Chu Kỳ Giấc Ngủ Khoa Học (Quy Luật 90 Phút)</div>
+    <div class="card-desc">Thức dậy giữa chừng chu kỳ REM khiến bạn uể oải cả ngày. Tính toán chính xác giờ ngủ và giờ dậy để thức dậy tràn đầy năng lượng.</div>
+    <div class="input-group">
+      <label class="input-label">Thời gian bạn muốn thức dậy vào buổi sáng:</label>
+      <input type="time" id="sl-wake" class="input-field" value="06:30">
+    </div>
+    <button class="btn btn-primary" id="btn-calc-sleep">⏰ Tính Các Mốc Giờ Vàng Nên Đi Ngủ</button>
+    <div id="sl-res" class="result-box" style="display:none; text-align:left;">
+      <div style="font-size:13px; color:#38bdf8; font-weight:bold; margin-bottom:8px;">CÁC MỐC GIỜ NÊN LÊN GIƯỜNG (ĐÃ CỘNG 15P THIẾP ĐI):</div>
+      <div id="sl-slots" class="grid-2"></div>
+      <p style="font-size:12px; color:#94a3b8; margin-top:14px; line-height:1.5;">💡 Một giấc ngủ chuẩn gồm 5-6 chu kỳ 90 phút (tương đương 7.5 - 9 tiếng) là lý tưởng nhất để phục hồi não bộ và cơ bắp.</p>
+    </div>
+    
     </div>
     <footer class="tool-footer">Ngôi Nhà Số Enterprise • Bản Quyền Tuấn Phạm</footer>
   </div>
@@ -81,12 +77,45 @@
     });
   })();
   
-        document.getElementById('btn-run-tool').addEventListener('click', () => {
-          const inp = document.getElementById('t-input').value.trim() || 'Yêu cầu mặc định cho Tính chu kỳ giấc ngủ khoa học';
-          document.getElementById('t-res-content').textContent = `✅ Đã xử lý thành công cho công cụ [Tính chu kỳ giấc ngủ khoa học]:\n\n• Dữ liệu tiếp nhận: "${inp}"\n• Đánh giá hệ thống: Đạt chuẩn tối ưu, sẵn sàng áp dụng ngay vào quy trình!`;
-          document.getElementById('t-result').style.display = 'block';
-        });
+    document.getElementById('btn-calc-sleep').addEventListener('click', () => {
+      const wakeStr = document.getElementById('sl-wake').value;
+      if (!wakeStr) return;
+      const [wH, wM] = wakeStr.split(':').map(Number);
+      
+      const container = document.getElementById('sl-slots');
+      container.innerHTML = "";
+      
+      const cycles = [
+        { c: 6, label: "9 tiếng (6 Chu kỳ - Lý tưởng nhất)", color: "#10b981" },
+        { c: 5, label: "7.5 tiếng (5 Chu kỳ - Rất tốt)", color: "#38bdf8" },
+        { c: 4, label: "6 tiếng (4 Chu kỳ - Vừa đủ)", color: "#f59e0b" },
+        { c: 3, label: "4.5 tiếng (3 Chu kỳ - Ngắn)", color: "#f43f5e" }
+      ];
+      
+      cycles.forEach(item => {
+        const totalMinutesBack = (item.c * 90) + 15;
+        let bM = wM - (totalMinutesBack % 60);
+        let bH = wH - Math.floor(totalMinutesBack / 60);
+        if (bM < 0) { bM += 60; bH -= 1; }
+        if (bH < 0) { bH += 24; }
         
+        const timeStr = `${String(bH).padStart(2, '0')}:${String(bM).padStart(2, '0')}`;
+        
+        const div = document.createElement('div');
+        div.style.background = "rgba(0,0,0,0.3)";
+        div.style.border = `1px solid ${item.color}40`;
+        div.style.borderRadius = "12px";
+        div.style.padding = "12px";
+        div.style.textAlign = "center";
+        div.innerHTML = `
+          <div style="font-size:22px; font-weight:800; color:${item.color};">${timeStr}</div>
+          <div style="font-size:11px; color:#94a3b8; margin-top:2px;">${item.label}</div>
+        `;
+        container.appendChild(div);
+      });
+      document.getElementById('sl-res').style.display = 'block';
+    });
+    
   </script>
 </body>
 </html>

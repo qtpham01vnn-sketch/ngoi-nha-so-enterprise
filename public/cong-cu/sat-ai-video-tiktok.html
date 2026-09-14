@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trợ lý Kịch Bản Video TikTok AI — Ngôi Nhà Số</title>
+  <title>Trợ Lý Viết Kịch Bản Video Ngắn TikTok/Reels Giữ Chân 3 Giây Đầu — Ngôi Nhà Số</title>
   <style>
     :root {
       --bg-page: #0b132b; --bg-card: #131f47; --border: rgba(56, 189, 248, 0.2);
@@ -25,16 +25,16 @@
     .input-field { width: 100%; padding: 12px 14px; background: #080e22; border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; color: #fff; font-size: 14px; outline: none; transition: border 0.2s; }
     .input-field:focus { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-glow); }
     .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 13px 20px; border-radius: 12px; font-size: 14px; font-weight: 700; cursor: pointer; border: none; transition: all 0.2s; }
-    .btn-primary { background: linear-gradient(135deg, #0284c7, #6366f1); color: #fff; box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4); }
-    .btn-primary:hover { opacity: 0.95; transform: translateY(-1px); }
-    .btn-rose { background: linear-gradient(135deg, #e11d48, #f43f5e); color: #fff; box-shadow: 0 4px 15px rgba(244, 63, 94, 0.3); }
     .btn-emerald { background: linear-gradient(135deg, #059669, #10b981); color: #fff; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); }
+    .btn-primary { background: linear-gradient(135deg, #0284c7, #6366f1); color: #fff; box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4); }
+    .btn-copy { background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; }
+    .btn-copy:hover { background: rgba(56, 189, 248, 0.3); }
     .result-box { background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 16px; padding: 20px; margin-top: 20px; text-align: center; }
-    .res-val { font-size: 30px; font-weight: 900; color: #fff; margin: 8px 0; }
+    .res-val { font-size: 28px; font-weight: 900; color: #fff; margin: 8px 0; }
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
     @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
-    .tag-item { display: inline-block; background: rgba(255,255,255,0.06); padding: 6px 12px; border-radius: 8px; font-size: 12px; margin: 4px; border: 1px solid rgba(255,255,255,0.08); }
+    .preset-chip { display: inline-block; background: rgba(255,255,255,0.06); padding: 6px 12px; border-radius: 99px; font-size: 12px; margin: 4px; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; transition: all 0.2s; }
+    .preset-chip:hover, .preset-chip.active { background: #10b981; color: #0b132b; font-weight: bold; border-color: #10b981; }
     .tool-footer { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 24px; }
   </style>
 </head>
@@ -42,25 +42,36 @@
   <div class="app-wrap">
     <nav class="top-nav">
       <a class="back-link" id="btn-back-main">← Quay lại Bảng điều khiển</a>
-      <span class="badge">AI Pro</span>
+      <span class="badge">🤖 Nhân Sự AI Pro</span>
     </nav>
     <div class="card">
       
-        <div class="card-title">⚡ Trợ lý Kịch Bản Video TikTok AI</div>
-        <div class="card-desc">Kịch bản ngắn 3 giây giữ chân. Công cụ thực chiến tích hợp trực tiếp trong hệ sinh thái Ngôi Nhà Số.</div>
-        
-        <div class="input-group">
-          <label class="input-label">Dữ liệu đầu vào / Nội dung cần xử lý:</label>
-          <textarea id="t-input" class="input-field" rows="4" placeholder="Nhập thông tin hoặc yêu cầu của bạn tại đây..."></textarea>
-        </div>
-        
-        <button class="btn btn-primary" id="btn-run-tool">🚀 Thực Thi & Xử Lý Ngay</button>
-        
-        <div id="t-result" class="result-box" style="display:none; text-align:left;">
-          <div style="font-size:12px; color:var(--accent); font-weight:bold; margin-bottom:8px;">KẾT QUẢ XỬ LÝ:</div>
-          <div id="t-res-content" style="font-size:14px; color:#fff; line-height:1.6; background:rgba(0,0,0,0.3); padding:16px; border-radius:12px; white-space:pre-wrap;"></div>
-        </div>
-        
+    <div class="card-title">🎬 Trợ Lý Viết Kịch Bản Video Ngắn TikTok / Reels AI</div>
+    <div class="card-desc">Tạo kịch bản video ngắn triệu view với công thức: Hook gây tò mò trong 3s đầu + Nội dung giải quyết nỗi đau + Kêu gọi hành động (CTA).</div>
+    <div class="grid-2">
+      <div class="input-group">
+        <label class="input-label">Chủ đề video / Sản phẩm:</label>
+        <input type="text" id="tt-topic" class="input-field" value="Bí quyết nung men gốm không bị nứt vỡ">
+      </div>
+      <div class="input-group">
+        <label class="input-label">Phong cách video:</label>
+        <select id="tt-style" class="input-field">
+          <option value="hook1">🔥 Câu hỏi sốc / Bóc trần sự thật</option>
+          <option value="hook2">💡 Chia sẻ bí quyết chuyên gia (How-to)</option>
+          <option value="hook3">🎭 Kể chuyện drama bi hài có hậu</option>
+          <option value="hook4">⚡ Bắt lỗi sai 90% người mới mắc phải</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn btn-emerald" id="btn-gen-tt">✨ Tạo Kịch Bản Video Triệu View</button>
+    <div id="tt-res" class="result-box" style="display:none; text-align:left;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+        <span style="font-size:13px; font-weight:bold; color:#10b981;">KỊCH BẢN VIDEO CHI TIẾT (30-45 GIÂY):</span>
+        <button class="btn-copy" id="btn-copy-tt">Sao chép</button>
+      </div>
+      <div id="tt-script" style="font-size:13px; color:#fff; line-height:1.7; background:rgba(0,0,0,0.3); padding:16px; border-radius:12px; white-space:pre-wrap;"></div>
+    </div>
+    
     </div>
     <footer class="tool-footer">Ngôi Nhà Số Enterprise • Bản Quyền Tuấn Phạm</footer>
   </div>
@@ -81,12 +92,35 @@
     });
   })();
   
-        document.getElementById('btn-run-tool').addEventListener('click', () => {
-          const inp = document.getElementById('t-input').value.trim() || 'Yêu cầu mặc định cho Trợ lý Kịch Bản Video TikTok AI';
-          document.getElementById('t-res-content').textContent = `✅ Đã xử lý thành công cho công cụ [Trợ lý Kịch Bản Video TikTok AI]:\n\n• Dữ liệu tiếp nhận: "${inp}"\n• Đánh giá hệ thống: Đạt chuẩn tối ưu, sẵn sàng áp dụng ngay vào quy trình!`;
-          document.getElementById('t-result').style.display = 'block';
-        });
-        
+    document.getElementById('btn-gen-tt').addEventListener('click', () => {
+      const topic = document.getElementById('tt-topic').value.trim() || 'Sản phẩm của bạn';
+      const style = document.getElementById('tt-style').value;
+      
+      let hook = "";
+      if (style === 'hook1') hook = "Dừng lại 3 giây! Đừng vội nung gốm nếu bạn chưa biết điều sống còn này...";
+      else if (style === 'hook2') hook = "Tiết kiệm 50% chi phí hỏng men chỉ bằng 1 mẹo nhỏ mà thợ lành nghề giấu kín!";
+      else if (style === 'hook3') hook = "Từng mất trắng 50 triệu tiền mẻ lò bị nứt, và đây là bài học xương máu của tôi...";
+      else hook = "90% người làm gốm đều mắc lỗi ngớ ngẩn này khi nâng nhiệt độ lò nung!";
+      
+      const script = `🎬 [KỊCH BẢN TIKTOK: ${topic.toUpperCase()}]\n\n` +
+      `⏱️ [0s - 3s] HOOK GIỮ CHÂN (Hình ảnh zoom cận cảnh vào sản phẩm):\n` +
+      `🗣️ Lời thoại: "${hook}"\n\n` +
+      `⏱️ [4s - 20s] THÂN BÀI (Chỉ ra nguyên nhân & giải pháp thực tế):\n` +
+      `🗣️ Lời thoại: "Nguyên nhân chính là do giai đoạn 500-600°C nhiệt tăng quá gấp làm thoát nước không đều. Bí quyết ở đây là chia nhiệt thành 3 giai đoạn ủ..."\n\n` +
+      `⏱️ [21s - 35s] CHỨNG MINH KẾT QUẢ (Cầm trên tay sản phẩm bóng đẹp hoàn hảo):\n` +
+      `🗣️ Lời thoại: "Áp dụng ngay cách này, men sẽ bóng mượt 100% không còn một vết rạn nào!"\n\n` +
+      `⏱️ [36s - 40s] CTA KÊU GỌI HÀNH ĐỘNG:\n` +
+      `🗣️ Lời thoại: "Thả tim và lưu ngay video này lại để áp dụng cho mẻ lò tiếp theo nhé!"`;
+      
+      document.getElementById('tt-script').textContent = script;
+      document.getElementById('tt-res').style.display = 'block';
+    });
+    
+    document.getElementById('btn-copy-tt').addEventListener('click', () => {
+      navigator.clipboard.writeText(document.getElementById('tt-script').textContent);
+      alert('Đã sao chép kịch bản TikTok vào bộ nhớ tạm!');
+    });
+    
   </script>
 </body>
 </html>

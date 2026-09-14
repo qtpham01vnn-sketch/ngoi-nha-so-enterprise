@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ma trận Eisenhower — Ngôi Nhà Số</title>
+  <title>Ma Trận Eisenhower — Sắp Xếp Thứ Tự Ưu Tiên Công Việc — Ngôi Nhà Số</title>
   <style>
     :root {
       --bg-page: #0b132b; --bg-card: #131f47; --border: rgba(56, 189, 248, 0.2);
@@ -29,12 +29,12 @@
     .btn-primary:hover { opacity: 0.95; transform: translateY(-1px); }
     .btn-rose { background: linear-gradient(135deg, #e11d48, #f43f5e); color: #fff; box-shadow: 0 4px 15px rgba(244, 63, 94, 0.3); }
     .btn-emerald { background: linear-gradient(135deg, #059669, #10b981); color: #fff; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); }
+    .btn-copy { background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; }
+    .btn-copy:hover { background: rgba(56, 189, 248, 0.3); }
     .result-box { background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 16px; padding: 20px; margin-top: 20px; text-align: center; }
-    .res-val { font-size: 30px; font-weight: 900; color: #fff; margin: 8px 0; }
+    .res-val { font-size: 28px; font-weight: 900; color: #fff; margin: 8px 0; }
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
     @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
-    .tag-item { display: inline-block; background: rgba(255,255,255,0.06); padding: 6px 12px; border-radius: 8px; font-size: 12px; margin: 4px; border: 1px solid rgba(255,255,255,0.08); }
     .tool-footer { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 24px; }
   </style>
 </head>
@@ -42,25 +42,41 @@
   <div class="app-wrap">
     <nav class="top-nav">
       <a class="back-link" id="btn-back-main">← Quay lại Bảng điều khiển</a>
-      <span class="badge">Doanh Nghiệp</span>
+      <span class="badge">💼 Quản Trị Thời Gian</span>
     </nav>
     <div class="card">
       
-        <div class="card-title">⚡ Ma trận Eisenhower</div>
-        <div class="card-desc">Khẩn cấp vs Quan trọng. Công cụ thực chiến tích hợp trực tiếp trong hệ sinh thái Ngôi Nhà Số.</div>
-        
-        <div class="input-group">
-          <label class="input-label">Dữ liệu đầu vào / Nội dung cần xử lý:</label>
-          <textarea id="t-input" class="input-field" rows="4" placeholder="Nhập thông tin hoặc yêu cầu của bạn tại đây..."></textarea>
-        </div>
-        
-        <button class="btn btn-primary" id="btn-run-tool">🚀 Thực Thi & Xử Lý Ngay</button>
-        
-        <div id="t-result" class="result-box" style="display:none; text-align:left;">
-          <div style="font-size:12px; color:var(--accent); font-weight:bold; margin-bottom:8px;">KẾT QUẢ XỬ LÝ:</div>
-          <div id="t-res-content" style="font-size:14px; color:#fff; line-height:1.6; background:rgba(0,0,0,0.3); padding:16px; border-radius:12px; white-space:pre-wrap;"></div>
-        </div>
-        
+    <div class="card-title">⏱️ Ma Trận Eisenhower (Quan Trọng vs Khẩn Cấp)</div>
+    <div class="card-desc">Phân loại công việc vào 4 nhóm hành động: Làm ngay, Lên lịch, Ủy quyền và Loại bỏ để đạt hiệu suất cao nhất.</div>
+    <div style="display:flex; gap:10px; margin-bottom:16px;">
+      <input type="text" id="e-task" class="input-field" placeholder="Nhập tên việc cần làm...">
+      <select id="e-quad" class="input-field" style="width:200px;">
+        <option value="q1">🔥 1. Khẩn cấp & Quan trọng (Làm ngay)</option>
+        <option value="q2">⭐ 2. Quan trọng, Không khẩn (Lên lịch)</option>
+        <option value="q3">⚡ 3. Khẩn cấp, Không quan trọng (Ủy quyền)</option>
+        <option value="q4">🗑️ 4. Không khẩn, Không quan trọng (Bỏ)</option>
+      </select>
+      <button class="btn btn-primary" id="btn-add-e" style="width:120px;">+ Thêm</button>
+    </div>
+    <div class="grid-2">
+      <div style="background:rgba(244,63,94,0.1); border:1px solid rgba(244,63,94,0.3); border-radius:14px; padding:14px;">
+        <div style="font-weight:bold; color:#fda4af; font-size:13px; margin-bottom:8px;">🔥 1. LÀM NGAY (Khẩn & Quan trọng)</div>
+        <div id="list-q1" style="display:flex; flex-direction:column; gap:6px;"></div>
+      </div>
+      <div style="background:rgba(56,189,248,0.1); border:1px solid rgba(56,189,248,0.3); border-radius:14px; padding:14px;">
+        <div style="font-weight:bold; color:#7dd3fc; font-size:13px; margin-bottom:8px;">⭐ 2. LÊN LỊCH LÀM (Quan trọng, Ko khẩn)</div>
+        <div id="list-q2" style="display:flex; flex-direction:column; gap:6px;"></div>
+      </div>
+      <div style="background:rgba(245,158,11,0.1); border:1px solid rgba(245,158,11,0.3); border-radius:14px; padding:14px;">
+        <div style="font-weight:bold; color:#fde68a; font-size:13px; margin-bottom:8px;">⚡ 3. ỦY QUYỀN (Khẩn cấp, Ko quan trọng)</div>
+        <div id="list-q3" style="display:flex; flex-direction:column; gap:6px;"></div>
+      </div>
+      <div style="background:rgba(148,163,184,0.1); border:1px solid rgba(148,163,184,0.3); border-radius:14px; padding:14px;">
+        <div style="font-weight:bold; color:#cbd5e1; font-size:13px; margin-bottom:8px;">🗑️ 4. LOẠI BỎ (Ko quan trọng, Ko khẩn)</div>
+        <div id="list-q4" style="display:flex; flex-direction:column; gap:6px;"></div>
+      </div>
+    </div>
+    
     </div>
     <footer class="tool-footer">Ngôi Nhà Số Enterprise • Bản Quyền Tuấn Phạm</footer>
   </div>
@@ -81,12 +97,52 @@
     });
   })();
   
-        document.getElementById('btn-run-tool').addEventListener('click', () => {
-          const inp = document.getElementById('t-input').value.trim() || 'Yêu cầu mặc định cho Ma trận Eisenhower';
-          document.getElementById('t-res-content').textContent = `✅ Đã xử lý thành công cho công cụ [Ma trận Eisenhower]:\n\n• Dữ liệu tiếp nhận: "${inp}"\n• Đánh giá hệ thống: Đạt chuẩn tối ưu, sẵn sàng áp dụng ngay vào quy trình!`;
-          document.getElementById('t-result').style.display = 'block';
+    let eTasks = JSON.parse(localStorage.getItem('nns_eisenhower') || '[]');
+    if (eTasks.length === 0) {
+      eTasks = [
+        { id: '1', text: 'Xử lý mẻ gốm nung quá nhiệt xưởng', q: 'q1' },
+        { id: '2', text: 'Lập kế hoạch chiến lược mở rộng thị trường Quý 4', q: 'q2' },
+        { id: '3', text: 'Nhờ trợ lý gửi hóa đơn VAT cho khách', q: 'q3' },
+        { id: '4', text: 'Lướt Facebook xem video giải trí trong giờ làm', q: 'q4' }
+      ];
+    }
+    
+    function renderE() {
+      ['q1', 'q2', 'q3', 'q4'].forEach(q => {
+        const c = document.getElementById('list-' + q);
+        c.innerHTML = "";
+        eTasks.filter(t => t.q === q).forEach(t => {
+          const row = document.createElement('div');
+          row.style.display = "flex";
+          row.style.justifyContent = "space-between";
+          row.style.alignItems = "center";
+          row.style.padding = "8px 10px";
+          row.style.background = "rgba(0,0,0,0.3)";
+          row.style.borderRadius = "8px";
+          row.style.fontSize = "12px";
+          row.innerHTML = `<span>${t.text}</span><button onclick="delTask('${t.id}')" style="background:none; border:none; color:#f43f5e; cursor:pointer; font-weight:bold;">✕</button>`;
+          c.appendChild(row);
         });
-        
+      });
+      localStorage.setItem('nns_eisenhower', JSON.stringify(eTasks));
+    }
+    
+    window.delTask = (id) => {
+      eTasks = eTasks.filter(t => t.id !== id);
+      renderE();
+    };
+    
+    document.getElementById('btn-add-e').addEventListener('click', () => {
+      const txt = document.getElementById('e-task').value.trim();
+      if (!txt) return;
+      const q = document.getElementById('e-quad').value;
+      eTasks.push({ id: Date.now().toString(), text: txt, q });
+      document.getElementById('e-task').value = "";
+      renderE();
+    });
+    
+    renderE();
+    
   </script>
 </body>
 </html>

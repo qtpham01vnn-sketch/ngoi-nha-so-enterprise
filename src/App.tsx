@@ -17,7 +17,7 @@ export const AppContent: React.FC = () => {
       <div className="flex-1 flex flex-col min-w-0">
         <Header />
         
-        <main className="flex-1 px-4 lg:px-8 py-6 max-w-7xl w-full mx-auto">
+        <main className="flex-1 px-3 sm:px-4 lg:px-8 py-4 sm:py-6 max-w-7xl w-full mx-auto pb-24 lg:pb-8">
           <OverviewDashboard />
         </main>
 

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tính ROI & ROAS Quảng Cáo — Ngôi Nhà Số</title>
+  <title>Tính ROI & ROAS Đo Lường Hiệu Quả Chiến Dịch Quảng Cáo — Ngôi Nhà Số</title>
   <style>
     :root {
       --bg-page: #0b132b; --bg-card: #131f47; --border: rgba(56, 189, 248, 0.2);
@@ -29,12 +29,12 @@
     .btn-primary:hover { opacity: 0.95; transform: translateY(-1px); }
     .btn-rose { background: linear-gradient(135deg, #e11d48, #f43f5e); color: #fff; box-shadow: 0 4px 15px rgba(244, 63, 94, 0.3); }
     .btn-emerald { background: linear-gradient(135deg, #059669, #10b981); color: #fff; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); }
+    .btn-copy { background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; }
+    .btn-copy:hover { background: rgba(56, 189, 248, 0.3); }
     .result-box { background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 16px; padding: 20px; margin-top: 20px; text-align: center; }
-    .res-val { font-size: 30px; font-weight: 900; color: #fff; margin: 8px 0; }
+    .res-val { font-size: 28px; font-weight: 900; color: #fff; margin: 8px 0; }
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
     @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
-    .tag-item { display: inline-block; background: rgba(255,255,255,0.06); padding: 6px 12px; border-radius: 8px; font-size: 12px; margin: 4px; border: 1px solid rgba(255,255,255,0.08); }
     .tool-footer { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 24px; }
   </style>
 </head>
@@ -42,25 +42,50 @@
   <div class="app-wrap">
     <nav class="top-nav">
       <a class="back-link" id="btn-back-main">← Quay lại Bảng điều khiển</a>
-      <span class="badge">Doanh Nghiệp</span>
+      <span class="badge">💼 Marketing ROI</span>
     </nav>
     <div class="card">
       
-        <div class="card-title">⚡ Tính ROI & ROAS Quảng Cáo</div>
-        <div class="card-desc">Đo lường hiệu quả chiến dịch. Công cụ thực chiến tích hợp trực tiếp trong hệ sinh thái Ngôi Nhà Số.</div>
-        
-        <div class="input-group">
-          <label class="input-label">Dữ liệu đầu vào / Nội dung cần xử lý:</label>
-          <textarea id="t-input" class="input-field" rows="4" placeholder="Nhập thông tin hoặc yêu cầu của bạn tại đây..."></textarea>
+    <div class="card-title">📈 Tính ROI & ROAS Hiệu Quả Chiến Dịch Ads</div>
+    <div class="card-desc">Đo lường chính xác hiệu quả từng đồng tiền quảng cáo trên Facebook, Google, TikTok mang về bao nhiêu doanh thu và lợi nhuận ròng.</div>
+    <div class="grid-2">
+      <div class="input-group">
+        <label class="input-label">Chi phí chạy quảng cáo (VNĐ):</label>
+        <input type="number" id="ads-cost" class="input-field" value="10000000" step="500000">
+      </div>
+      <div class="input-group">
+        <label class="input-label">Tổng doanh thu mang về từ Ads (VNĐ):</label>
+        <input type="number" id="ads-rev" class="input-field" value="45000000" step="1000000">
+      </div>
+      <div class="input-group">
+        <label class="input-label">Tỷ lệ giá vốn sản phẩm (%):</label>
+        <input type="number" id="ads-cogs" class="input-field" value="40" step="1">
+      </div>
+      <div class="input-group">
+        <label class="input-label">Chi phí vận hành & đóng gói khác (%):</label>
+        <input type="number" id="ads-ops" class="input-field" value="10" step="1">
+      </div>
+    </div>
+    <button class="btn btn-primary" id="btn-calc-roas">⚡ Tính Toán ROAS & ROI Ròng</button>
+    <div id="roas-res" class="result-box" style="display:none; text-align:left;">
+      <div class="grid-2" style="text-align:center;">
+        <div>
+          <div style="font-size:12px; color:var(--accent); font-weight:bold;">CHỈ SỐ ROAS</div>
+          <div class="res-val" id="res-roas" style="color:#38bdf8;">4.5x</div>
+          <div style="font-size:11px; color:#94a3b8;">1đ tiền Ads mang về 4.5đ doanh thu</div>
         </div>
-        
-        <button class="btn btn-primary" id="btn-run-tool">🚀 Thực Thi & Xử Lý Ngay</button>
-        
-        <div id="t-result" class="result-box" style="display:none; text-align:left;">
-          <div style="font-size:12px; color:var(--accent); font-weight:bold; margin-bottom:8px;">KẾT QUẢ XỬ LÝ:</div>
-          <div id="t-res-content" style="font-size:14px; color:#fff; line-height:1.6; background:rgba(0,0,0,0.3); padding:16px; border-radius:12px; white-space:pre-wrap;"></div>
+        <div>
+          <div style="font-size:12px; color:var(--accent); font-weight:bold;">TỶ SUẤT LỢI NHUẬN ROI</div>
+          <div class="res-val" id="res-roi" style="color:#10b981;">125%</div>
+          <div style="font-size:11px; color:#94a3b8;">Lãi ròng trên vốn đầu tư</div>
         </div>
-        
+      </div>
+      <div style="margin-top:16px; font-size:13px; color:#cbd5e1; line-height:1.8; border-top:1px solid rgba(255,255,255,0.1); padding-top:12px;">
+        <div style="display:flex; justify-content:space-between;"><span>Lợi nhuận gộp sau giá vốn:</span><strong id="res-gprofit">0 đ</strong></div>
+        <div style="display:flex; justify-content:space-between; color:#10b981; font-weight:bold; font-size:14px;"><span>LỢI NHUẬN RÒNG ĐÚT TÚI:</span><strong id="res-netprofit">0 đ</strong></div>
+      </div>
+    </div>
+    
     </div>
     <footer class="tool-footer">Ngôi Nhà Số Enterprise • Bản Quyền Tuấn Phạm</footer>
   </div>
@@ -81,12 +106,29 @@
     });
   })();
   
-        document.getElementById('btn-run-tool').addEventListener('click', () => {
-          const inp = document.getElementById('t-input').value.trim() || 'Yêu cầu mặc định cho Tính ROI & ROAS Quảng Cáo';
-          document.getElementById('t-res-content').textContent = `✅ Đã xử lý thành công cho công cụ [Tính ROI & ROAS Quảng Cáo]:\n\n• Dữ liệu tiếp nhận: "${inp}"\n• Đánh giá hệ thống: Đạt chuẩn tối ưu, sẵn sàng áp dụng ngay vào quy trình!`;
-          document.getElementById('t-result').style.display = 'block';
-        });
-        
+    function fmt(n) { return new Intl.NumberFormat('vi-VN').format(Math.round(n)) + ' đ'; }
+    document.getElementById('btn-calc-roas').addEventListener('click', () => {
+      const cost = parseFloat(document.getElementById('ads-cost').value) || 1;
+      const rev = parseFloat(document.getElementById('ads-rev').value) || 0;
+      const cogsP = (parseFloat(document.getElementById('ads-cogs').value) || 0) / 100;
+      const opsP = (parseFloat(document.getElementById('ads-ops').value) || 0) / 100;
+      
+      const roas = (rev / cost).toFixed(2);
+      const cogs = rev * cogsP;
+      const ops = rev * opsP;
+      const grossProfit = rev - cogs;
+      const netProfit = rev - cogs - ops - cost;
+      const roi = ((netProfit / cost) * 100).toFixed(1);
+      
+      document.getElementById('res-roas').textContent = roas + 'x';
+      document.getElementById('res-roi').textContent = roi + '%';
+      document.getElementById('res-gprofit').textContent = fmt(grossProfit);
+      document.getElementById('res-netprofit').textContent = fmt(netProfit);
+      document.getElementById('res-netprofit').style.color = netProfit >= 0 ? '#10b981' : '#f43f5e';
+      document.getElementById('res-roi').style.color = roi >= 0 ? '#10b981' : '#f43f5e';
+      document.getElementById('roas-res').style.display = 'block';
+    });
+    
   </script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lịch chu kỳ & tâm trạng vợ — Ngôi Nhà Số</title>
+  <title>Lịch Chu Kỳ Phụ Nữ & Dự Đoán Tâm Trạng Nàng Cho Chồng Thông Thái — Ngôi Nhà Số</title>
   <style>
     :root {
       --bg-page: #0b132b; --bg-card: #131f47; --border: rgba(56, 189, 248, 0.2);
@@ -30,11 +30,9 @@
     .btn-rose { background: linear-gradient(135deg, #e11d48, #f43f5e); color: #fff; box-shadow: 0 4px 15px rgba(244, 63, 94, 0.3); }
     .btn-emerald { background: linear-gradient(135deg, #059669, #10b981); color: #fff; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); }
     .result-box { background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 16px; padding: 20px; margin-top: 20px; text-align: center; }
-    .res-val { font-size: 30px; font-weight: 900; color: #fff; margin: 8px 0; }
+    .res-val { font-size: 28px; font-weight: 900; color: #fff; margin: 8px 0; }
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
     @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
-    .tag-item { display: inline-block; background: rgba(255,255,255,0.06); padding: 6px 12px; border-radius: 8px; font-size: 12px; margin: 4px; border: 1px solid rgba(255,255,255,0.08); }
     .tool-footer { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 24px; }
   </style>
 </head>
@@ -42,25 +40,36 @@
   <div class="app-wrap">
     <nav class="top-nav">
       <a class="back-link" id="btn-back-main">← Quay lại Bảng điều khiển</a>
-      <span class="badge">Hạnh Phúc Gia Đình</span>
+      <span class="badge">❤️ Hạnh Phúc Gia Đình</span>
     </nav>
     <div class="card">
       
-        <div class="card-title">⚡ Lịch chu kỳ & tâm trạng vợ</div>
-        <div class="card-desc">Dự đoán ngày nên chiều chuộng. Công cụ thực chiến tích hợp trực tiếp trong hệ sinh thái Ngôi Nhà Số.</div>
-        
-        <div class="input-group">
-          <label class="input-label">Dữ liệu đầu vào / Nội dung cần xử lý:</label>
-          <textarea id="t-input" class="input-field" rows="4" placeholder="Nhập thông tin hoặc yêu cầu của bạn tại đây..."></textarea>
-        </div>
-        
-        <button class="btn btn-primary" id="btn-run-tool">🚀 Thực Thi & Xử Lý Ngay</button>
-        
-        <div id="t-result" class="result-box" style="display:none; text-align:left;">
-          <div style="font-size:12px; color:var(--accent); font-weight:bold; margin-bottom:8px;">KẾT QUẢ XỬ LÝ:</div>
-          <div id="t-res-content" style="font-size:14px; color:#fff; line-height:1.6; background:rgba(0,0,0,0.3); padding:16px; border-radius:12px; white-space:pre-wrap;"></div>
-        </div>
-        
+    <div class="card-title">🌸 Dự Đoán Chu Kỳ & Tâm Trạng Nàng (Bảo Bối Của Chồng)</div>
+    <div class="card-desc">Chồng thông thái luôn biết ngày nào vợ dễ cáu để nhường nhịn, ngày nào vợ lãng mạn thăng hoa để hâm nóng tình cảm và ngày rụng trứng an toàn.</div>
+    <div class="grid-2">
+      <div class="input-group">
+        <label class="input-label">Ngày bắt đầu kỳ kinh gần nhất:</label>
+        <input type="date" id="p-date" class="input-field">
+      </div>
+      <div class="input-group">
+        <label class="input-label">Độ dài chu kỳ trung bình (ngày):</label>
+        <input type="number" id="p-cycle" class="input-field" value="28" min="21" max="40">
+      </div>
+    </div>
+    <button class="btn btn-rose" id="btn-calc-p">💖 Phân Tích Lịch Tâm Trạng & Ngày Vàng</button>
+    <div id="p-res" class="result-box" style="display:none; text-align:left;">
+      <div style="text-align:center;">
+        <div style="font-size:12px; color:var(--accent); font-weight:bold;">NGÀY RỤNG TRỨNG DỰ KIẾN (NGÀY THĂNG HOA)</div>
+        <div class="res-val" id="p-ovulation" style="color:#f43f5e;">--/--/----</div>
+      </div>
+      <div style="margin-top:16px; font-size:13px; color:#cbd5e1; line-height:1.8; border-top:1px solid rgba(255,255,255,0.1); padding-top:12px;">
+        <div style="display:flex; justify-content:space-between;"><span>Giai đoạn dễ thụ thai:</span><strong id="p-fertile" style="color:#38bdf8;">--</strong></div>
+        <div style="display:flex; justify-content:space-between;"><span>Kỳ kinh tiếp theo:</span><strong id="p-next" style="color:#f59e0b;">--</strong></div>
+        <div style="display:flex; justify-content:space-between;"><span>Giai đoạn tiền kinh nguyệt (PMS - Vợ dễ cáu):</span><strong id="p-pms" style="color:#fda4af;">--</strong></div>
+      </div>
+      <div style="margin-top:14px; padding:12px; background:rgba(244,63,94,0.1); border:1px solid rgba(244,63,94,0.2); border-radius:10px; font-size:13px; color:#fecdd3; line-height:1.6;" id="p-advice"></div>
+    </div>
+    
     </div>
     <footer class="tool-footer">Ngôi Nhà Số Enterprise • Bản Quyền Tuấn Phạm</footer>
   </div>
@@ -81,12 +90,44 @@
     });
   })();
   
-        document.getElementById('btn-run-tool').addEventListener('click', () => {
-          const inp = document.getElementById('t-input').value.trim() || 'Yêu cầu mặc định cho Lịch chu kỳ & tâm trạng vợ';
-          document.getElementById('t-res-content').textContent = `✅ Đã xử lý thành công cho công cụ [Lịch chu kỳ & tâm trạng vợ]:\n\n• Dữ liệu tiếp nhận: "${inp}"\n• Đánh giá hệ thống: Đạt chuẩn tối ưu, sẵn sàng áp dụng ngay vào quy trình!`;
-          document.getElementById('t-result').style.display = 'block';
-        });
-        
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('p-date').value = today;
+    
+    document.getElementById('btn-calc-p').addEventListener('click', () => {
+      const dStr = document.getElementById('p-date').value;
+      if (!dStr) return;
+      const cycle = parseInt(document.getElementById('p-cycle').value) || 28;
+      const startDate = new Date(dStr);
+      
+      const ovDate = new Date(startDate);
+      ovDate.setDate(ovDate.getDate() + (cycle - 14));
+      
+      const fertileStart = new Date(ovDate);
+      fertileStart.setDate(fertileStart.getDate() - 4);
+      const fertileEnd = new Date(ovDate);
+      fertileEnd.setDate(fertileEnd.getDate() + 1);
+      
+      const nextPeriod = new Date(startDate);
+      nextPeriod.setDate(nextPeriod.getDate() + cycle);
+      
+      const pmsStart = new Date(nextPeriod);
+      pmsStart.setDate(pmsStart.getDate() - 5);
+      
+      function fmtD(d) { return `${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`; }
+      
+      document.getElementById('p-ovulation').textContent = fmtD(ovDate);
+      document.getElementById('p-fertile').textContent = `${fmtD(fertileStart)} - ${fmtD(fertileEnd)}`;
+      document.getElementById('p-next').textContent = fmtD(nextPeriod);
+      document.getElementById('p-pms').textContent = `${fmtD(pmsStart)} - ${fmtD(nextPeriod)}`;
+      
+      document.getElementById('p-advice').innerHTML = `
+        <strong>💡 Lời khuyên cho chồng Tuấn:</strong><br>
+        • <em>Vào ngày ${fmtD(pmsStart)} đến ${fmtD(nextPeriod)}</em>: Vợ có thể đau lưng, nhạy cảm cảm xúc. Hãy tự giác rửa bát, massage chân và pha nước ấm cho vợ.<br>
+        • <em>Vào ngày ${fmtD(ovDate)}</em>: Nàng tràn đầy năng lượng quyến rũ, thời điểm vàng để hẹn hò lãng mạn và "trả bài" đạt đỉnh thăng hoa!
+      `;
+      document.getElementById('p-res').style.display = 'block';
+    });
+    
   </script>
 </body>
 </html>

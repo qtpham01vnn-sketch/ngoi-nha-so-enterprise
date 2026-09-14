@@ -20,6 +20,8 @@ interface AppContextType {
   setSearchTerm: (term: string) => void;
   isSettingsOpen: boolean;
   setIsSettingsOpen: (open: boolean) => void;
+  isMobileMenuOpen: boolean;
+  setIsMobileMenuOpen: (open: boolean) => void;
   
   // Handlers
   addTask: (task: Omit<TaskItem, 'id' | 'createdAt'>) => void;
@@ -44,6 +46,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [activeTool, setActiveTool] = useState<ToolItem | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
 
   useEffect(() => {
     localforage.getItem<AppStateData>('nns_state').then(saved => {
@@ -184,6 +187,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       state, currentTab, setCurrentTab, activeView, setActiveView,
       activeTool, setActiveTool, searchTerm, setSearchTerm,
       isSettingsOpen, setIsSettingsOpen,
+      isMobileMenuOpen, setIsMobileMenuOpen,
       addTask, toggleTaskDone, deleteTask,
       toggleHabit, addNote, deleteNote,
       togglePinTool, addTool, exportBackup, importBackup, resetToDefault

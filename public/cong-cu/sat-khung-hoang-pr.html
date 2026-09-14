@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kịch bản xử lý khủng hoảng PR — Ngôi Nhà Số</title>
+  <title>Quy Trình & Kịch Bản Ứng Phó Khủng Hoảng Truyền Thông PR — Ngôi Nhà Số</title>
   <style>
     :root {
       --bg-page: #0b132b; --bg-card: #131f47; --border: rgba(56, 189, 248, 0.2);
@@ -29,38 +29,55 @@
     .btn-primary:hover { opacity: 0.95; transform: translateY(-1px); }
     .btn-rose { background: linear-gradient(135deg, #e11d48, #f43f5e); color: #fff; box-shadow: 0 4px 15px rgba(244, 63, 94, 0.3); }
     .btn-emerald { background: linear-gradient(135deg, #059669, #10b981); color: #fff; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); }
+    .btn-amber { background: linear-gradient(135deg, #d97706, #f59e0b); color: #fff; }
+    .btn-copy { background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; }
+    .btn-copy:hover { background: rgba(56, 189, 248, 0.3); }
     .result-box { background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 16px; padding: 20px; margin-top: 20px; text-align: center; }
-    .res-val { font-size: 30px; font-weight: 900; color: #fff; margin: 8px 0; }
+    .res-val { font-size: 28px; font-weight: 900; color: #fff; margin: 8px 0; }
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
     .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
     @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
-    .tag-item { display: inline-block; background: rgba(255,255,255,0.06); padding: 6px 12px; border-radius: 8px; font-size: 12px; margin: 4px; border: 1px solid rgba(255,255,255,0.08); }
+    .preset-chip { display: inline-block; background: rgba(255,255,255,0.06); padding: 6px 12px; border-radius: 99px; font-size: 12px; margin: 4px; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; transition: all 0.2s; }
+    .preset-chip:hover, .preset-chip.active { background: #38bdf8; color: #0b132b; font-weight: bold; border-color: #38bdf8; }
     .tool-footer { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 24px; }
+    .task-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; margin-bottom: 8px; }
   </style>
 </head>
 <body>
   <div class="app-wrap">
     <nav class="top-nav">
       <a class="back-link" id="btn-back-main">← Quay lại Bảng điều khiển</a>
-      <span class="badge">Doanh Nghiệp</span>
+      <span class="badge">💼 Quản Trị Khủng Hoảng</span>
     </nav>
     <div class="card">
       
-        <div class="card-title">⚡ Kịch bản xử lý khủng hoảng PR</div>
-        <div class="card-desc">Quy trình ứng phó truyền thông. Công cụ thực chiến tích hợp trực tiếp trong hệ sinh thái Ngôi Nhà Số.</div>
-        
-        <div class="input-group">
-          <label class="input-label">Dữ liệu đầu vào / Nội dung cần xử lý:</label>
-          <textarea id="t-input" class="input-field" rows="4" placeholder="Nhập thông tin hoặc yêu cầu của bạn tại đây..."></textarea>
-        </div>
-        
-        <button class="btn btn-primary" id="btn-run-tool">🚀 Thực Thi & Xử Lý Ngay</button>
-        
-        <div id="t-result" class="result-box" style="display:none; text-align:left;">
-          <div style="font-size:12px; color:var(--accent); font-weight:bold; margin-bottom:8px;">KẾT QUẢ XỬ LÝ:</div>
-          <div id="t-res-content" style="font-size:14px; color:#fff; line-height:1.6; background:rgba(0,0,0,0.3); padding:16px; border-radius:12px; white-space:pre-wrap;"></div>
-        </div>
-        
+    <div class="card-title">🚨 Kịch Bản Xử Lý Khủng Hoảng Truyền Thông (PR Crisis)</div>
+    <div class="card-desc">Quy chuẩn 5 bước "Giờ Vàng 24h" dập tắt khủng hoảng, bảo vệ uy tín thương hiệu và mẫu thông cáo báo chí sẵn sàng sử dụng.</div>
+    <div class="input-group">
+      <label class="input-label">Loại khủng hoảng doanh nghiệp đang gặp:</label>
+      <select id="pr-type" class="input-field">
+        <option value="quality">Sản phẩm bị lỗi / Khách hàng phàn nàn trên mạng xã hội</option>
+        <option value="attitude">Nhân viên có thái độ phục vụ kém / Cãi nhau với khách</option>
+        <option value="delay">Giao hàng trễ hạn / Sự cố gián đoạn dịch vụ xưởng sản xuất</option>
+        <option value="rumor">Tin đồn thất thiệt / Đối thủ chơi xấu</option>
+      </select>
+    </div>
+    <div class="input-group">
+      <label class="input-label">Tên thương hiệu / Công ty của bạn:</label>
+      <input type="text" id="pr-brand" class="input-field" value="Ngôi Nhà Số Enterprise">
+    </div>
+    <button class="btn btn-rose" id="btn-gen-pr">⚡ Tạo Kịch Bản Ứng Phó & Mẫu Phát Ngôn</button>
+    <div id="pr-res" class="result-box" style="display:none; text-align:left;">
+      <div style="font-size:14px; font-weight:bold; color:#fda4af; margin-bottom:8px;">5 BƯỚC HÀNH ĐỘNG KHẨN CẤP TRONG 24H:</div>
+      <div id="pr-steps" style="font-size:13px; color:#cbd5e1; line-height:1.7; background:rgba(0,0,0,0.3); padding:14px; border-radius:10px;"></div>
+      
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:16px; margin-bottom:6px;">
+        <span style="font-size:13px; font-weight:bold; color:#38bdf8;">MẪU THÔNG CÁO BÁO CHÍ / BÀI ĐĂNG ĐÍNH CHÍNH:</span>
+        <button class="btn-copy" id="btn-copy-pr">Sao chép bài mẫu</button>
+      </div>
+      <div id="pr-template" style="font-size:13px; color:#f8fafc; line-height:1.6; background:rgba(255,255,255,0.06); padding:14px; border-radius:10px; white-space:pre-wrap;"></div>
+    </div>
+    
     </div>
     <footer class="tool-footer">Ngôi Nhà Số Enterprise • Bản Quyền Tuấn Phạm</footer>
   </div>
@@ -81,12 +98,41 @@
     });
   })();
   
-        document.getElementById('btn-run-tool').addEventListener('click', () => {
-          const inp = document.getElementById('t-input').value.trim() || 'Yêu cầu mặc định cho Kịch bản xử lý khủng hoảng PR';
-          document.getElementById('t-res-content').textContent = `✅ Đã xử lý thành công cho công cụ [Kịch bản xử lý khủng hoảng PR]:\n\n• Dữ liệu tiếp nhận: "${inp}"\n• Đánh giá hệ thống: Đạt chuẩn tối ưu, sẵn sàng áp dụng ngay vào quy trình!`;
-          document.getElementById('t-result').style.display = 'block';
-        });
-        
+    const prData = {
+      quality: {
+        steps: "1. Kích hoạt tổ phản ứng nhanh, tạm dừng lô sản phẩm liên quan.\n2. Liên hệ trực tiếp với khách hàng bị ảnh hưởng bằng thái độ cầu thị, lắng nghe, đổi mới hoặc hoàn tiền ngay 100%.\n3. Tuyệt đối không xóa bình luận hay cãi tay đôi trên mạng.\n4. Đăng thông báo minh bạch, nhận trách nhiệm và đưa ra giải pháp khắc phục triệt để.",
+        tpl: "[THÔNG BÁO CHÍNH THỨC TỪ {B}]\n\nKính gửi Quý khách hàng và Đối tác,\n\nVừa qua, chúng tôi đã ghi nhận phản hồi từ khách hàng về sự cố liên quan đến sản phẩm... Ngay khi tiếp nhận, Ban lãnh đạo {B} đã trực tiếp làm việc với khách hàng để giải quyết thỏa đáng.\n\nChúng tôi xin chân thành gửi lời xin lỗi sâu sắc tới Quý khách và cam kết kiểm tra lại toàn bộ quy trình sản xuất để không xảy ra sự cố tương tự. Cảm ơn sự đồng hành và thấu hiểu của Quý vị!"
+      },
+      attitude: {
+        steps: "1. Tạm đình chỉ nhân sự vi phạm để điều tra làm rõ.\n2. Lãnh đạo cấp cao gọi điện hoặc gặp trực tiếp khách hàng để gửi lời xin lỗi chân thành.\n3. Ban hành quy chế chấn chỉnh văn hóa phục vụ trong toàn công ty.",
+        tpl: "[THÔNG BÁO VỀ VĂN HÓA PHỤC VỤ TẠI {B}]\n\nKính gửi Quý khách hàng,\n\n{B} luôn lấy sự hài lòng và trải nghiệm của khách hàng làm trọng tâm. Về sự việc nhân viên chưa chuẩn mực vừa qua, chúng tôi đã xử lý kỷ luật nghiêm khắc và trực tiếp gửi lời xin lỗi đến khách hàng. Rất mong tiếp tục nhận được những đóng góp quý báu từ Quý khách!"
+      },
+      delay: {
+        steps: "1. Chủ động thông báo tiến độ cho khách hàng trước khi khách hỏi.\n2. Tặng voucher giảm giá hoặc quà tặng bù đắp thiệt hại.\n3. Huy động tăng ca hoàn thành giao hàng trong thời gian sớm nhất.",
+        tpl: "[THƯ CẢM ƠN VÀ THÔNG BÁO TIẾN ĐỘ TỪ {B}]\n\nKính gửi Quý đối tác,\n\nDo sự cố phát sinh tại xưởng sản xuất, tiến độ đơn hàng có sự chậm trễ ngoài ý muốn. Chúng tôi đang nỗ lực tối đa để giao hàng sớm nhất trong ngày mai kèm chính sách chiết khấu bù đắp. Trân trọng cảm ơn sự thông cảm của Quý vị!"
+      },
+      rumor: {
+        steps: "1. Thu thập bằng chứng, hình ảnh, văn bản pháp lý chính thống.\n2. Đưa ra thông điệp đanh thép, rõ ràng, dẫn chứng bằng số liệu và giấy chứng nhận.\n3. Nếu có dấu hiệu bôi nhọ có tổ chức, lập vi bằng nhờ cơ quan chức năng can thiệp.",
+        tpl: "[THÔNG BÁO ĐÍNH CHÍNH THÔNG TIN TỪ {B}]\n\nKính gửi Quý khách hàng và Cộng đồng,\n\nHiện nay trên mạng xã hội xuất hiện một số thông tin sai lệch về {B}. Chúng tôi xin khẳng định toàn bộ sản phẩm và hoạt động của công ty đều tuân thủ đầy đủ tiêu chuẩn chất lượng và pháp luật hiện hành. Xin chân thành cảm ơn Quý khách luôn tin tưởng đồng hành!"
+      }
+    };
+    
+    document.getElementById('btn-gen-pr').addEventListener('click', () => {
+      const type = document.getElementById('pr-type').value;
+      const brand = document.getElementById('pr-brand').value.trim() || 'Công ty';
+      const item = prData[type];
+      
+      document.getElementById('pr-steps').innerHTML = item.steps.replace(/\n/g, '<br>');
+      document.getElementById('pr-template').textContent = item.tpl.replace(/{B}/g, brand);
+      document.getElementById('pr-res').style.display = 'block';
+    });
+    
+    document.getElementById('btn-copy-pr').addEventListener('click', () => {
+      const txt = document.getElementById('pr-template').textContent;
+      navigator.clipboard.writeText(txt);
+      alert('Đã sao chép bài phát ngôn mẫu vào bộ nhớ tạm!');
+    });
+    
   </script>
 </body>
 </html>

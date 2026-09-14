@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>36 câu hỏi gắn kết tâm hồn — Ngôi Nhà Số</title>
+  <title>36 Câu Hỏi Gắn Kết Tâm Hồn Vợ Chồng & Thấu Hiểu Sâu Sắc — Ngôi Nhà Số</title>
   <style>
     :root {
       --bg-page: #0b132b; --bg-card: #131f47; --border: rgba(56, 189, 248, 0.2);
@@ -30,11 +30,9 @@
     .btn-rose { background: linear-gradient(135deg, #e11d48, #f43f5e); color: #fff; box-shadow: 0 4px 15px rgba(244, 63, 94, 0.3); }
     .btn-emerald { background: linear-gradient(135deg, #059669, #10b981); color: #fff; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); }
     .result-box { background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 16px; padding: 20px; margin-top: 20px; text-align: center; }
-    .res-val { font-size: 30px; font-weight: 900; color: #fff; margin: 8px 0; }
+    .res-val { font-size: 28px; font-weight: 900; color: #fff; margin: 8px 0; }
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
     @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
-    .tag-item { display: inline-block; background: rgba(255,255,255,0.06); padding: 6px 12px; border-radius: 8px; font-size: 12px; margin: 4px; border: 1px solid rgba(255,255,255,0.08); }
     .tool-footer { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 24px; }
   </style>
 </head>
@@ -42,25 +40,25 @@
   <div class="app-wrap">
     <nav class="top-nav">
       <a class="back-link" id="btn-back-main">← Quay lại Bảng điều khiển</a>
-      <span class="badge">Hạnh Phúc Gia Đình</span>
+      <span class="badge">❤️ Tâm Sự Vợ Chồng</span>
     </nav>
     <div class="card">
       
-        <div class="card-title">⚡ 36 câu hỏi gắn kết tâm hồn</div>
-        <div class="card-desc">Tâm sự thấu hiểu sâu sắc. Công cụ thực chiến tích hợp trực tiếp trong hệ sinh thái Ngôi Nhà Số.</div>
-        
-        <div class="input-group">
-          <label class="input-label">Dữ liệu đầu vào / Nội dung cần xử lý:</label>
-          <textarea id="t-input" class="input-field" rows="4" placeholder="Nhập thông tin hoặc yêu cầu của bạn tại đây..."></textarea>
-        </div>
-        
-        <button class="btn btn-primary" id="btn-run-tool">🚀 Thực Thi & Xử Lý Ngay</button>
-        
-        <div id="t-result" class="result-box" style="display:none; text-align:left;">
-          <div style="font-size:12px; color:var(--accent); font-weight:bold; margin-bottom:8px;">KẾT QUẢ XỬ LÝ:</div>
-          <div id="t-res-content" style="font-size:14px; color:#fff; line-height:1.6; background:rgba(0,0,0,0.3); padding:16px; border-radius:12px; white-space:pre-wrap;"></div>
-        </div>
-        
+    <div class="card-title">💬 36 Câu Hỏi Gắn Kết Tâm Hồn (Nghiên Cứu Tâm Lý Arthur Aron)</div>
+    <div class="card-desc">Rút một câu hỏi mỗi tối để cùng nhau lắng nghe, chia sẻ và hiểu người bạn đời sâu sắc hơn sau nhiều năm chung sống.</div>
+    <div style="display:flex; justify-content:center; gap:8px; margin-bottom:16px;">
+      <button class="preset-chip active" id="btn-lvl1">Cấp độ 1: Cởi Mở</button>
+      <button class="preset-chip" id="btn-lvl2">Cấp độ 2: Ký Ức</button>
+      <button class="preset-chip" id="btn-lvl3">Cấp độ 3: Sâu Sắc</button>
+    </div>
+    <div style="background:rgba(0,0,0,0.3); border:1px solid rgba(56,189,248,0.3); border-radius:16px; padding:24px; text-align:center; min-height:140px; display:flex; flex-direction:column; justify-content:center; align-items:center;">
+      <div style="font-size:12px; color:var(--accent); font-weight:bold; margin-bottom:6px;" id="q-level-title">CẤP ĐỘ 1: CỞI MỞ & HẠNH PHÚC</div>
+      <div id="q-content" style="font-size:17px; font-weight:700; color:#fff; line-height:1.5;">Nếu được mời bất kỳ ai trên thế giới dùng bữa tối, em/anh muốn mời ai nhất?</div>
+    </div>
+    <div style="margin-top:20px;">
+      <button class="btn btn-rose" id="btn-next-q">🎲 Rút Câu Hỏi Khác</button>
+    </div>
+    
     </div>
     <footer class="tool-footer">Ngôi Nhà Số Enterprise • Bản Quyền Tuấn Phạm</footer>
   </div>
@@ -81,12 +79,61 @@
     });
   })();
   
-        document.getElementById('btn-run-tool').addEventListener('click', () => {
-          const inp = document.getElementById('t-input').value.trim() || 'Yêu cầu mặc định cho 36 câu hỏi gắn kết tâm hồn';
-          document.getElementById('t-res-content').textContent = `✅ Đã xử lý thành công cho công cụ [36 câu hỏi gắn kết tâm hồn]:\n\n• Dữ liệu tiếp nhận: "${inp}"\n• Đánh giá hệ thống: Đạt chuẩn tối ưu, sẵn sàng áp dụng ngay vào quy trình!`;
-          document.getElementById('t-result').style.display = 'block';
-        });
-        
+    const questions = {
+      1: [
+        "Nếu được mời bất kỳ ai trên thế giới dùng bữa tối, em/anh muốn mời ai nhất?",
+        "Một ngày hoàn hảo trong mơ của em/anh sẽ diễn ra như thế nào?",
+        "Lần gần đây nhất em/anh tự hát một mình là khi nào? Và hát cho người khác nghe là khi nào?",
+        "Ba điều em/anh thấy hai vợ chồng mình giống nhau nhất là gì?",
+        "Điều gì trong cuộc sống khiến em/anh cảm thấy biết ơn sâu sắc nhất?"
+      ],
+      2: [
+        "Kỷ niệm đáng nhớ nhất trong thời thơ ấu của em/anh là gì?",
+        "Kỷ niệm kinh khủng nhất hoặc buồn nhất mà em từng trải qua là gì?",
+        "Tình bạn và người bạn thân có ý nghĩa thế nào đối với em/anh?",
+        "Tình yêu và sự âu yếm đóng vai trò như thế nào trong cuộc đời em?",
+        "Hãy kể ra 5 phẩm chất tốt đẹp nhất mà em yêu quý ở người bạn đời của mình?"
+      ],
+      3: [
+        "Gia đình em có gần gũi và ấm áp không? Em có cảm thấy tuổi thơ của mình hạnh phúc hơn người khác?",
+        "Mối quan hệ của em với mẹ/bố diễn ra như thế nào?",
+        "Nếu tối nay em qua đời mà không có cơ hội nói chuyện với ai, em sẽ tiếc nuối điều chưa kịp nói với ai nhất?",
+        "Nếu ngôi nhà của chúng ta bị cháy, sau khi cứu hết người thân và thú cưng, em sẽ quay lại lấy món đồ gì?",
+        "Trong tất cả mọi người trong gia đình, sự ra đi của ai sẽ làm em đau lòng nhất và tại sao?"
+      ]
+    };
+    
+    let curLvl = 1;
+    function pickQ() {
+      const list = questions[curLvl];
+      const q = list[Math.floor(Math.random() * list.length)];
+      document.getElementById('q-content').textContent = q;
+    }
+    
+    document.getElementById('btn-lvl1').addEventListener('click', function() {
+      curLvl = 1;
+      document.querySelectorAll('.preset-chip').forEach(c => c.classList.remove('active'));
+      this.classList.add('active');
+      document.getElementById('q-level-title').textContent = "CẤP ĐỘ 1: CỞI MỞ & HẠNH PHÚC";
+      pickQ();
+    });
+    document.getElementById('btn-lvl2').addEventListener('click', function() {
+      curLvl = 2;
+      document.querySelectorAll('.preset-chip').forEach(c => c.classList.remove('active'));
+      this.classList.add('active');
+      document.getElementById('q-level-title').textContent = "CẤP ĐỘ 2: KÝ ỨC & CẢM XÚC";
+      pickQ();
+    });
+    document.getElementById('btn-lvl3').addEventListener('click', function() {
+      curLvl = 3;
+      document.querySelectorAll('.preset-chip').forEach(c => c.classList.remove('active'));
+      this.classList.add('active');
+      document.getElementById('q-level-title').textContent = "CẤP ĐỘ 3: SÂU SẮC & GẮN KẾT LINH HỒN";
+      pickQ();
+    });
+    
+    document.getElementById('btn-next-q').addEventListener('click', pickQ);
+    
   </script>
 </body>
 </html>

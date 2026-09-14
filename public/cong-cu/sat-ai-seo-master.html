@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trợ lý Tối Ưu SEO Web & Blog AI — Ngôi Nhà Số</title>
+  <title>Trợ Lý Tạo 10 Tiêu Đề Giật Tít Chuẩn SEO & Dàn Ý Bài Viết H2/H3 — Ngôi Nhà Số</title>
   <style>
     :root {
       --bg-page: #0b132b; --bg-card: #131f47; --border: rgba(56, 189, 248, 0.2);
@@ -25,16 +25,16 @@
     .input-field { width: 100%; padding: 12px 14px; background: #080e22; border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; color: #fff; font-size: 14px; outline: none; transition: border 0.2s; }
     .input-field:focus { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-glow); }
     .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 13px 20px; border-radius: 12px; font-size: 14px; font-weight: 700; cursor: pointer; border: none; transition: all 0.2s; }
-    .btn-primary { background: linear-gradient(135deg, #0284c7, #6366f1); color: #fff; box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4); }
-    .btn-primary:hover { opacity: 0.95; transform: translateY(-1px); }
-    .btn-rose { background: linear-gradient(135deg, #e11d48, #f43f5e); color: #fff; box-shadow: 0 4px 15px rgba(244, 63, 94, 0.3); }
     .btn-emerald { background: linear-gradient(135deg, #059669, #10b981); color: #fff; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); }
+    .btn-primary { background: linear-gradient(135deg, #0284c7, #6366f1); color: #fff; box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4); }
+    .btn-copy { background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; }
+    .btn-copy:hover { background: rgba(56, 189, 248, 0.3); }
     .result-box { background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 16px; padding: 20px; margin-top: 20px; text-align: center; }
-    .res-val { font-size: 30px; font-weight: 900; color: #fff; margin: 8px 0; }
+    .res-val { font-size: 28px; font-weight: 900; color: #fff; margin: 8px 0; }
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
     @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
-    .tag-item { display: inline-block; background: rgba(255,255,255,0.06); padding: 6px 12px; border-radius: 8px; font-size: 12px; margin: 4px; border: 1px solid rgba(255,255,255,0.08); }
+    .preset-chip { display: inline-block; background: rgba(255,255,255,0.06); padding: 6px 12px; border-radius: 99px; font-size: 12px; margin: 4px; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; transition: all 0.2s; }
+    .preset-chip:hover, .preset-chip.active { background: #10b981; color: #0b132b; font-weight: bold; border-color: #10b981; }
     .tool-footer { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 24px; }
   </style>
 </head>
@@ -42,25 +42,28 @@
   <div class="app-wrap">
     <nav class="top-nav">
       <a class="back-link" id="btn-back-main">← Quay lại Bảng điều khiển</a>
-      <span class="badge">AI Pro</span>
+      <span class="badge">🤖 SEO & Website AI</span>
     </nav>
     <div class="card">
       
-        <div class="card-title">⚡ Trợ lý Tối Ưu SEO Web & Blog AI</div>
-        <div class="card-desc">Tiêu đề chuẩn SEO & dàn ý bài. Công cụ thực chiến tích hợp trực tiếp trong hệ sinh thái Ngôi Nhà Số.</div>
-        
-        <div class="input-group">
-          <label class="input-label">Dữ liệu đầu vào / Nội dung cần xử lý:</label>
-          <textarea id="t-input" class="input-field" rows="4" placeholder="Nhập thông tin hoặc yêu cầu của bạn tại đây..."></textarea>
-        </div>
-        
-        <button class="btn btn-primary" id="btn-run-tool">🚀 Thực Thi & Xử Lý Ngay</button>
-        
-        <div id="t-result" class="result-box" style="display:none; text-align:left;">
-          <div style="font-size:12px; color:var(--accent); font-weight:bold; margin-bottom:8px;">KẾT QUẢ XỬ LÝ:</div>
-          <div id="t-res-content" style="font-size:14px; color:#fff; line-height:1.6; background:rgba(0,0,0,0.3); padding:16px; border-radius:12px; white-space:pre-wrap;"></div>
-        </div>
-        
+    <div class="card-title">🔍 Trợ Lý Tối Ưu Tiêu Đề SEO & Dàn Ý Bài Viết Web</div>
+    <div class="card-desc">Tạo 10 tiêu đề bài viết đạt điểm SEO cao, kích thích tỷ lệ click (CTR) kèm dàn ý chi tiết H2, H3 sẵn sàng cho copywriter viết bài.</div>
+    <div class="input-group">
+      <label class="input-label">Từ khóa chính / Chủ đề bài viết:</label>
+      <input type="text" id="seo-kw" class="input-field" value="lò nung gốm tiết kiệm điện">
+    </div>
+    <button class="btn btn-emerald" id="btn-gen-seo">🚀 Sinh 10 Tiêu Đề Giật Tít & Dàn Ý H2/H3</button>
+    <div id="seo-res" class="result-box" style="display:none; text-align:left;">
+      <div style="font-size:14px; font-weight:bold; color:#38bdf8; margin-bottom:8px;">TOP 10 TIÊU ĐỀ HÚT CLICK CHUẨN SEO:</div>
+      <div id="seo-titles" style="font-size:13px; color:#fff; line-height:1.8; background:rgba(0,0,0,0.3); padding:14px; border-radius:10px; margin-bottom:14px;"></div>
+      
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+        <span style="font-size:13px; font-weight:bold; color:#10b981;">DÀN Ý BÀI VIẾT CHUẨN SEO (OUTLINE H2 - H3):</span>
+        <button class="btn-copy" id="btn-copy-seo">Sao chép dàn ý</button>
+      </div>
+      <div id="seo-outline" style="font-size:13px; color:#cbd5e1; line-height:1.6; background:rgba(0,0,0,0.3); padding:14px; border-radius:10px; white-space:pre-wrap;"></div>
+    </div>
+    
     </div>
     <footer class="tool-footer">Ngôi Nhà Số Enterprise • Bản Quyền Tuấn Phạm</footer>
   </div>
@@ -81,12 +84,44 @@
     });
   })();
   
-        document.getElementById('btn-run-tool').addEventListener('click', () => {
-          const inp = document.getElementById('t-input').value.trim() || 'Yêu cầu mặc định cho Trợ lý Tối Ưu SEO Web & Blog AI';
-          document.getElementById('t-res-content').textContent = `✅ Đã xử lý thành công cho công cụ [Trợ lý Tối Ưu SEO Web & Blog AI]:\n\n• Dữ liệu tiếp nhận: "${inp}"\n• Đánh giá hệ thống: Đạt chuẩn tối ưu, sẵn sàng áp dụng ngay vào quy trình!`;
-          document.getElementById('t-result').style.display = 'block';
-        });
-        
+    document.getElementById('btn-gen-seo').addEventListener('click', () => {
+      const kw = document.getElementById('seo-kw').value.trim() || 'sản phẩm';
+      
+      const titles = [
+        `1. Top 5 Mẫu ${kw} Bán Chạy Nhất 2026 Giúp Xưởng Tiết Kiệm Hàng Triệu Đồng`,
+        `2. Đánh Giá Thực Tế: ${kw} Có Thật Sự Hiệu Quả Như Lời Đồn?`,
+        `3. Hướng Dẫn Cách Chọn Mua ${kw} Chuẩn Chất Lượng Cho Người Mới Bắt Đầu`,
+        `4. Bí Quyết Sử Dụng ${kw} Tối Ưu Chi Phí Điện Lên Đến 40% Mỗi Tháng`,
+        `5. So Sánh Bảng Giá ${kw} Mới Nhất Hiện Nay — Nên Mua Loại Nào?`,
+        `6. 3 Lỗi Nghiêm Trọng Cần Tránh Khi Lắp Đặt ${kw} Tại Xưởng Sản Xuất`,
+        `7. Vì Sao ${kw} Đang Trở Thành Xu Hướng Tất Yếu Của Các Nghệ Nhân Gốm Sứ?`,
+        `8. Trọn Bộ Kinh Nghiệm Vận Hành ${kw} An Toàn Và Bền Bỉ Trên 10 Năm`,
+        `9. Địa Chỉ Bán ${kw} Uy Tín, Bảo Hành Chính Hãng Tốt Nhất Toàn Quốc`,
+        `10. [Góc Chuyên Gia] Những Lưu Ý Sống Còn Về Kỹ Thuật Khi Vận Hành ${kw}`
+      ];
+      
+      const outline = `DÀN Ý BÀI VIẾT CHUẨN SEO: [${kw.toUpperCase()}]\n\n` +
+      `H1: ${titles[0].replace('1. ', '')}\n\n` +
+      `H2: 1. Vì sao nên đầu tư ${kw} ngay hôm nay?\n` +
+      `  - H3: Tiết kiệm chi phí năng lượng dài hạn\n` +
+      `  - H3: Đảm bảo chất lượng men đồng đều từng mẻ lò\n\n` +
+      `H2: 2. Các tiêu chí quan trọng khi lựa chọn ${kw}\n` +
+      `  - H3: Công suất và kích thước buồng nung phù hợp\n` +
+      `  - H3: Hệ thống điều khiển nhiệt độ thông minh tự động\n\n` +
+      `H2: 3. Hướng dẫn sử dụng và bảo dưỡng định kỳ kéo dài tuổi thọ\n` +
+      `H2: 4. Bảng giá tham khảo và địa chỉ cung cấp uy tín\n` +
+      `H2: 5. Kết luận và lời khuyên từ chuyên gia`;
+      
+      document.getElementById('seo-titles').innerHTML = titles.join('<br>');
+      document.getElementById('seo-outline').textContent = outline;
+      document.getElementById('seo-res').style.display = 'block';
+    });
+    
+    document.getElementById('btn-copy-seo').addEventListener('click', () => {
+      navigator.clipboard.writeText(document.getElementById('seo-outline').textContent);
+      alert('Đã sao chép dàn ý SEO!');
+    });
+    
   </script>
 </body>
 </html>
