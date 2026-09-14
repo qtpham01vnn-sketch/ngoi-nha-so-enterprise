@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bảng Cân Hai Lựa Chọn — Ngôi Nhà Số</title>
+  <style>
+    :root {
+      --bg-page: #f9f8f6; --bg-surface: #ffffff; --bg-subtle: #f3f1ec; --border-subtle: #e5e1d8;
+      --text-main: #242220; --text-muted: #68645e; --accent: #2d5a88; --success: #15803d;
+      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg-page); color: var(--text-main); font-family: var(--font-family); padding-bottom: 40px; }
+    .app-wrap { max-width: 760px; margin: 0 auto; padding: 24px 16px; }
+    .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); text-decoration: none; font-size: 13px; font-weight: 500; padding: 6px 12px; border-radius: 6px; background: var(--bg-surface); border: 1px solid var(--border-subtle); min-height: 40px; }
+    .hero-card { background: var(--bg-surface); border: 2px solid var(--accent); border-radius: 14px; padding: 24px; text-align: center; margin-bottom: 24px; }
+    .hero-winner { font-size: 32px; font-weight: 800; color: var(--accent); margin: 8px 0; }
+    .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .side-card { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 18px; }
+    .crit-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 14px; }
+    .tool-footer { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border-subtle); }
+    @media (max-width: 600px) { .compare-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="app-wrap">
+    <nav class="top-nav">
+      <a href="../ngoi-nha-so.html" class="back-link">← Về Ngôi nhà số</a>
+      <span style="font-size:13px; color:var(--text-muted);">C58 • Cân nhắc lựa chọn</span>
+    </nav>
+    <div class="hero-card">
+      <div style="font-size:13px; font-weight:700; color:var(--accent); text-transform:uppercase;">PHƯƠNG ÁN ĐƯỢC ĐIỂM CAO HƠN</div>
+      <div class="hero-winner" id="winner-text">Phương án A (Nghiêng 65%)</div>
+      <div style="font-size:14px; color:var(--text-muted);" id="winner-sub">Dựa trên 3 tiêu chí đánh giá có trọng số</div>
+    </div>
+    <div class="compare-grid">
+      <div class="side-card">
+        <input type="text" value="Phương án A: Thuê xưởng lớn" id="inp-name-a" style="width:100%; font-weight:700; font-size:16px; padding:6px; border:1px solid var(--border-subtle); border-radius:4px; margin-bottom:12px;" oninput="calc()">
+        <div class="crit-row"><span>Chi phí (1-10):</span><input type="number" min="1" max="10" value="6" id="a-c1" oninput="calc()" style="width:60px; padding:4px;"></div>
+        <div class="crit-row"><span>Tiềm năng (1-10):</span><input type="number" min="1" max="10" value="9" id="a-c2" oninput="calc()" style="width:60px; padding:4px;"></div>
+        <div class="crit-row"><span>Rủi ro (1-10 an toàn):</span><input type="number" min="1" max="10" value="7" id="a-c3" oninput="calc()" style="width:60px; padding:4px;"></div>
+        <div style="font-weight:700; margin-top:12px; font-size:16px; color:var(--accent);" id="score-a">Tổng điểm: 22</div>
+      </div>
+      <div class="side-card">
+        <input type="text" value="Phương án B: Giữ nguyên xưởng cũ" id="inp-name-b" style="width:100%; font-weight:700; font-size:16px; padding:6px; border:1px solid var(--border-subtle); border-radius:4px; margin-bottom:12px;" oninput="calc()">
+        <div class="crit-row"><span>Chi phí (1-10):</span><input type="number" min="1" max="10" value="9" id="b-c1" oninput="calc()" style="width:60px; padding:4px;"></div>
+        <div class="crit-row"><span>Tiềm năng (1-10):</span><input type="number" min="1" max="10" value="4" id="b-c2" oninput="calc()" style="width:60px; padding:4px;"></div>
+        <div class="crit-row"><span>Rủi ro (1-10 an toàn):</span><input type="number" min="1" max="10" value="6" id="b-c3" oninput="calc()" style="width:60px; padding:4px;"></div>
+        <div style="font-weight:700; margin-top:12px; font-size:16px; color:var(--accent);" id="score-b">Tổng điểm: 19</div>
+      </div>
+    </div>
+    <footer class="tool-footer">Thuộc hệ <a href="../ngoi-nha-so.html">Ngôi nhà số</a> • Quy tắc Bản 1</footer>
+  </div>
+  <script>
+  (function() {
+    window.calc = function() {
+      const a = (parseInt(document.getElementById('a-c1').value,10)||0) + (parseInt(document.getElementById('a-c2').value,10)||0) + (parseInt(document.getElementById('a-c3').value,10)||0);
+      const b = (parseInt(document.getElementById('b-c1').value,10)||0) + (parseInt(document.getElementById('b-c2').value,10)||0) + (parseInt(document.getElementById('b-c3').value,10)||0);
+      document.getElementById('score-a').textContent = `Tổng điểm: ${a}`;
+      document.getElementById('score-b').textContent = `Tổng điểm: ${b}`;
+      const nameA = document.getElementById('inp-name-a').value;
+      const nameB = document.getElementById('inp-name-b').value;
+      if (a > b) {
+        document.getElementById('winner-text').textContent = `${nameA} (+${a - b} điểm)`;
+      } else if (b > a) {
+        document.getElementById('winner-text').textContent = `${nameB} (+${b - a} điểm)`;
+      } else {
+        document.getElementById('winner-text').textContent = `Hai phương án cân bằng nhau (${a} điểm)`;
+      }
+    };
+    calc();
+  })();
+  </script>
+
+<script>
+// Enterprise App Integration
+(function() {
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.back-link, a[href*="ngoi-nha-so"]').forEach(function(el) {
+      el.addEventListener('click', function(e) {
+        if (window.parent && window.parent !== window) {
+          e.preventDefault();
+          window.parent.postMessage('CLOSE_TOOL_MODAL', '*');
+        }
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

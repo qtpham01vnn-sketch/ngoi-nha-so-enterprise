@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tính Chiết Khấu Tối Đa — Ngôi Nhà Số</title>
+  <style>
+    /* ==========================================================================
+       1. NỀN TẢNG THIẾT KẾ (WARM SLATE + ONE ACCENT COLOR)
+       ========================================================================== */
+    :root {
+      --bg-page: #f9f8f6;
+      --bg-surface: #ffffff;
+      --bg-subtle: #f3f1ec;
+      --bg-hover: #eae7e0;
+      --border-subtle: #e5e1d8;
+      --border-strong: #cac4b7;
+
+      --text-main: #242220;
+      --text-muted: #68645e;
+      --text-faint: #9e9a91;
+
+      /* Đúng MỘT màu nhấn */
+      --accent: #2d5a88;
+      --accent-hover: #224569;
+      --accent-light: #eaf1f7;
+      --accent-tint: rgba(45, 90, 136, 0.08);
+
+      /* Màu cảnh báo / Lỗ */
+      --danger: #b91c1c;
+      --danger-light: #fef2f2;
+      --danger-border: #fca5a5;
+
+      /* Màu an toàn / Lời */
+      --success: #15803d;
+      --success-light: #f0fdf4;
+      --success-border: #86efac;
+
+      /* Khoảng cách bội số 8 */
+      --sp-8: 8px;
+      --sp-16: 16px;
+      --sp-24: 24px;
+      --sp-32: 32px;
+      --sp-40: 40px;
+
+      /* Bo góc & bóng đổ */
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04);
+      --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+      /* Typography */
+      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --fs-sm: 13px;
+      --fs-base: 16px;
+      --fs-large: 26px;
+      --fs-hero: 44px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      font-family: var(--font-family);
+      font-size: var(--fs-base);
+      line-height: 1.6;
+      font-variant-numeric: tabular-nums;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: var(--sp-40);
+      min-height: 100vh;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    button, input, select {
+      font: inherit;
+      color: inherit;
+    }
+
+    /* Container tối ưu 60-72 ký tự/dòng */
+    .app-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: var(--sp-24) var(--sp-16);
+    }
+
+    /* Header & Nút về Ngôi nhà số */
+    .top-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--sp-24);
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: var(--fs-sm);
+      font-weight: 500;
+      padding: 6px 10px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      transition: background-color 150ms ease, color 150ms ease;
+      min-height: 40px;
+    }
+    .back-link:hover {
+      background: var(--bg-subtle);
+      color: var(--text-main);
+      border-color: var(--border-strong);
+    }
+
+    .tool-title-wrap {
+      margin-bottom: var(--sp-24);
+    }
+    .tool-title {
+      font-size: var(--fs-large);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: var(--sp-8);
+    }
+    .tool-desc {
+      font-size: var(--fs-base);
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* ==========================================================================
+       2. KHỐI KẾT QUẢ QUAN TRỌNG NHẤT (HERO METRIC — LỚN NHẤT MÀN HÌNH)
+       ========================================================================== */
+    .hero-card {
+      background: var(--bg-surface);
+      border: 2px solid var(--accent);
+      border-radius: var(--radius-lg);
+      padding: var(--sp-24);
+      box-shadow: var(--shadow-md);
+      margin-bottom: var(--sp-24);
+      position: relative;
+    }
+    .hero-card.is-loss {
+      border-color: var(--danger);
+      background: var(--danger-light);
+    }
+    .hero-label {
+      font-size: var(--fs-sm);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--accent);
+    }
+    .hero-card.is-loss .hero-label {
+      color: var(--danger);
+    }
+    .hero-main-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: var(--sp-16);
+      margin: 8px 0;
+      flex-wrap: wrap;
+    }
+    .hero-number {
+      font-size: var(--fs-hero);
+      font-weight: 800;
+      line-height: 1.1;
+      color: var(--text-main);
+      letter-spacing: -0.03em;
+    }
+    .hero-sub-text {
+      font-size: var(--fs-base);
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+    .hero-hint {
+      font-size: var(--fs-base);
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* Thanh trực quan phân rã giá (Visual Price Breakdown Bar) */
+    .breakdown-bar-wrap {
+      margin-top: var(--sp-16);
+      padding-top: var(--sp-16);
+      border-top: 1px solid var(--border-subtle);
+    }
+    .bar-label-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: var(--fs-sm);
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .visual-bar {
+      height: 16px;
+      width: 100%;
+      background: var(--bg-subtle);
+      border-radius: 999px;
+      overflow: hidden;
+      display: flex;
+      border: 1px solid var(--border-subtle);
+    }
+    .bar-cost {
+      background: #94a3b8; /* Vốn & chi phí */
+      height: 100%;
+      transition: width 200ms ease;
+    }
+    .bar-discount-safe {
+      background: var(--accent); /* Biên chiết khấu an toàn */
+      height: 100%;
+      transition: width 200ms ease;
+    }
+    .bar-profit-target {
+      background: var(--success); /* Lãi mục tiêu */
+      height: 100%;
+      transition: width 200ms ease;
+    }
+    .bar-legend {
+      display: flex;
+      gap: var(--sp-16);
+      font-size: 12px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+      color: var(--text-muted);
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+    }
+
+    /* ==========================================================================
+       3. KHỐI NHẬP LIỆU NHANH (1-2 BƯỚC LÀ XONG)
+       ========================================================================== */
+    .form-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: var(--sp-24);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: var(--sp-24);
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-16);
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-label {
+      font-size: var(--fs-sm);
+      font-weight: 600;
+      color: var(--text-main);
+    }
+    .input-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .form-input {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-sm);
+      font-size: var(--fs-base);
+      background: #fff;
+      transition: border-color 150ms ease;
+      min-height: 44px;
+    }
+    .form-input:focus {
+      border-color: var(--accent);
+    }
+    .input-suffix {
+      position: absolute;
+      right: 12px;
+      font-size: var(--fs-sm);
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+    .quick-samples-row {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-8);
+      margin-top: var(--sp-16);
+      flex-wrap: wrap;
+    }
+    .sample-pill {
+      font-size: 13px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      cursor: pointer;
+      min-height: 32px;
+      display: inline-flex;
+      align-items: center;
+    }
+    .sample-pill:hover {
+      background: var(--bg-hover);
+      color: var(--text-main);
+      border-color: var(--border-strong);
+    }
+
+    /* Khối Mô phỏng Thử Giảm Giá (Interactive Simulator Slider) */
+    .slider-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: var(--sp-24);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: var(--sp-24);
+    }
+    .slider-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--sp-8);
+    }
+    .slider-input {
+      width: 100%;
+      height: 8px;
+      accent-color: var(--accent);
+      cursor: pointer;
+      margin: 12px 0;
+    }
+    .sim-result-box {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: var(--sp-16);
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: var(--sp-8);
+      text-align: center;
+    }
+    .sim-col-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+    .sim-col-val {
+      font-size: 18px;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    /* Bảng Kịch bản Khuyến Mãi Nhanh (5%, 10%, 20%, 30%, 50%) */
+    .table-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: var(--sp-16);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: var(--sp-24);
+      overflow-x: auto;
+    }
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      text-align: left;
+    }
+    .data-table th {
+      padding: 10px 12px;
+      border-bottom: 2px solid var(--border-subtle);
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+    .data-table td {
+      padding: 12px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .data-table tr:last-child td {
+      border-bottom: none;
+    }
+    .text-right {
+      text-align: right;
+    }
+    .tag-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .tag-success {
+      background: var(--success-light);
+      color: var(--success);
+      border: 1px solid var(--success-border);
+    }
+    .tag-danger {
+      background: var(--danger-light);
+      color: var(--danger);
+      border: 1px solid var(--danger-border);
+    }
+    .tag-warn {
+      background: #fffbeb;
+      color: #b45309;
+      border: 1px solid #fde68a;
+    }
+
+    /* ==========================================================================
+       4. LƯU KỊCH BẢN & CHÂN TRANG
+       ========================================================================== */
+    .saved-list-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: var(--sp-16);
+      margin-bottom: var(--sp-24);
+    }
+    .saved-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    /* Các nút thao tác */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 150ms ease;
+      min-height: 44px;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+    .btn-primary:hover {
+      background: var(--accent-hover);
+    }
+    .btn-secondary {
+      background: var(--bg-surface);
+      color: var(--text-main);
+      border-color: var(--border-strong);
+    }
+    .btn-secondary:hover {
+      background: var(--bg-subtle);
+    }
+    .btn-subtle {
+      background: transparent;
+      color: var(--text-muted);
+    }
+    .btn-subtle:hover {
+      background: var(--bg-subtle);
+      color: var(--text-main);
+    }
+    .btn-danger-subtle {
+      background: transparent;
+      color: var(--danger);
+    }
+    .btn-danger-subtle:hover {
+      background: var(--danger-light);
+    }
+
+    /* Toast notification */
+    .toast-box {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--text-main);
+      color: #fff;
+      padding: 12px 18px;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-md);
+      font-size: 14px;
+      display: none;
+      align-items: center;
+      gap: 12px;
+      z-index: 9999;
+      animation: slideUp 200ms ease;
+    }
+
+    /* Chân trang chuẩn Ngôi nhà số (Mục 7.8) */
+    .tool-footer {
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: var(--sp-32);
+      padding-top: var(--sp-16);
+      border-top: 1px solid var(--border-subtle);
+    }
+    .tool-footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 600px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+      .hero-number {
+        font-size: 34px;
+      }
+      .sim-result-box {
+        grid-template-columns: 1fr;
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="toast" class="toast-box" role="status"></div>
+
+  <div class="app-wrap">
+
+    <!-- 1. THANH ĐIỀU HƯỚNG GÓC TRÊN BÊN TRÁI (MỤC 7.3) -->
+    <nav class="top-nav">
+      <a href="../ngoi-nha-so.html" class="back-link" title="Quay lại trang quản trị Ngôi nhà số">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span>Về Ngôi nhà số</span>
+      </a>
+      <button class="btn btn-subtle" id="btn-export-data" title="Xuất dữ liệu đã lưu ra file JSON" style="min-height:36px; padding:4px 10px; font-size:13px;">
+        Xuất file (.json)
+      </button>
+    </nav>
+
+    <!-- TIÊU ĐỀ CÔNG CỤ -->
+    <header class="tool-title-wrap">
+      <h1 class="tool-title">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+        <span>Tính Chiết Khấu Tối Đa</span>
+      </h1>
+      <p class="tool-desc">Biết chính xác được giảm tối đa bao nhiêu % để không bị lỗ.</p>
+    </header>
+
+    <!-- 2. KHỐI KẾT QUẢ QUAN TRỌNG NHẤT (HERO METRIC — LỚN NHẤT MÀN HÌNH) -->
+    <section class="hero-card" id="hero-card" aria-live="polite">
+      <div class="hero-label" id="hero-status-label">MỨC CHIẾT KHẤU TỐI ĐA CHO PHÉP</div>
+      
+      <div class="hero-main-row">
+        <div class="hero-number" id="hero-max-discount-percent">40.0%</div>
+        <div class="hero-sub-text" id="hero-floor-price">Giá sàn: 120.000đ</div>
+      </div>
+
+      <p class="hero-hint" id="hero-explanation">
+        Giảm tối đa <strong>80.000đ</strong> trên giá niêm yết <strong>200.000đ</strong> để đạt mức lãi kỳ vọng.
+      </p>
+
+      <!-- Thanh trực quan phân rã giá -->
+      <div class="breakdown-bar-wrap">
+        <div class="bar-label-row">
+          <span>Phân bổ cơ cấu giá niêm yết</span>
+          <span id="bar-summary-text">Vốn 50% • Chiết khấu tối đa 40% • Lãi 10%</span>
+        </div>
+        <div class="visual-bar" aria-hidden="true">
+          <div class="bar-cost" id="bar-cost-fill" style="width: 50%;" title="Giá vốn & Chi phí sàn"></div>
+          <div class="bar-discount-safe" id="bar-discount-fill" style="width: 40%;" title="Biên chiết khấu an toàn"></div>
+          <div class="bar-profit-target" id="bar-profit-fill" style="width: 10%;" title="Lãi tối thiểu mong muốn"></div>
+        </div>
+        <div class="bar-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#94a3b8;"></div> Vốn + Phí bán</div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--accent);"></div> Được giảm tối đa</div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--success);"></div> Lãi giữ lại</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. KHỐI NHẬP LIỆU CHÍNH (TỐC ĐỘ 1-2 THAO TÁC) -->
+    <section class="form-card" aria-label="Thông số sản phẩm">
+      <div class="form-grid">
+        
+        <div class="form-group">
+          <label class="form-label" for="inp-listed-price">1. Giá bán niêm yết gốc *</label>
+          <div class="input-wrap">
+            <input type="text" inputmode="numeric" class="form-input" id="inp-listed-price" value="200.000">
+            <span class="input-suffix">đ</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="inp-cogs">2. Giá vốn nhập hàng / sản xuất *</label>
+          <div class="input-wrap">
+            <input type="text" inputmode="numeric" class="form-input" id="inp-cogs" value="100.000">
+            <span class="input-suffix">đ</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="inp-fee-percent">3. Phí bán hàng / sàn TMĐT / ship bù</label>
+          <div class="input-wrap">
+            <input type="text" inputmode="numeric" class="form-input" id="inp-fee-percent" value="0">
+            <span class="input-suffix">%</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="inp-min-profit">4. Lãi tối thiểu muốn giữ lại</label>
+          <div class="input-wrap">
+            <input type="text" inputmode="numeric" class="form-input" id="inp-min-profit" value="20.000">
+            <span class="input-suffix">đ</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Ví dụ mẫu một chạm để thử nhanh -->
+      <div class="quick-samples-row">
+        <span style="font-size:13px; color:var(--text-muted);">Mẫu nhanh:</span>
+        <button type="button" class="sample-pill" onclick="applySample(200000, 100000, 0, 20000)">Thời trang bán lẻ (Vốn 100k, Giá 200k)</button>
+        <button type="button" class="sample-pill" onclick="applySample(500000, 320000, 10, 30000)">Bán Shopee/TikTok (Phí sàn 10%)</button>
+        <button type="button" class="sample-pill" onclick="applySample(1200000, 800000, 0, 0)">Xả kho hòa vốn (Lãi 0đ)</button>
+      </div>
+    </section>
+
+    <!-- 4. KHỐI MÔ PHỎNG THỬ GIẢM GIÁ (INTERACTIVE SLIDER) -->
+    <section class="slider-card" aria-label="Mô phỏng giảm giá">
+      <div class="slider-head">
+        <strong style="font-size:16px;">Kéo thử mức giảm muốn áp dụng:</strong>
+        <span id="slider-val-badge" class="tag-status tag-warn" style="font-size:14px;">Giảm 25% (-50.000đ)</span>
+      </div>
+
+      <input type="range" id="sim-slider" class="slider-input" min="0" max="80" step="1" value="25">
+
+      <div class="sim-result-box">
+        <div>
+          <div class="sim-col-label">Giá khách trả sau giảm</div>
+          <div class="sim-col-val" id="sim-final-price">150.000đ</div>
+        </div>
+        <div>
+          <div class="sim-col-label">Lợi nhuận thực thu về</div>
+          <div class="sim-col-val" id="sim-actual-profit" style="color:var(--success);">+50.000đ</div>
+        </div>
+        <div>
+          <div class="sim-col-label">Đánh giá kết quả</div>
+          <div class="sim-col-val" id="sim-eval-text" style="font-size:15px; display:flex; align-items:center; justify-content:center;">
+            <span class="tag-status tag-success">✓ Vượt mục tiêu</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. BẢNG MA TRẬN KỊCH BẢN GIẢM GIÁ (QUICK DISCOUNT MATRIX) -->
+    <section class="table-card" aria-label="Bảng các mốc giảm giá phổ biến">
+      <div style="font-weight:600; margin-bottom:8px; font-size:15px;">Bảng so sánh nhanh các mốc khuyến mãi:</div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Mức giảm</th>
+            <th class="text-right">Giá sau giảm</th>
+            <th class="text-right">Lãi thực nhận</th>
+            <th class="text-right">Biên lãi</th>
+            <th>Trạng thái</th>
+          </tr>
+        </thead>
+        <tbody id="matrix-tbody">
+          <!-- Render tự động -->
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 6. LƯU LẠI KỊCH BẢN SẢN PHẨM -->
+    <section class="saved-list-card" aria-label="Danh sách sản phẩm đã lưu">
+      <div class="saved-header">
+        <strong style="font-size:15px;">Sản phẩm đã lưu gần đây</strong>
+        <button class="btn btn-secondary" id="btn-save-current" style="min-height:36px; padding:4px 12px; font-size:13px;">
+          + Lưu sản phẩm này
+        </button>
+      </div>
+      <div id="saved-items-list" style="display:flex; flex-direction:column; gap:8px;">
+        <!-- Danh sách kịch bản đã lưu -->
+      </div>
+    </section>
+
+    <!-- 7. CHÂN TRANG THEO QUY TẮC NGÔI NHÀ SỐ (MỤC 7.8) -->
+    <footer class="tool-footer">
+      Thuộc hệ <a href="../ngoi-nha-so.html">Ngôi nhà số</a> • Quy tắc Bản 1 (<a href="https://hocvienai.com/tl/quy-tac-ngoi-nha-so" target="_blank" rel="noopener">hocvienai.com/tl/quy-tac-ngoi-nha-so</a>)
+    </footer>
+
+  </div>
+
+  <!-- JAVASCRIPT ĐỘC LẬP HOÀN TOÀN -->
+  <script>
+  (function() {
+    'use strict';
+
+    const STORAGE_KEY = 'nns_tool_chiet_khau_data';
+
+    // State
+    let ToolData = {
+      savedProducts: []
+    };
+
+    function init() {
+      loadStorage();
+      bindEvents();
+      recalculate();
+      renderSavedList();
+    }
+
+    function loadStorage() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (parsed && Array.isArray(parsed.savedProducts)) {
+            ToolData = parsed;
+          }
+        }
+      } catch(e) {
+        console.error('Không thể đọc dữ liệu:', e);
+      }
+    }
+
+    function saveStorage() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(ToolData));
+      } catch(e) {
+        showToast('Lỗi khi lưu bộ nhớ trình duyệt!');
+      }
+    }
+
+    function parseMoney(val) {
+      if (typeof val === 'number') return val;
+      if (!val) return 0;
+      const clean = String(val).replace(/\./g, '').replace(/,/g, '').replace(/[^\d]/g, '');
+      return parseInt(clean, 10) || 0;
+    }
+
+    function formatMoney(num) {
+      if (isNaN(num)) return '0đ';
+      return Math.round(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + 'đ';
+    }
+
+    function bindEvents() {
+      const inputs = ['inp-listed-price', 'inp-cogs', 'inp-fee-percent', 'inp-min-profit'];
+      inputs.forEach(id => {
+        const el = document.getElementById(id);
+        el.addEventListener('input', (e) => {
+          if (id === 'inp-listed-price' || id === 'inp-cogs' || id === 'inp-min-profit') {
+            const num = parseMoney(e.target.value);
+            e.target.value = num > 0 ? num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') : '';
+          }
+          recalculate();
+        });
+      });
+
+      const slider = document.getElementById('sim-slider');
+      slider.addEventListener('input', () => {
+        updateSimulation();
+      });
+
+      document.getElementById('btn-save-current').addEventListener('click', () => {
+        const listed = parseMoney(document.getElementById('inp-listed-price').value);
+        const cogs = parseMoney(document.getElementById('inp-cogs').value);
+        const fee = parseFloat(document.getElementById('inp-fee-percent').value) || 0;
+        const minProfit = parseMoney(document.getElementById('inp-min-profit').value);
+
+        if (listed <= 0 || cogs <= 0) {
+          showToast('Vui lòng nhập giá niêm yết và giá vốn hợp lệ');
+          return;
+        }
+
+        const name = prompt('Nhập tên sản phẩm để lưu lại:', 'Sản phẩm ' + (ToolData.savedProducts.length + 1));
+        if (name && name.trim()) {
+          ToolData.savedProducts.unshift({
+            id: 'sp_' + Date.now(),
+            name: name.trim(),
+            listed,
+            cogs,
+            fee,
+            minProfit,
+            savedAt: Date.now()
+          });
+          saveStorage();
+          renderSavedList();
+          showToast('Đã lưu kịch bản sản phẩm');
+        }
+      });
+
+      document.getElementById('btn-export-data').addEventListener('click', () => {
+        const str = JSON.stringify(ToolData, null, 2);
+        const blob = new Blob([str], { type: 'application/json' });
+        const a = document.createElement('a');
+        const d = new Date();
+        const ymd = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+        a.href = URL.createObjectURL(blob);
+        a.download = `chiet-khau-ngoi-nha-so-${ymd}.json`;
+        a.click();
+        showToast('Đã xuất file dữ liệu');
+      });
+    }
+
+    function recalculate() {
+      const listed = parseMoney(document.getElementById('inp-listed-price').value);
+      const cogs = parseMoney(document.getElementById('inp-cogs').value);
+      const feePct = (parseFloat(document.getElementById('inp-fee-percent').value) || 0) / 100;
+      const minProfit = parseMoney(document.getElementById('inp-min-profit').value);
+
+      const heroCard = document.getElementById('hero-card');
+      const maxPercentEl = document.getElementById('hero-max-discount-percent');
+      const floorPriceEl = document.getElementById('hero-floor-price');
+      const explEl = document.getElementById('hero-explanation');
+      const statusLabelEl = document.getElementById('hero-status-label');
+
+      if (listed <= 0 || cogs <= 0) {
+        maxPercentEl.textContent = '--%';
+        floorPriceEl.textContent = 'Giá sàn: --đ';
+        explEl.textContent = 'Vui lòng nhập giá niêm yết và giá vốn lớn hơn 0.';
+        return;
+      }
+
+      // Công thức:
+      // Giá bán sau chiết khấu = P_sale
+      // Doanh thu nhận về = P_sale * (1 - feePct)
+      // Lợi nhuận = P_sale * (1 - feePct) - cogs >= minProfit
+      // => P_sale * (1 - feePct) >= cogs + minProfit
+      // => P_sale_min = (cogs + minProfit) / (1 - feePct)
+      
+      let pFloor = 0;
+      if (feePct >= 1) {
+        pFloor = Infinity;
+      } else {
+        pFloor = (cogs + minProfit) / (1 - feePct);
+      }
+
+      const maxDiscountAmount = listed - pFloor;
+      const maxDiscountPercent = (maxDiscountAmount / listed) * 100;
+
+      // Cập nhật Hero Card
+      if (maxDiscountAmount < 0) {
+        // Giá niêm yết vốn dĩ đã không đủ bù chi phí + lợi nhuận mục tiêu
+        heroCard.className = 'hero-card is-loss';
+        statusLabelEl.textContent = 'CẢNH BÁO: KHÔNG THỂ GIẢM GIÁ (ĐANG LỖ)';
+        maxPercentEl.textContent = '0%';
+        floorPriceEl.textContent = `Cần bán tối thiểu: ${formatMoney(pFloor)}`;
+        explEl.innerHTML = `Giá niêm yết (${formatMoney(listed)}) hiện thấp hơn chi phí vốn và lãi mong muốn (${formatMoney(pFloor)}).`;
+      } else {
+        heroCard.className = 'hero-card';
+        statusLabelEl.textContent = 'MỨC CHIẾT KHẤU TỐI ĐA CHO PHÉP';
+        maxPercentEl.textContent = `${maxDiscountPercent.toFixed(1)}%`;
+        floorPriceEl.textContent = `Giá sàn: ${formatMoney(pFloor)}`;
+        explEl.innerHTML = `Được giảm tối đa <strong>${formatMoney(maxDiscountAmount)}</strong> để giữ mức lãi tối thiểu <strong>${formatMoney(minProfit)}</strong>.`;
+      }
+
+      // Cập nhật thanh trực quan
+      updateBreakdownBar(listed, cogs, feePct, minProfit, maxDiscountAmount);
+
+      // Cập nhật Simulator Slider
+      const slider = document.getElementById('sim-slider');
+      slider.max = Math.min(90, Math.max(50, Math.ceil(maxDiscountPercent + 15)));
+      updateSimulation();
+
+      // Cập nhật bảng ma trận
+      renderMatrix(listed, cogs, feePct, minProfit, pFloor);
+    }
+
+    function updateBreakdownBar(listed, cogs, feePct, minProfit, maxDiscountAmount) {
+      if (listed <= 0) return;
+      const costAmount = cogs + (listed * feePct);
+      const costPct = Math.min(100, Math.max(0, (costAmount / listed) * 100));
+      const profitPct = Math.min(100, Math.max(0, (minProfit / listed) * 100));
+      const discountPct = Math.min(100, Math.max(0, (Math.max(0, maxDiscountAmount) / listed) * 100));
+
+      document.getElementById('bar-cost-fill').style.width = costPct + '%';
+      document.getElementById('bar-discount-fill').style.width = discountPct + '%';
+      document.getElementById('bar-profit-fill').style.width = profitPct + '%';
+
+      document.getElementById('bar-summary-text').textContent = 
+        `Vốn+Phí: ${costPct.toFixed(0)}% • Giảm an toàn: ${discountPct.toFixed(0)}% • Lãi: ${profitPct.toFixed(0)}%`;
+    }
+
+    function updateSimulation() {
+      const listed = parseMoney(document.getElementById('inp-listed-price').value);
+      const cogs = parseMoney(document.getElementById('inp-cogs').value);
+      const feePct = (parseFloat(document.getElementById('inp-fee-percent').value) || 0) / 100;
+      const minProfit = parseMoney(document.getElementById('inp-min-profit').value);
+      const discountChoice = parseInt(document.getElementById('sim-slider').value, 10);
+
+      const discountVal = listed * (discountChoice / 100);
+      const salePrice = listed - discountVal;
+      const revenue = salePrice * (1 - feePct);
+      const profit = revenue - cogs;
+
+      document.getElementById('slider-val-badge').textContent = `Giảm ${discountChoice}% (-${formatMoney(discountVal)})`;
+      document.getElementById('sim-final-price').textContent = formatMoney(salePrice);
+      
+      const profitEl = document.getElementById('sim-actual-profit');
+      const evalEl = document.getElementById('sim-eval-text');
+
+      profitEl.textContent = (profit >= 0 ? '+' : '') + formatMoney(profit);
+
+      if (profit < 0) {
+        profitEl.style.color = 'var(--danger)';
+        evalEl.innerHTML = '<span class="tag-status tag-danger">✕ BỊ LỖ VỐN</span>';
+      } else if (profit < minProfit) {
+        profitEl.style.color = '#b45309';
+        evalEl.innerHTML = '<span class="tag-status tag-warn">▲ Dưới lãi kỳ vọng</span>';
+      } else {
+        profitEl.style.color = 'var(--success)';
+        evalEl.innerHTML = '<span class="tag-status tag-success">✓ Vượt mục tiêu</span>';
+      }
+    }
+
+    function renderMatrix(listed, cogs, feePct, minProfit, pFloor) {
+      const steps = [5, 10, 15, 20, 25, 30, 40, 50];
+      const tbody = document.getElementById('matrix-tbody');
+      
+      tbody.innerHTML = steps.map(pct => {
+        const salePrice = listed * (1 - pct / 100);
+        const revenue = salePrice * (1 - feePct);
+        const profit = revenue - cogs;
+        const marginPct = salePrice > 0 ? (profit / salePrice) * 100 : 0;
+
+        let tagHtml = '';
+        if (profit < 0) {
+          tagHtml = '<span class="tag-status tag-danger">Lỗ</span>';
+        } else if (salePrice < pFloor) {
+          tagHtml = '<span class="tag-status tag-warn">Dưới kỳ vọng</span>';
+        } else {
+          tagHtml = '<span class="tag-status tag-success">An toàn</span>';
+        }
+
+        return `
+          <tr>
+            <td><strong>Giảm ${pct}%</strong></td>
+            <td class="text-right">${formatMoney(salePrice)}</td>
+            <td class="text-right" style="font-weight:600; color:${profit < 0 ? 'var(--danger)' : (profit < minProfit ? '#b45309' : 'var(--success)')};">
+              ${(profit >= 0 ? '+' : '') + formatMoney(profit)}
+            </td>
+            <td class="text-right">${marginPct.toFixed(1)}%</td>
+            <td>${tagHtml}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function renderSavedList() {
+      const container = document.getElementById('saved-items-list');
+      if (ToolData.savedProducts.length === 0) {
+        container.innerHTML = '<div style="font-size:13px; color:var(--text-muted); padding:8px 0;">Chưa có sản phẩm nào được lưu. Bấm "+ Lưu sản phẩm này" ở trên để ghi nhớ.</div>';
+        return;
+      }
+
+      container.innerHTML = ToolData.savedProducts.map((p, idx) => `
+        <div style="display:flex; justify-content:space-between; align-items:center; background:var(--bg-subtle); padding:8px 12px; border-radius:var(--radius-sm); font-size:14px;">
+          <div>
+            <strong>${escapeHtml(p.name)}</strong>
+            <span style="color:var(--text-muted); font-size:12px; margin-left:6px;">(Niêm yết: ${formatMoney(p.listed)} • Vốn: ${formatMoney(p.cogs)})</span>
+          </div>
+          <div style="display:flex; gap:6px;">
+            <button class="btn btn-secondary" style="min-height:30px; padding:2px 8px; font-size:12px;" onclick="loadSavedProduct(${idx})">Nạp</button>
+            <button class="btn btn-danger-subtle" style="min-height:30px; padding:2px 6px; font-size:12px;" onclick="deleteSavedProduct(${idx})">Xóa</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    window.applySample = function(listed, cogs, fee, minProfit) {
+      document.getElementById('inp-listed-price').value = formatMoney(listed).replace('đ', '');
+      document.getElementById('inp-cogs').value = formatMoney(cogs).replace('đ', '');
+      document.getElementById('inp-fee-percent').value = fee;
+      document.getElementById('inp-min-profit').value = formatMoney(minProfit).replace('đ', '');
+      recalculate();
+      showToast('Đã nạp mẫu thông số');
+    };
+
+    window.loadSavedProduct = function(idx) {
+      const p = ToolData.savedProducts[idx];
+      if (p) {
+        applySample(p.listed, p.cogs, p.fee, p.minProfit);
+      }
+    };
+
+    window.deleteSavedProduct = function(idx) {
+      ToolData.savedProducts.splice(idx, 1);
+      saveStorage();
+      renderSavedList();
+      showToast('Đã xóa sản phẩm');
+    };
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.style.display = 'flex';
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 2500);
+    }
+
+    function escapeHtml(str) {
+      return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    window.addEventListener('DOMContentLoaded', init);
+  })();
+  </script>
+
+<script>
+// Enterprise App Integration
+(function() {
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.back-link, a[href*="ngoi-nha-so"]').forEach(function(el) {
+      el.addEventListener('click', function(e) {
+        if (window.parent && window.parent !== window) {
+          e.preventDefault();
+          window.parent.postMessage('CLOSE_TOOL_MODAL', '*');
+        }
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

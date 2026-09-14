@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đồng Hồ Tập Trung — Ngôi Nhà Số</title>
+  <style>
+    :root {
+      --bg-page: #f9f8f6;
+      --bg-surface: #ffffff;
+      --bg-subtle: #f3f1ec;
+      --border-subtle: #e5e1d8;
+      --border-strong: #cac4b7;
+      --text-main: #242220;
+      --text-muted: #68645e;
+      --accent: #2d5a88;
+      --accent-hover: #224569;
+      --success: #15803d;
+      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --fs-base: 16px;
+      --fs-hero: 64px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg-page); color: var(--text-main); font-family: var(--font-family);
+      font-size: var(--fs-base); line-height: 1.6; padding-bottom: 40px; font-variant-numeric: tabular-nums;
+    }
+    .app-wrap { max-width: 680px; margin: 0 auto; padding: 24px 16px; text-align: center; }
+    .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; text-align: left; }
+    .back-link {
+      display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); text-decoration: none;
+      font-size: 13px; font-weight: 500; padding: 6px 12px; border-radius: 6px; background: var(--bg-surface);
+      border: 1px solid var(--border-subtle); min-height: 40px;
+    }
+    .hero-timer-card {
+      background: var(--bg-surface); border: 2px solid var(--accent); border-radius: 16px;
+      padding: 36px 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 24px;
+    }
+    .hero-mode { font-size: 14px; font-weight: 700; text-transform: uppercase; color: var(--accent); letter-spacing: 0.05em; }
+    .hero-time { font-size: var(--fs-hero); font-weight: 800; line-height: 1.1; margin: 16px 0; color: var(--text-main); }
+    .hero-stats { font-size: 15px; color: var(--text-muted); font-weight: 500; }
+    .btn-row { display: flex; justify-content: center; gap: 12px; margin-top: 24px; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; padding: 12px 24px;
+      border-radius: 8px; font-weight: 600; cursor: pointer; border: 1px solid transparent; min-height: 48px; font-size: 16px;
+    }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: var(--accent-hover); }
+    .btn-secondary { background: var(--bg-surface); border-color: var(--border-strong); color: var(--text-main); }
+    .presets-row { display: flex; justify-content: center; gap: 8px; margin-top: 16px; }
+    .preset-btn {
+      padding: 6px 14px; border-radius: 999px; background: var(--bg-subtle); border: 1px solid var(--border-subtle);
+      font-size: 13px; font-weight: 600; cursor: pointer; color: var(--text-muted); min-height: 36px;
+    }
+    .preset-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .tool-footer { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border-subtle); }
+    .tool-footer a { color: var(--accent); text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="app-wrap">
+    <nav class="top-nav">
+      <a href="../ngoi-nha-so.html" class="back-link">← Về Ngôi nhà số</a>
+      <span style="font-size:13px; color:var(--text-muted);">C07 • Đồng hồ tập trung</span>
+    </nav>
+
+    <div class="hero-timer-card">
+      <div class="hero-mode" id="timer-mode">HIỆP TẬP TRUNG (25 PHÚT)</div>
+      <div class="hero-time" id="timer-display">25:00</div>
+      <div class="hero-stats" id="session-counter">Hôm nay đã hoàn thành: 0 hiệp (~0 phút)</div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" id="btn-start">Bắt đầu</button>
+        <button class="btn btn-secondary" id="btn-reset">Đặt lại</button>
+      </div>
+
+      <div class="presets-row">
+        <button class="preset-btn active" onclick="setMode('work', 25)">25p Học/Làm</button>
+        <button class="preset-btn" onclick="setMode('shortBreak', 5)">5p Nghỉ ngắn</button>
+        <button class="preset-btn" onclick="setMode('longBreak', 15)">15p Nghỉ dài</button>
+      </div>
+    </div>
+
+    <footer class="tool-footer">
+      Thuộc hệ <a href="../ngoi-nha-so.html">Ngôi nhà số</a> • Quy tắc Bản 1 (<a href="https://hocvienai.com/tl/quy-tac-ngoi-nha-so" target="_blank" rel="noopener">hocvienai.com/tl/quy-tac-ngoi-nha-so</a>)
+    </footer>
+  </div>
+
+  <script>
+  (function() {
+    const STORAGE_KEY = 'nns_tool_dong_ho_tap_trung_data';
+    let data = { completedToday: 0, lastDate: new Date().toDateString() };
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const p = JSON.parse(raw);
+        if (p.lastDate === new Date().toDateString()) data = p;
+      }
+    } catch(e){}
+
+    let currentMode = 'work';
+    let totalSeconds = 25 * 60;
+    let remainingSeconds = totalSeconds;
+    let timerInterval = null;
+    let isRunning = false;
+
+    function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }
+    function updateCounter() {
+      document.getElementById('session-counter').textContent = `Hôm nay đã hoàn thành: ${data.completedToday} hiệp (~${data.completedToday * 25} phút)`;
+    }
+
+    function formatTime(secs) {
+      const m = Math.floor(secs / 60);
+      const s = secs % 60;
+      return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    }
+
+    function updateDisplay() {
+      document.getElementById('timer-display').textContent = formatTime(remainingSeconds);
+      document.title = `${formatTime(remainingSeconds)} - Đồng Hồ Tập Trung`;
+    }
+
+    window.setMode = function(mode, mins) {
+      clearInterval(timerInterval);
+      isRunning = false;
+      document.getElementById('btn-start').textContent = 'Bắt đầu';
+      currentMode = mode;
+      totalSeconds = mins * 60;
+      remainingSeconds = totalSeconds;
+      document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+
+      if (mode === 'work') document.getElementById('timer-mode').textContent = `HIỆP TẬP TRUNG (${mins} PHÚT)`;
+      else if (mode === 'shortBreak') document.getElementById('timer-mode').textContent = `NGHỈ NGẮN (${mins} PHÚT)`;
+      else document.getElementById('timer-mode').textContent = `NGHỈ DÀI (${mins} PHÚT)`;
+
+      updateDisplay();
+    };
+
+    document.getElementById('btn-start').addEventListener('click', () => {
+      if (isRunning) {
+        clearInterval(timerInterval);
+        isRunning = false;
+        document.getElementById('btn-start').textContent = 'Tiếp tục';
+      } else {
+        isRunning = true;
+        document.getElementById('btn-start').textContent = 'Tạm dừng';
+        timerInterval = setInterval(() => {
+          if (remainingSeconds > 0) {
+            remainingSeconds--;
+            updateDisplay();
+          } else {
+            clearInterval(timerInterval);
+            isRunning = false;
+            document.getElementById('btn-start').textContent = 'Bắt đầu';
+            if (currentMode === 'work') {
+              data.completedToday++;
+              save();
+              updateCounter();
+              alert('Xuất sắc! Đã hoàn thành một hiệp tập trung.');
+            } else {
+              alert('Hết giờ nghỉ! Sẵn sàng vào hiệp tiếp theo.');
+            }
+          }
+        }, 1000);
+      }
+    });
+
+    document.getElementById('btn-reset').addEventListener('click', () => {
+      clearInterval(timerInterval);
+      isRunning = false;
+      document.getElementById('btn-start').textContent = 'Bắt đầu';
+      remainingSeconds = totalSeconds;
+      updateDisplay();
+    });
+
+    updateCounter();
+    updateDisplay();
+  })();
+  </script>
+
+<script>
+// Enterprise App Integration
+(function() {
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.back-link, a[href*="ngoi-nha-so"]').forEach(function(el) {
+      el.addEventListener('click', function(e) {
+        if (window.parent && window.parent !== window) {
+          e.preventDefault();
+          window.parent.postMessage('CLOSE_TOOL_MODAL', '*');
+        }
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chuyên viên Bán hàng & Chốt sale AI — Ngôi Nhà Số</title>
+  <style>
+    :root {
+      --bg-page: #f9f8f6;
+      --bg-surface: #ffffff;
+      --border-subtle: #e5e1d8;
+      --border-strong: #cac4b7;
+      --text-main: #242220;
+      --text-muted: #68645e;
+      --accent: #2d5a88;
+      --accent-hover: #224569;
+      --accent-light: #eaf1f7;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg-page); color: var(--text-main); font-family: var(--font-body); padding: 24px 16px; line-height: 1.6; }
+    .container { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+    .back-nav { display: inline-flex; align-items: center; gap: 8px; color: var(--accent); text-decoration: none; font-weight: 500; font-size: 14px; }
+    .card { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+    .header-title { font-size: 24px; font-weight: 700; margin-bottom: 6px; }
+    .header-sub { font-size: 14px; color: var(--text-muted); }
+    .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+    .form-label { font-size: 14px; font-weight: 600; }
+    .form-input, .form-select, .form-textarea { padding: 10px 14px; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); font-size: 15px; width: 100%; font-family: inherit; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 20px; border-radius: var(--radius-sm); font-size: 15px; font-weight: 600; cursor: pointer; border: none; background: var(--accent); color: #fff; transition: background 150ms; }
+    .btn:hover { background: var(--accent-hover); }
+    .btn-copy { background: var(--accent-light); color: var(--accent); border: 1px solid var(--accent); }
+    .btn-copy:hover { background: var(--accent); color: #fff; }
+    .result-box { background: #faf9f6; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 18px; white-space: pre-wrap; font-size: 14px; line-height: 1.7; min-height: 160px; }
+    .badge-role { display: inline-block; padding: 4px 10px; background: #fef3c7; color: #92400e; border-radius: 4px; font-weight: 600; font-size: 12px; margin-bottom: 12px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="../ngoi-nha-so.html" class="back-nav">← Trở về Ngôi Nhà Số</a>
+    <div class="card">
+      <span class="badge-role">👥 NHÂN SỰ AI #02 • TƯ VẤN & BÁN HÀNG</span>
+      <h1 class="header-title">💼 Chuyên viên Bán hàng & Chốt sale AI</h1>
+      <p class="header-sub">Tạo kịch bản tư vấn, giải quyết từ chối của khách hàng (chê đắt, đắn đo) và chốt đơn lịch thiệp.</p>
+      <hr style="margin: 16px 0; border: none; border-top: 1px solid var(--border-subtle);">
+      <div class="form-group">
+        <label class="form-label">Tình huống bán hàng</label>
+        <select class="form-select" id="scenario">
+          <option value="chot_don">Kịch bản tư vấn & chốt đơn theo 4 bước chuyên nghiệp</option>
+          <option value="tu_choi_gia">Xử lý từ chối: Khách chê đắt / so sánh giá đối thủ</option>
+          <option value="tu_choi_suy_nghi">Xử lý từ chối: "Để tôi suy nghĩ thêm / hỏi ý kiến người thân"</option>
+          <option value="cham_soc_lai">Nhắn tin hâm nóng lại khách hàng đã từng im lặng / không trả lời</option>
+          <option value="upsell">Kịch bản Up-sell / Cross-sell thêm gói dịch vụ phụ</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Sản phẩm / Dịch vụ & Mức giá</label>
+        <input type="text" class="form-input" id="product-info" placeholder="Ví dụ: Lò nung điện công nghiệp giá 45 triệu, Khóa đào tạo AI 5 triệu...">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Ưu điểm nổi bật nhất (USP)</label>
+        <input type="text" class="form-input" id="usp" placeholder="Ví dụ: Tiết kiệm điện 30%, bảo hành 2 năm tận nơi, kèm 1-1 hỗ trợ...">
+      </div>
+      <button class="btn" style="width: 100%;" onclick="generatePrompt()">⚡ Tạo Lời Thoại & Kịch Bản Bán Hàng</button>
+    </div>
+    <div class="card">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <h2 style="font-size: 16px; font-weight: 700;">Kịch Bản Chi Tiết (Dán vào AI):</h2>
+        <button class="btn btn-copy" id="btn-copy" onclick="copyResult()">📋 Sao chép Lệnh</button>
+      </div>
+      <div class="result-box" id="result-output">Nhập thông tin bên trên rồi nhấn nút để nhận kịch bản chốt đơn chuyên nghiệp.</div>
+    </div>
+  </div>
+  <script>
+    function generatePrompt() {
+      const scenario = document.getElementById('scenario').value;
+      const product = document.getElementById('product-info').value.trim() || 'Sản phẩm/dịch vụ của tôi';
+      const usp = document.getElementById('usp').value.trim() || 'Chất lượng vượt trội, hỗ trợ chu đáo';
+
+      let prompt = `Bạn là một Chuyên gia Bán hàng & Huấn luyện viên Telesales/Chat Sales đỉnh cao (Master Sales Closer).\nHãy giúp tôi viết kịch bản giao tiếp trực tiếp với khách hàng theo thông tin sau:\n\n📦 SẢN PHẨM/DỊCH VỤ: ${product}\n💎 ƯU ĐIỂM VƯỢT TRỘI: ${usp}\n\n`;
+
+      if (scenario === 'chot_don') {
+        prompt += `🎯 NHIỆM VỤ: Soạn kịch bản nhắn tin/tư vấn 4 bước:\n1. Chào hỏi & Thấu hiểu nhu cầu thực sự của khách.\n2. Trình bày giải pháp gắn liền với lợi ích thiết thực.\n3. Đưa ra 2 lựa chọn chốt hạ (Phương pháp Alternative Close).\n4. Cam kết bảo đảm rủi ro (Risk-reversal guarantee).`;
+      } else if (scenario === 'tu_choi_gia') {
+        prompt += `🎯 NHIỆM VỤ: Soạn 3 mẫu câu xử lý khi khách chê "Giá đắt quá / Bên khác bán rẻ hơn":\n- Mẫu 1: Đồng cảm + Tách nhỏ chi phí theo ngày/tháng (Chỉ bằng 1 ly cà phê/ngày).\n- Mẫu 2: Phân tích giá trị ẩn & chi phí rủi ro nếu mua đồ rẻ kém chất lượng.\n- Mẫu 3: Lời đề nghị combo/quà tặng gia tăng giá trị thay vì giảm giá.`;
+      } else if (scenario === 'tu_choi_suy_nghi') {
+        prompt += `🎯 NHIỆM VỤ: Soạn kịch bản phản hồi khi khách nói "Để mình suy nghĩ thêm / hỏi ý kiến người nhà":\n- Lịch thiệp, tôn trọng nhưng khéo léo tìm ra lý do thực sự đang cản trở khách.\n- Cung cấp thêm 1 lý do cấp bách nhẹ nhàng (ưu đãi có hạn hoặc suất hỗ trợ tốt nhất).`;
+      } else if (scenario === 'cham_soc_lai') {
+        prompt += `🎯 NHIỆM VỤ: Soạn 3 tin nhắn "Re-engage" khách cũ đã im lặng 1-2 tuần:\n- Mẫu 1: Gửi tặng tài liệu/giải pháp giá trị miễn phí.\n- Mẫu 2: Thăm dò tình trạng hiện tại nhẹ nhàng, không gây áp lực mua hàng.\n- Mẫu 3: Thông báo suất đặc quyền mới dành riêng cho khách.`;
+      } else {
+        prompt += `🎯 NHIỆM VỤ: Kịch bản Up-sell / Cross-sell ngay khi khách vừa đồng ý mua gói chính mà không gây cảm giác bị chèo kéo.`;
+      }
+
+      prompt += `\n\nYêu cầu câu từ: Tự nhiên, tâm lý, lịch thiệp, thuyết phục và tôn trọng khách hàng tuyệt đối!`;
+      document.getElementById('result-output').textContent = prompt;
+    }
+    function copyResult() {
+      const text = document.getElementById('result-output').textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = document.getElementById('btn-copy');
+        btn.textContent = '✅ Đã sao chép!';
+        setTimeout(() => btn.textContent = '📋 Sao chép Lệnh', 2000);
+      });
+    }
+  </script>
+
+<script>
+// Enterprise App Integration
+(function() {
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.back-link, a[href*="ngoi-nha-so"]').forEach(function(el) {
+      el.addEventListener('click', function(e) {
+        if (window.parent && window.parent !== window) {
+          e.preventDefault();
+          window.parent.postMessage('CLOSE_TOOL_MODAL', '*');
+        }
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

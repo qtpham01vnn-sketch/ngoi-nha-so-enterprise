@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Biên Bản Họp Ra Việc — Ngôi Nhà Số</title>
+  <style>
+    :root {
+      --bg-page: #f9f8f6; --bg-surface: #ffffff; --bg-subtle: #f3f1ec; --border-subtle: #e5e1d8;
+      --text-main: #242220; --text-muted: #68645e; --accent: #2d5a88;
+      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg-page); color: var(--text-main); font-family: var(--font-family); padding-bottom: 40px; }
+    .app-wrap { max-width: 760px; margin: 0 auto; padding: 24px 16px; }
+    .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); text-decoration: none; font-size: 13px; font-weight: 500; padding: 6px 12px; border-radius: 6px; background: var(--bg-surface); border: 1px solid var(--border-subtle); min-height: 40px; }
+    .form-card { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 20px; margin-bottom: 24px; }
+    .task-item { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 14px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+    .btn { padding: 10px 18px; border-radius: 6px; font-weight: 600; cursor: pointer; border: 1px solid transparent; min-height: 44px; }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .tool-footer { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border-subtle); }
+  </style>
+</head>
+<body>
+  <div class="app-wrap">
+    <nav class="top-nav">
+      <a href="../ngoi-nha-so.html" class="back-link">← Về Ngôi nhà số</a>
+      <span style="font-size:13px; color:var(--text-muted);">C56 • Việc sau cuộc họp</span>
+    </nav>
+    <div style="font-size:22px; font-weight:700; margin-bottom:16px;">Tách việc cần làm từ biên bản cuộc họp</div>
+    <div class="form-card">
+      <textarea id="inp-notes" rows="4" style="width:100%; padding:12px; border:1px solid var(--border-subtle); border-radius:6px; font-size:14px;" placeholder="Dán nội dung thảo luận cuộc họp vào đây (hoặc nhập: Việc - Người làm - Hạn)..."></textarea>
+      <button class="btn btn-primary" id="btn-parse" style="margin-top:10px;">+ Trích xuất danh sách việc</button>
+    </div>
+    <div style="font-weight:600; margin-bottom:12px;">Đầu việc cần theo dõi (Việc không có người nhận sẽ để trống):</div>
+    <div id="tasks-list"></div>
+    <footer class="tool-footer">Thuộc hệ <a href="../ngoi-nha-so.html">Ngôi nhà số</a> • Quy tắc Bản 1</footer>
+  </div>
+  <script>
+  (function() {
+    let tasks = [
+      { what: 'Kiểm tra linh kiện lò nung số 2', who: 'Tuấn', due: 'Thứ Năm' },
+      { what: 'Gửi bản hợp đồng nguyên tắc cho khách', who: 'Linh', due: 'Thứ Sáu' },
+      { what: 'Đặt mua vật tư đóng gói dự phòng', who: '(Chưa ai nhận)', due: 'Tuần sau' }
+    ];
+    function render() {
+      document.getElementById('tasks-list').innerHTML = tasks.map((t, idx) => `
+        <div class="task-item">
+          <div>
+            <strong>${t.what}</strong>
+            <div style="font-size:12px; color:var(--text-muted); margin-top:2px;">Người phụ trách: <strong>${t.who}</strong> • Hạn: ${t.due}</div>
+          </div>
+          <button style="background:none; border:none; color:var(--text-muted); cursor:pointer;" onclick="delTask(${idx})">✕</button>
+        </div>
+      `).join('');
+    }
+    window.delTask = function(idx) { tasks.splice(idx, 1); render(); };
+    document.getElementById('btn-parse').addEventListener('click', () => {
+      const txt = document.getElementById('inp-notes').value.trim();
+      if (!txt) return;
+      txt.split('\n').forEach(line => {
+        const clean = line.trim();
+        if (clean) tasks.push({ what: clean, who: '(Chưa ai nhận)', due: 'Sớm nhất' });
+      });
+      document.getElementById('inp-notes').value = '';
+      render();
+    });
+    render();
+  })();
+  </script>
+
+<script>
+// Enterprise App Integration
+(function() {
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.back-link, a[href*="ngoi-nha-so"]').forEach(function(el) {
+      el.addEventListener('click', function(e) {
+        if (window.parent && window.parent !== window) {
+          e.preventDefault();
+          window.parent.postMessage('CLOSE_TOOL_MODAL', '*');
+        }
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

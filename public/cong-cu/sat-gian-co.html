@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Giãn Cơ Tại Bàn — Ngôi Nhà Số</title>
+  <style>
+    :root {
+      --bg-page: #f9f8f6; --bg-surface: #ffffff; --bg-subtle: #f3f1ec; --border-subtle: #e5e1d8;
+      --text-main: #242220; --text-muted: #68645e; --accent: #2d5a88;
+      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg-page); color: var(--text-main); font-family: var(--font-family); padding-bottom: 40px; text-align: center; }
+    .app-wrap { max-width: 640px; margin: 0 auto; padding: 24px 16px; }
+    .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; text-align: left; }
+    .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); text-decoration: none; font-size: 13px; font-weight: 500; padding: 6px 12px; border-radius: 6px; background: var(--bg-surface); border: 1px solid var(--border-subtle); min-height: 40px; }
+    .hero-card { background: var(--bg-surface); border: 2px solid var(--accent); border-radius: 14px; padding: 32px 20px; margin-bottom: 24px; }
+    .hero-title { font-size: 26px; font-weight: 800; color: var(--accent); margin: 12px 0 8px; }
+    .hero-desc { font-size: 16px; color: var(--text-main); line-height: 1.6; max-width: 480px; margin: 0 auto; }
+    .btn { padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; border: 1px solid transparent; min-height: 48px; font-size: 16px; }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .tool-footer { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border-subtle); }
+  </style>
+</head>
+<body>
+  <div class="app-wrap">
+    <nav class="top-nav">
+      <a href="../ngoi-nha-so.html" class="back-link">← Về Ngôi nhà số</a>
+      <span style="font-size:13px; color:var(--text-muted);">C31 • Giãn cơ</span>
+    </nav>
+    <div class="hero-card">
+      <div style="font-size:13px; font-weight:700; color:var(--text-muted); text-transform:uppercase;">ĐỘNG TÁC GIÃN CƠ NGAY TẠI CHỖ</div>
+      <div class="hero-title" id="ex-title">1. Nghiêng đầu giãn cơ cổ</div>
+      <div class="hero-desc" id="ex-desc">Ngồi thẳng lưng, từ từ nghiêng đầu sang vai phải, dùng tay phải kéo nhẹ đầu. Giữ trong 15-20 giây rồi đổi bên.</div>
+      <div style="margin-top:24px;">
+        <button class="btn btn-primary" id="btn-next">Đổi động tác khác →</button>
+      </div>
+    </div>
+    <footer class="tool-footer">Thuộc hệ <a href="../ngoi-nha-so.html">Ngôi nhà số</a> • Quy tắc Bản 1</footer>
+  </div>
+  <script>
+  (function() {
+    const list = [
+      { title: '1. Nghiêng đầu giãn cơ cổ', desc: 'Ngồi thẳng lưng, từ từ nghiêng đầu sang vai phải, dùng tay phải kéo nhẹ đầu. Giữ 15-20 giây rồi đổi bên.' },
+      { title: '2. Xoay tròn khớp vai', desc: 'Đặt hai tay lên vai, xoay khuỷu tay thành vòng tròn lớn về phía trước 10 lần, sau đó xoay ngược lại 10 lần.' },
+      { title: '3. Đan tay duỗi thẳng qua đầu', desc: 'Đan các ngón tay vào nhau, lật lòng bàn tay hướng lên trần nhà, vươn cao hết mức và hít sâu trong 15 giây.' },
+      { title: '4. Vặn mình giãn cơ lưng', desc: 'Ngồi thẳng, đặt tay phải lên lưng ghế sau, tay trái lên đùi phải, xoay thân trên sang phải nhìn về sau 15 giây rồi đổi bên.' },
+      { title: '5. Nhón chân kích hoạt bắp chân', desc: 'Đứng dậy hoặc ngồi thẳng, nâng gót chân lên cao tối đa trong 2 giây rồi hạ xuống. Lặp lại 15 lần để tăng lưu thông máu.' }
+    ];
+    let idx = 0;
+    document.getElementById('btn-next').addEventListener('click', () => {
+      idx = (idx + 1) % list.length;
+      document.getElementById('ex-title').textContent = list[idx].title;
+      document.getElementById('ex-desc').textContent = list[idx].desc;
+    });
+  })();
+  </script>
+
+<script>
+// Enterprise App Integration
+(function() {
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.back-link, a[href*="ngoi-nha-so"]').forEach(function(el) {
+      el.addEventListener('click', function(e) {
+        if (window.parent && window.parent !== window) {
+          e.preventDefault();
+          window.parent.postMessage('CLOSE_TOOL_MODAL', '*');
+        }
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Câu Hỏi Bữa Tối Gia Đình — Ngôi Nhà Số</title>
+  <style>
+    :root {
+      --bg-page: #f9f8f6; --bg-surface: #ffffff; --bg-subtle: #f3f1ec; --border-subtle: #e5e1d8;
+      --text-main: #242220; --text-muted: #68645e; --accent: #2d5a88;
+      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg-page); color: var(--text-main); font-family: var(--font-family); padding-bottom: 40px; text-align: center; }
+    .app-wrap { max-width: 640px; margin: 0 auto; padding: 24px 16px; }
+    .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; text-align: left; }
+    .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); text-decoration: none; font-size: 13px; font-weight: 500; padding: 6px 12px; border-radius: 6px; background: var(--bg-surface); border: 1px solid var(--border-subtle); min-height: 40px; }
+    .hero-card { background: var(--bg-surface); border: 2px solid var(--accent); border-radius: 14px; padding: 36px 24px; margin-bottom: 24px; }
+    .hero-q { font-size: 24px; font-weight: 800; color: var(--accent); margin: 16px 0; line-height: 1.5; }
+    .btn { padding: 12px 24px; border-radius: 8px; font-weight: 700; cursor: pointer; border: 1px solid transparent; min-height: 48px; font-size: 16px; }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .tool-footer { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border-subtle); }
+  </style>
+</head>
+<body>
+  <div class="app-wrap">
+    <nav class="top-nav">
+      <a href="../ngoi-nha-so.html" class="back-link">← Về Ngôi nhà số</a>
+      <span style="font-size:13px; color:var(--text-muted);">C70 • Câu hỏi bữa tối</span>
+    </nav>
+    <div class="hero-card">
+      <div style="font-size:13px; font-weight:700; color:var(--text-muted); text-transform:uppercase;">CÂU HỎI TRÒ CHUYỆN HÔM NAY</div>
+      <div class="hero-q" id="q-display">"Điều buồn cười nhất xảy ra với bạn hôm nay là gì?"</div>
+      <div style="font-size:14px; color:var(--text-muted); margin-bottom:20px;">Một câu hỏi nhẹ nhàng để cả nhà cùng lắng nghe và chia sẻ.</div>
+      <button class="btn btn-primary" id="btn-next">Bốc câu hỏi khác →</button>
+    </div>
+    <footer class="tool-footer">Thuộc hệ <a href="../ngoi-nha-so.html">Ngôi nhà số</a> • Quy tắc Bản 1</footer>
+  </div>
+  <script>
+  (function() {
+    const list = [
+      'Điều buồn cười nhất hoặc bất ngờ nhất xảy ra với bạn hôm nay là gì?',
+      'Nếu được chọn một siêu năng lực trong 24 giờ, bạn sẽ chọn gì và làm gì đầu tiên?',
+      'Kỷ niệm tuổi thơ nào khiến bạn mỗi khi nhớ lại đều mỉm cười?',
+      'Nếu ngày mai cả nhà mình cùng đi du lịch, bạn muốn đi biển hay lên núi?',
+      'Món ăn nào do mẹ hoặc bố nấu mà bạn thích nhất từ trước đến nay?',
+      'Ai là người đã giúp đỡ hoặc làm bạn thấy vui vẻ trong tuần này?'
+    ];
+    let idx = 0;
+    document.getElementById('btn-next').addEventListener('click', () => {
+      idx = (idx + 1) % list.length;
+      document.getElementById('q-display').textContent = `"${list[idx]}"`;
+    });
+  })();
+  </script>
+
+<script>
+// Enterprise App Integration
+(function() {
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.back-link, a[href*="ngoi-nha-so"]').forEach(function(el) {
+      el.addEventListener('click', function(e) {
+        if (window.parent && window.parent !== window) {
+          e.preventDefault();
+          window.parent.postMessage('CLOSE_TOOL_MODAL', '*');
+        }
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

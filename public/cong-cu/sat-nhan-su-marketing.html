@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chuyên viên Marketing & Chiến dịch AI — Ngôi Nhà Số</title>
+  <style>
+    :root {
+      --bg-page: #f9f8f6;
+      --bg-surface: #ffffff;
+      --border-subtle: #e5e1d8;
+      --border-strong: #cac4b7;
+      --text-main: #242220;
+      --text-muted: #68645e;
+      --accent: #2d5a88;
+      --accent-hover: #224569;
+      --accent-light: #eaf1f7;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg-page); color: var(--text-main); font-family: var(--font-body); padding: 24px 16px; line-height: 1.6; }
+    .container { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+    .back-nav { display: inline-flex; align-items: center; gap: 8px; color: var(--accent); text-decoration: none; font-weight: 500; font-size: 14px; }
+    .card { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+    .header-title { font-size: 24px; font-weight: 700; margin-bottom: 6px; }
+    .header-sub { font-size: 14px; color: var(--text-muted); }
+    .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+    .form-label { font-size: 14px; font-weight: 600; }
+    .form-input, .form-select, .form-textarea { padding: 10px 14px; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); font-size: 15px; width: 100%; font-family: inherit; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 20px; border-radius: var(--radius-sm); font-size: 15px; font-weight: 600; cursor: pointer; border: none; background: var(--accent); color: #fff; transition: background 150ms; }
+    .btn:hover { background: var(--accent-hover); }
+    .btn-copy { background: var(--accent-light); color: var(--accent); border: 1px solid var(--accent); }
+    .btn-copy:hover { background: var(--accent); color: #fff; }
+    .result-box { background: #faf9f6; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 18px; white-space: pre-wrap; font-size: 14px; line-height: 1.7; min-height: 160px; }
+    .badge-role { display: inline-block; padding: 4px 10px; background: #ecfdf5; color: #065f46; border-radius: 4px; font-weight: 600; font-size: 12px; margin-bottom: 12px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="../ngoi-nha-so.html" class="back-nav">← Trở về Ngôi Nhà Số</a>
+    <div class="card">
+      <span class="badge-role">👥 NHÂN SỰ AI #03 • MARKETING & CHIẾN DỊCH</span>
+      <h1 class="header-title">📊 Chuyên viên Marketing & Chiến lược AI</h1>
+      <p class="header-sub">Lập kế hoạch chiến dịch ra mắt sản phẩm, ý tưởng viral, minigame và phân tích đối tượng khách hàng.</p>
+      <hr style="margin: 16px 0; border: none; border-top: 1px solid var(--border-subtle);">
+      <div class="form-group">
+        <label class="form-label">Mục tiêu Marketing</label>
+        <select class="form-select" id="mkt-goal">
+          <option value="launch_campaign">Kế hoạch 7 ngày ra mắt sản phẩm mới (Launch Plan)</option>
+          <option value="lead_magnet">Tạo quà tặng mồi thu hút khách hàng tiềm năng (Lead Magnet)</option>
+          <option value="minigame">Ý tưởng Minigame / Cuộc thi tăng tương tác Fanpage & Group</option>
+          <option value="persona">Bản vẽ Chân dung Khách hàng Mục tiêu (Customer Persona chi tiết)</option>
+          <option value="calendar_30days">Lịch biên tập nội dung Marketing 30 ngày đa kênh</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Mô tả Doanh nghiệp / Dự án của bạn</label>
+        <input type="text" class="form-input" id="business-desc" placeholder="Ví dụ: Xưởng sản xuất lò nung công nghệ mới, Học viện đào tạo ứng dụng AI...">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Ngân sách / Kênh triển khai chính</label>
+        <input type="text" class="form-input" id="budget-channel" placeholder="Ví dụ: Facebook cá nhân, Fanpage, Zalo OA, Ngân sách 0 đồng đến vài triệu...">
+      </div>
+      <button class="btn" style="width: 100%;" onclick="generatePrompt()">⚡ Lập Chiến Lược Marketing AI</button>
+    </div>
+    <div class="card">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <h2 style="font-size: 16px; font-weight: 700;">Kế Hoạch Chiến Lược (Dán vào AI):</h2>
+        <button class="btn btn-copy" id="btn-copy" onclick="copyResult()">📋 Sao chép Lệnh</button>
+      </div>
+      <div class="result-box" id="result-output">Nhập thông tin bên trên rồi nhấn nút để nhận kế hoạch Marketing chi tiết.</div>
+    </div>
+  </div>
+  <script>
+    function generatePrompt() {
+      const goal = document.getElementById('mkt-goal').value;
+      const biz = document.getElementById('business-desc').value.trim() || 'Doanh nghiệp / Dự án của tôi';
+      const channel = document.getElementById('budget-channel').value.trim() || 'Facebook, Zalo, Trực tiếp';
+
+      let prompt = `Bạn là Giám đốc Marketing thực chiến (Chief Marketing Officer - CMO) chuyên về Growth Marketing & Direct Response.\nHãy lập kế hoạch chi tiết cho:\n\n🏢 DỰ ÁN / DOANH NGHIỆP: ${biz}\n📢 KÊNH & NGUỒN LỰC: ${channel}\n\n`;
+
+      if (goal === 'launch_campaign') {
+        prompt += `🚀 NHIỆM VỤ: Lập Kế hoạch Ra mắt 7 ngày (Day-by-Day Launch Campaign):\n- Ngày 1-2 (Teaser): Kích thích sự tò mò, chỉ ra vấn đề nóng.\n- Ngày 3-4 (Value Drop): Hé lộ giải pháp & giá trị cốt lõi.\n- Ngày 5 (Launch Day): Công bố mở bán với ưu đãi Early Bird giới hạn.\n- Ngày 6 (Social Proof): Trích dẫn kết quả/trải nghiệm thực tế của khách hàng.\n- Ngày 7 (Last Chance): Nhắc hạn chót ưu đãi và kết thúc chiến dịch.`;
+      } else if (goal === 'lead_magnet') {
+        prompt += `🎁 NHIỆM VỤ: Thiết kế 3 ý tưởng Quà tặng mồi (Lead Magnet) khiến khách hàng sẵn sàng để lại thông tin liên hệ ngay lập tức (Checklist, Ebook ngắn, Template tính toán, Video hướng dẫn...).`;
+      } else if (goal === 'minigame') {
+        prompt += `🎉 NHIỆM VỤ: Thiết kế kịch bản Minigame tương tác cao trên mạng xã hội:\n- Tên minigame & luật chơi đơn giản, dễ trúng.\n- Cơ chế lan tỏa (Tag bạn bè, chia sẻ chế độ công khai).\n- Quà tặng & quy trình trao giải minh bạch.`;
+      } else if (goal === 'persona') {
+        prompt += `👤 NHIỆM VỤ: Xây dựng Chân dung Khách hàng Mục tiêu (Persona):\n- Nhân khẩu học (Độ tuổi, nghề nghiệp, thu nhập).\n- Nỗi đau lớn nhất (Pain points).\n- Khát khao & mục tiêu muốn đạt được (Desires).\n- Những rào cản tâm lý khi ra quyết định mua hàng.`;
+      } else {
+        prompt += `📅 NHIỆM VỤ: Lập Lịch nội dung Marketing 30 ngày (Bảng phân bổ tỉ lệ 4:3:2:1 - Chia sẻ giá trị / Bàn luận giải pháp / Kể chuyện thực tế / Bán hàng trực tiếp).`;
+      }
+
+      prompt += `\n\nHãy trình bày bằng bảng và các gạch đầu dòng rõ ràng, hành động được ngay!`;
+      document.getElementById('result-output').textContent = prompt;
+    }
+    function copyResult() {
+      const text = document.getElementById('result-output').textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = document.getElementById('btn-copy');
+        btn.textContent = '✅ Đã sao chép!';
+        setTimeout(() => btn.textContent = '📋 Sao chép Lệnh', 2000);
+      });
+    }
+  </script>
+
+<script>
+// Enterprise App Integration
+(function() {
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.back-link, a[href*="ngoi-nha-so"]').forEach(function(el) {
+      el.addEventListener('click', function(e) {
+        if (window.parent && window.parent !== window) {
+          e.preventDefault();
+          window.parent.postMessage('CLOSE_TOOL_MODAL', '*');
+        }
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

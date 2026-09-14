@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trợ lý Quản lý & Vận hành AI — Ngôi Nhà Số</title>
+  <style>
+    :root {
+      --bg-page: #f9f8f6;
+      --bg-surface: #ffffff;
+      --border-subtle: #e5e1d8;
+      --border-strong: #cac4b7;
+      --text-main: #242220;
+      --text-muted: #68645e;
+      --accent: #2d5a88;
+      --accent-hover: #224569;
+      --accent-light: #eaf1f7;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg-page); color: var(--text-main); font-family: var(--font-body); padding: 24px 16px; line-height: 1.6; }
+    .container { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+    .back-nav { display: inline-flex; align-items: center; gap: 8px; color: var(--accent); text-decoration: none; font-weight: 500; font-size: 14px; }
+    .card { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+    .header-title { font-size: 24px; font-weight: 700; margin-bottom: 6px; }
+    .header-sub { font-size: 14px; color: var(--text-muted); }
+    .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+    .form-label { font-size: 14px; font-weight: 600; }
+    .form-input, .form-select, .form-textarea { padding: 10px 14px; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); font-size: 15px; width: 100%; font-family: inherit; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 20px; border-radius: var(--radius-sm); font-size: 15px; font-weight: 600; cursor: pointer; border: none; background: var(--accent); color: #fff; transition: background 150ms; }
+    .btn:hover { background: var(--accent-hover); }
+    .btn-copy { background: var(--accent-light); color: var(--accent); border: 1px solid var(--accent); }
+    .btn-copy:hover { background: var(--accent); color: #fff; }
+    .result-box { background: #faf9f6; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 18px; white-space: pre-wrap; font-size: 14px; line-height: 1.7; min-height: 160px; }
+    .badge-role { display: inline-block; padding: 4px 10px; background: #fee2e2; color: #991b1b; border-radius: 4px; font-weight: 600; font-size: 12px; margin-bottom: 12px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="../ngoi-nha-so.html" class="back-nav">← Trở về Ngôi Nhà Số</a>
+    <div class="card">
+      <span class="badge-role">👥 NHÂN SỰ AI #05 • QUẢN LÝ & VẬN HÀNH</span>
+      <h1 class="header-title">📋 Trợ lý Quản lý & Vận hành AI</h1>
+      <p class="header-sub">Soạn quy trình làm việc (SOP), thông báo nội bộ, phân bổ chỉ tiêu KPI và báo cáo công việc tự động.</p>
+      <hr style="margin: 16px 0; border: none; border-top: 1px solid var(--border-subtle);">
+      <div class="form-group">
+        <label class="form-label">Loại văn bản quản lý</label>
+        <select class="form-select" id="op-type">
+          <option value="sop">Quy trình vận hành chuẩn (SOP từng bước cho nhân viên)</option>
+          <option value="announcement">Thông báo nội bộ công ty (Lịch nghỉ lễ, quy định mới, khen thưởng)</option>
+          <option value="kpi_assign">Bảng phân công nhiệm vụ & Tiêu chí đo lường KPI</option>
+          <option value="daily_report">Mẫu báo cáo tiến độ công việc ngày / tuần</option>
+          <option value="job_description">Bản mô tả công việc (JD tuyển dụng nhân sự)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Bộ phận hoặc Vị trí áp dụng</label>
+        <input type="text" class="form-input" id="dept" placeholder="Ví dụ: Vận hành xưởng lò nung, Chăm sóc khách hàng, Kinh doanh...">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Nội dung / Yêu cầu chính cần đưa vào</label>
+        <input type="text" class="form-input" id="req-notes" placeholder="Ví dụ: Quy định an toàn nhiệt độ, thời gian phản hồi tin nhắn trong 5 phút...">
+      </div>
+      <button class="btn" style="width: 100%;" onclick="generatePrompt()">⚡ Soạn Văn Bản Vận Hành AI</button>
+    </div>
+    <div class="card">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <h2 style="font-size: 16px; font-weight: 700;">Văn Bản Vận Hành (Dán vào AI):</h2>
+        <button class="btn btn-copy" id="btn-copy" onclick="copyResult()">📋 Sao chép Lệnh</button>
+      </div>
+      <div class="result-box" id="result-output">Nhập thông tin bên trên rồi nhấn nút để nhận văn bản quản lý chuẩn chỉnh.</div>
+    </div>
+  </div>
+  <script>
+    function generatePrompt() {
+      const type = document.getElementById('op-type').value;
+      const dept = document.getElementById('dept').value.trim() || 'Bộ phận vận hành';
+      const notes = document.getElementById('req-notes').value.trim() || 'Thực hiện nghiêm túc, đúng tiến độ';
+
+      let prompt = `Bạn là Chuyên gia Vận hành & Cố vấn Quản trị Doanh nghiệp (Operations Director & HR Consultant).\nHãy soạn thảo văn bản chuẩn mực theo thông tin sau:\n\n🏢 BỘ PHẬN / VỊ TRÍ: ${dept}\n📝 YÊU CẦU NỘI DUNG: ${notes}\n\n`;
+
+      if (type === 'sop') {
+        prompt += `📋 NHIỆM VỤ: Soạn Quy trình Vận hành Chuẩn (SOP):\n1. Mục đích & Phạm vi áp dụng.\n2. Trách nhiệm thực hiện (Ai làm gì?).\n3. Các bước thực hiện chi tiết (Step 1 -> Step 2 -> Step 3...) kèm tiêu chuẩn đạt/không đạt.\n4. Xử lý sự cố / tình huống bất thường.\n5. Biểu mẫu kiểm tra (Checklist kiểm soát chất lượng).`;
+      } else if (type === 'announcement') {
+        prompt += `📢 NHIỆM VỤ: Soạn Thông báo Nội bộ trang trọng, rõ ràng, truyền cảm hứng và đầy đủ thông tin: Lý do, thời gian áp dụng, quyền lợi & trách nhiệm của từng thành viên.`;
+      } else if (type === 'kpi_assign') {
+        prompt += `🎯 NHIỆM VỤ: Soạn Bảng giao chỉ tiêu KPI cụ thể theo nguyên tắc SMART (Mục tiêu, Con số đo lường, Trọng số %, Thời hạn hoàn thành, Tiêu chí thưởng/phạt).`;
+      } else if (type === 'daily_report') {
+        prompt += `📊 NHIỆM VỤ: Soạn Mẫu báo cáo công việc tinh gọn (3 Mục: Việc đã hoàn thành hôm nay / Khó khăn & Đề xuất / Kế hoạch ngày mai).`;
+      } else {
+        prompt += `📄 NHIỆM VỤ: Soạn Bản mô tả công việc (JD Tuyển dụng) hấp dẫn: Vị trí, Trách nhiệm chính, Yêu cầu năng lực, Quyền lợi & Chế độ đãi ngộ.`;
+      }
+
+      prompt += `\n\nHãy trình bày chuẩn chỉnh thể thức văn bản hành chính, văn phong rõ ràng, dứt khoát!`;
+      document.getElementById('result-output').textContent = prompt;
+    }
+    function copyResult() {
+      const text = document.getElementById('result-output').textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = document.getElementById('btn-copy');
+        btn.textContent = '✅ Đã sao chép!';
+        setTimeout(() => btn.textContent = '📋 Sao chép Lệnh', 2000);
+      });
+    }
+  </script>
+
+<script>
+// Enterprise App Integration
+(function() {
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.back-link, a[href*="ngoi-nha-so"]').forEach(function(el) {
+      el.addEventListener('click', function(e) {
+        if (window.parent && window.parent !== window) {
+          e.preventDefault();
+          window.parent.postMessage('CLOSE_TOOL_MODAL', '*');
+        }
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

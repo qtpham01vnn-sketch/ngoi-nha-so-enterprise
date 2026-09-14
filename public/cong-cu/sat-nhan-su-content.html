@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chuyên viên Sáng tạo Nội dung AI — Ngôi Nhà Số</title>
+  <style>
+    :root {
+      --bg-page: #f9f8f6;
+      --bg-surface: #ffffff;
+      --border-subtle: #e5e1d8;
+      --border-strong: #cac4b7;
+      --text-main: #242220;
+      --text-muted: #68645e;
+      --accent: #2d5a88;
+      --accent-hover: #224569;
+      --accent-light: #eaf1f7;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg-page); color: var(--text-main); font-family: var(--font-body); padding: 24px 16px; line-height: 1.6; }
+    .container { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+    .back-nav { display: inline-flex; align-items: center; gap: 8px; color: var(--accent); text-decoration: none; font-weight: 500; font-size: 14px; }
+    .card { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+    .header-title { font-size: 24px; font-weight: 700; margin-bottom: 6px; }
+    .header-sub { font-size: 14px; color: var(--text-muted); }
+    .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+    .form-label { font-size: 14px; font-weight: 600; }
+    .form-input, .form-select, .form-textarea { padding: 10px 14px; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); font-size: 15px; width: 100%; font-family: inherit; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 20px; border-radius: var(--radius-sm); font-size: 15px; font-weight: 600; cursor: pointer; border: none; background: var(--accent); color: #fff; transition: background 150ms; }
+    .btn:hover { background: var(--accent-hover); }
+    .btn-copy { background: var(--accent-light); color: var(--accent); border: 1px solid var(--accent); }
+    .btn-copy:hover { background: var(--accent); color: #fff; }
+    .result-box { background: #faf9f6; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 18px; white-space: pre-wrap; font-size: 14px; line-height: 1.7; min-height: 160px; }
+    .badge-role { display: inline-block; padding: 4px 10px; background: var(--accent-light); color: var(--accent); border-radius: 4px; font-weight: 600; font-size: 12px; margin-bottom: 12px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="../ngoi-nha-so.html" class="back-nav">← Trở về Ngôi Nhà Số</a>
+    <div class="card">
+      <span class="badge-role">👥 NHÂN SỰ AI #01 • SÁNG TẠO NỘI DUNG</span>
+      <h1 class="header-title">✍️ Chuyên viên Sáng tạo Nội dung AI</h1>
+      <p class="header-sub">Tự động cấu trúc Prompt và sườn bài viết chuẩn thu hút cho Facebook, TikTok, Blog & Bán hàng.</p>
+      <hr style="margin: 16px 0; border: none; border-top: 1px solid var(--border-subtle);">
+      <div class="form-group">
+        <label class="form-label">Loại hình nội dung</label>
+        <select class="form-select" id="content-type">
+          <option value="fb_post">Bài đăng Facebook / Fanpage thu hút tương tác</option>
+          <option value="tiktok_script">Kịch bản Video ngắn (TikTok / Reels / Shorts - 60s)</option>
+          <option value="sales_story">Bài viết kể chuyện bán hàng (Storytelling + Chốt đơn)</option>
+          <option value="seo_article">Dàn ý bài viết Blog chuẩn SEO</option>
+          <option value="hook_titles">10 Tiêu đề gây tò mò & giật tít không phản cảm</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Chủ đề hoặc Sản phẩm / Dịch vụ</label>
+        <input type="text" class="form-input" id="topic" placeholder="Ví dụ: Khóa học AI thực chiến, Lò nung tiết kiệm năng lượng, Đồ gia dụng...">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Đối tượng người đọc mục tiêu</label>
+        <input type="text" class="form-input" id="audience" placeholder="Ví dụ: Chủ doanh nghiệp vừa và nhỏ, người bận rộn, người mới bắt đầu học AI...">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Giọng văn (Tone of voice)</label>
+        <select class="form-select" id="tone">
+          <option value="Chuyên gia thân thiện, dễ hiểu, thực tế, không dùng từ đao to búa lớn">Chuyên gia thân thiện & Thực chiến</option>
+          <option value="Truyền cảm hứng, tích cực, thôi thúc hành động">Truyền cảm hứng & Thôi thúc hành động</option>
+          <option value="Hài hước, hóm hỉnh, gần gũi đời thường">Hài hước & Gần gũi đời thường</option>
+          <option value="Trang trọng, chuyên nghiệp, chuẩn mực B2B">Trang trọng B2B</option>
+        </select>
+      </div>
+      <button class="btn" style="width: 100%;" onclick="generatePrompt()">⚡ Tạo Lệnh Cho AI (Prompt Master)</button>
+    </div>
+    <div class="card">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <h2 style="font-size: 16px; font-weight: 700;">Lệnh Hoàn Chỉnh (Dán vào ChatGPT / Claude / Gemini):</h2>
+        <button class="btn btn-copy" id="btn-copy" onclick="copyResult()">📋 Sao chép Lệnh</button>
+      </div>
+      <div class="result-box" id="result-output">Nhập thông tin bên trên rồi nhấn "Tạo Lệnh Cho AI" để nhận Prompt chuẩn chuyên gia.</div>
+    </div>
+  </div>
+  <script>
+    function generatePrompt() {
+      const type = document.getElementById('content-type').value;
+      const topic = document.getElementById('topic').value.trim() || 'Sản phẩm & Dịch vụ của tôi';
+      const audience = document.getElementById('audience').value.trim() || 'Khách hàng tiềm năng';
+      const tone = document.getElementById('tone').value;
+
+      let prompt = `Bạn là một Chuyên viên Sáng tạo Nội dung xuất sắc (Senior Copywriter & Content Strategist).\nHãy giúp tôi viết nội dung với các yêu cầu cụ thể sau:\n\n📌 CHỦ ĐỀ / SẢN PHẨM: ${topic}\n🎯 ĐỐI TƯỢNG ĐỌC: ${audience}\n🎭 TONE GIỌNG VĂN: ${tone}\n\n`;
+
+      if (type === 'fb_post') {
+        prompt += `📝 ĐỊNH DẠNG: Bài đăng Facebook thu hút cao.\nYêu cầu cấu trúc:\n1. Tiêu đề Hook: 1 dòng đầu tiên cực kỳ cuốn hút, đánh đúng nỗi đau/tò mò của người đọc.\n2. Thân bài: Trình bày câu chuyện/vấn đề ngắn gọn, dùng các gạch đầu dòng ngắt dòng thoáng, nhiều khoảng trắng, cảm xúc chân thực.\n3. Giải pháp & Giá trị: Nêu bật lợi ích cụ thể mang lại.\n4. Call to Action (CTA): Lời kêu gọi bình luận/nhắn tin tự nhiên, không gượng gạo.\n5. 3-5 Hashtag phù hợp.`;
+      } else if (type === 'tiktok_script') {
+        prompt += `🎬 ĐỊNH DẠNG: Kịch bản Video ngắn 45-60 giây (TikTok/Reels).\nYêu cầu cấu trúc bảng phân cảnh 3 cột:\n- Thời gian (Giây)\n- Hình ảnh/Hành động trên màn hình\n- Lời thoại (Voice-over) & Text nổi bật trên màn hình.\nQuy tắc: 3 giây đầu tiên phải có Visual Hook + Audio Hook mạnh mẽ giữ chân người xem.`;
+      } else if (type === 'sales_story') {
+        prompt += `📖 ĐỊNH DẠNG: Bài viết bán hàng dạng Kể chuyện (Storytelling Copywriting).\nYêu cầu cấu trúc:\n- Bối cảnh: Nhân vật gặp khó khăn gì trước đây?\n- Điểm bùng nổ: Khoảnh khắc nhận ra nút thắt.\n- Trải nghiệm chuyển biến: Kết quả sau khi áp dụng giải pháp.\n- Bài học đúc kết & Lời mời trải nghiệm dành cho độc giả.`;
+      } else if (type === 'seo_article') {
+        prompt += `🌐 ĐỊNH DẠNG: Dàn ý chi tiết bài viết Blog/Website chuẩn SEO.\nYêu cầu:\n- Tiêu đề H1 hấp dẫn chứa từ khóa chính.\n- Cấu trúc H2, H3 logic, giải quyết triệt để ý định tìm kiếm (Search Intent).\n- Điểm nhấn Meta Description (150 ký tự).\n- Gợi ý câu hỏi thường gặp (FAQ Schema) ở cuối bài.`;
+      } else {
+        prompt += `💡 ĐỊNH DẠNG: 10 Tiêu đề (Headlines/Hooks) sáng tạo:\n- 3 tiêu đề dạng "Làm thế nào để..."\n- 3 tiêu đề dạng "Cảnh báo / Sai lầm phổ biến"\n- 2 tiêu đề dạng "Bí mật / Sự thật bất ngờ"\n- 2 tiêu đề dạng "Con số & Kết quả cụ thể"`;
+      }
+
+      prompt += `\n\nHãy viết nội dung hoàn chỉnh, sắc nét và sẵn sàng sử dụng ngay!`;
+      document.getElementById('result-output').textContent = prompt;
+    }
+    function copyResult() {
+      const text = document.getElementById('result-output').textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = document.getElementById('btn-copy');
+        btn.textContent = '✅ Đã sao chép!';
+        setTimeout(() => btn.textContent = '📋 Sao chép Lệnh', 2000);
+      });
+    }
+  </script>
+
+<script>
+// Enterprise App Integration
+(function() {
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.back-link, a[href*="ngoi-nha-so"]').forEach(function(el) {
+      el.addEventListener('click', function(e) {
+        if (window.parent && window.parent !== window) {
+          e.preventDefault();
+          window.parent.postMessage('CLOSE_TOOL_MODAL', '*');
+        }
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đếm Ly Nước — Ngôi Nhà Số</title>
+  <style>
+    :root {
+      --bg-page: #f9f8f6; --bg-surface: #ffffff; --bg-subtle: #f3f1ec; --border-subtle: #e5e1d8;
+      --text-main: #242220; --text-muted: #68645e; --accent: #2d5a88; --success: #15803d;
+      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg-page); color: var(--text-main); font-family: var(--font-family); padding-bottom: 40px; text-align: center; }
+    .app-wrap { max-width: 600px; margin: 0 auto; padding: 24px 16px; }
+    .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; text-align: left; }
+    .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); text-decoration: none; font-size: 13px; font-weight: 500; padding: 6px 12px; border-radius: 6px; background: var(--bg-surface); border: 1px solid var(--border-subtle); min-height: 40px; }
+    .hero-card { background: var(--bg-surface); border: 2px solid var(--accent); border-radius: 16px; padding: 36px 20px; margin-bottom: 24px; }
+    .hero-count { font-size: 64px; font-weight: 800; color: var(--accent); line-height: 1.1; margin: 12px 0; }
+    .btn { padding: 14px 28px; border-radius: 8px; font-weight: 700; cursor: pointer; border: 1px solid transparent; min-height: 52px; font-size: 18px; }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .cups-grid { display: flex; justify-content: center; gap: 8px; margin: 20px 0; flex-wrap: wrap; }
+    .cup-dot { width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--accent); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: var(--accent); }
+    .cup-dot.filled { background: var(--accent); color: #fff; }
+    .tool-footer { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border-subtle); }
+  </style>
+</head>
+<body>
+  <div class="app-wrap">
+    <nav class="top-nav">
+      <a href="../ngoi-nha-so.html" class="back-link">← Về Ngôi nhà số</a>
+      <span style="font-size:13px; color:var(--text-muted);">C28 • Đếm nước</span>
+    </nav>
+    <div class="hero-card">
+      <div style="font-size:13px; font-weight:700; color:var(--accent); text-transform:uppercase;">NƯỚC ĐÃ UỐNG HÔM NAY</div>
+      <div class="hero-count" id="count-display">0 / 8</div>
+      <div style="font-size:15px; color:var(--text-muted);" id="ml-display">Đã uống ~0 ml (Mục tiêu: 2.000 ml)</div>
+
+      <div class="cups-grid" id="cups-grid"></div>
+
+      <div style="display:flex; justify-content:center; gap:12px; margin-top:20px;">
+        <button class="btn btn-primary" id="btn-drink">+ Uống 1 ly (250ml)</button>
+        <button class="btn" style="background:var(--bg-subtle); color:var(--text-muted); font-size:15px;" id="btn-reset">Đặt lại</button>
+      </div>
+    </div>
+    <footer class="tool-footer">Thuộc hệ <a href="../ngoi-nha-so.html">Ngôi nhà số</a> • Quy tắc Bản 1</footer>
+  </div>
+  <script>
+  (function() {
+    const STORAGE_KEY = 'nns_tool_dem_nuoc_data';
+    let data = { count: 0, date: new Date().toDateString() };
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const p = JSON.parse(raw);
+        if (p.date === new Date().toDateString()) data = p;
+      }
+    } catch(e){}
+    function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }
+    function render() {
+      document.getElementById('count-display').textContent = `${data.count} / 8`;
+      document.getElementById('ml-display').textContent = `Đã uống ~${data.count * 250} ml (Mục tiêu: 2.000 ml)`;
+      let html = '';
+      for (let i = 1; i <= 8; i++) {
+        html += `<div class="cup-dot ${i <= data.count ? 'filled' : ''}">${i}</div>`;
+      }
+      document.getElementById('cups-grid').innerHTML = html;
+    }
+    document.getElementById('btn-drink').addEventListener('click', () => { data.count++; save(); render(); });
+    document.getElementById('btn-reset').addEventListener('click', () => { data.count = 0; save(); render(); });
+    render();
+  })();
+  </script>
+
+<script>
+// Enterprise App Integration
+(function() {
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.back-link, a[href*="ngoi-nha-so"]').forEach(function(el) {
+      el.addEventListener('click', function(e) {
+        if (window.parent && window.parent !== window) {
+          e.preventDefault();
+          window.parent.postMessage('CLOSE_TOOL_MODAL', '*');
+        }
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chia Tiền Bữa Ăn — Ngôi Nhà Số</title>
+  <style>
+    :root {
+      --bg-page: #f9f8f6;
+      --bg-surface: #ffffff;
+      --bg-subtle: #f3f1ec;
+      --border-subtle: #e5e1d8;
+      --border-strong: #cac4b7;
+      --text-main: #242220;
+      --text-muted: #68645e;
+      --accent: #2d5a88;
+      --accent-hover: #224569;
+      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --fs-base: 16px;
+      --fs-hero: 44px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg-page); color: var(--text-main); font-family: var(--font-family);
+      font-size: var(--fs-base); line-height: 1.6; padding-bottom: 40px; font-variant-numeric: tabular-nums;
+    }
+    .app-wrap { max-width: 720px; margin: 0 auto; padding: 24px 16px; }
+    .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .back-link {
+      display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); text-decoration: none;
+      font-size: 13px; font-weight: 500; padding: 6px 12px; border-radius: 6px; background: var(--bg-surface);
+      border: 1px solid var(--border-subtle); min-height: 40px;
+    }
+    .hero-card {
+      background: var(--bg-surface); border: 2px solid var(--accent); border-radius: 14px;
+      padding: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 24px; text-align: center;
+    }
+    .hero-label { font-size: 13px; font-weight: 700; text-transform: uppercase; color: var(--accent); letter-spacing: 0.05em; }
+    .hero-number { font-size: var(--fs-hero); font-weight: 800; line-height: 1.1; margin: 8px 0; color: var(--text-main); }
+    .hero-sub { font-size: 15px; color: var(--text-muted); }
+    .form-card {
+      background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 10px;
+      padding: 20px; margin-bottom: 24px;
+    }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-label { font-size: 13px; font-weight: 600; }
+    .form-input {
+      padding: 10px 14px; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 15px;
+      background: #fff; min-height: 44px; width: 100%;
+    }
+    .form-input:focus { border-color: var(--accent); outline: none; }
+    .member-row {
+      display: flex; justify-content: space-between; align-items: center; padding: 12px 14px;
+      background: var(--bg-subtle); border-radius: 6px; margin-bottom: 8px; font-size: 15px;
+    }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; padding: 10px 18px;
+      border-radius: 6px; font-weight: 600; cursor: pointer; border: 1px solid transparent; min-height: 44px;
+    }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: var(--accent-hover); }
+    .tool-footer { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border-subtle); }
+    .tool-footer a { color: var(--accent); text-decoration: none; }
+    @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } .hero-number { font-size: 32px; } }
+  </style>
+</head>
+<body>
+  <div class="app-wrap">
+    <nav class="top-nav">
+      <a href="../ngoi-nha-so.html" class="back-link">← Về Ngôi nhà số</a>
+      <span style="font-size:13px; color:var(--text-muted);">C09 • Chia tiền</span>
+    </nav>
+
+    <div class="hero-card">
+      <div class="hero-label">MỖI NGƯỜI CẦN TRẢ BÌNH QUÂN</div>
+      <div class="hero-number" id="hero-per-person">125.000đ</div>
+      <div class="hero-sub" id="hero-summary">Tổng hóa đơn: 500.000đ • Chia 4 người</div>
+    </div>
+
+    <div class="form-card">
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label" for="inp-total">Tổng tiền hóa đơn *</label>
+          <input type="text" inputmode="numeric" class="form-input" id="inp-total" value="500.000">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="inp-count">Số người tham gia *</label>
+          <input type="number" min="1" class="form-input" id="inp-count" value="4">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="inp-vat">VAT / Phí phục vụ (%)</label>
+          <input type="number" min="0" class="form-input" id="inp-vat" value="0">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="inp-discount">Giảm giá / Voucher (đ)</label>
+          <input type="text" inputmode="numeric" class="form-input" id="inp-discount" value="0">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <div style="font-weight:600; margin-bottom:12px;">Món riêng hoặc người trả thêm/bớt:</div>
+      <div id="members-list"></div>
+      <div style="display:flex; gap:8px; margin-top:12px;">
+        <input type="text" class="form-input" id="inp-mem-name" placeholder="Tên người (vd: Nam)">
+        <input type="text" inputmode="numeric" class="form-input" id="inp-mem-extra" placeholder="Tiền món riêng (đ)">
+        <button class="btn btn-primary" id="btn-add-mem">+ Thêm</button>
+      </div>
+    </div>
+
+    <footer class="tool-footer">
+      Thuộc hệ <a href="../ngoi-nha-so.html">Ngôi nhà số</a> • Quy tắc Bản 1 (<a href="https://hocvienai.com/tl/quy-tac-ngoi-nha-so" target="_blank" rel="noopener">hocvienai.com/tl/quy-tac-ngoi-nha-so</a>)
+    </footer>
+  </div>
+
+  <script>
+  (function() {
+    let customMembers = [];
+
+    function parseMoney(v) { return parseInt(String(v).replace(/\./g,'').replace(/[^\d]/g,''), 10) || 0; }
+    function formatMoney(n) { return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + 'đ'; }
+
+    function calc() {
+      const total = parseMoney(document.getElementById('inp-total').value);
+      const count = Math.max(1, parseInt(document.getElementById('inp-count').value, 10) || 1);
+      const vat = parseFloat(document.getElementById('inp-vat').value) || 0;
+      const discount = parseMoney(document.getElementById('inp-discount').value);
+
+      const netTotal = (total * (1 + vat/100)) - discount;
+      const basePerPerson = netTotal / count;
+
+      document.getElementById('hero-per-person').textContent = formatMoney(basePerPerson);
+      document.getElementById('hero-summary').textContent = `Tổng thanh toán: ${formatMoney(netTotal)} • Chia cho ${count} người`;
+
+      renderMembers(basePerPerson);
+    }
+
+    function renderMembers(base) {
+      const container = document.getElementById('members-list');
+      if (customMembers.length === 0) {
+        container.innerHTML = '<div style="font-size:13px; color:var(--text-muted);">Ai có món riêng thì thêm ở dưới để tính chính xác phần người đó.</div>';
+        return;
+      }
+      container.innerHTML = customMembers.map((m, idx) => `
+        <div class="member-row">
+          <span><strong>${m.name}</strong> (Món riêng: ${formatMoney(m.extra)})</span>
+          <div style="display:flex; align-items:center; gap:12px;">
+            <strong style="color:var(--accent);">${formatMoney(base + m.extra)}</strong>
+            <button style="background:none; border:none; color:var(--text-muted); cursor:pointer;" onclick="delMem(${idx})">✕</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    window.delMem = function(idx) {
+      customMembers.splice(idx, 1);
+      calc();
+    };
+
+    ['inp-total', 'inp-count', 'inp-vat', 'inp-discount'].forEach(id => {
+      document.getElementById(id).addEventListener('input', (e) => {
+        if (id === 'inp-total' || id === 'inp-discount') {
+          const num = parseMoney(e.target.value);
+          e.target.value = num > 0 ? num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') : '';
+        }
+        calc();
+      });
+    });
+
+    document.getElementById('btn-add-mem').addEventListener('click', () => {
+      const name = document.getElementById('inp-mem-name').value.trim();
+      const extra = parseMoney(document.getElementById('inp-mem-extra').value);
+      if (!name) return;
+      customMembers.push({ name, extra });
+      document.getElementById('inp-mem-name').value = '';
+      document.getElementById('inp-mem-extra').value = '';
+      calc();
+    });
+
+    calc();
+  })();
+  </script>
+
+<script>
+// Enterprise App Integration
+(function() {
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.back-link, a[href*="ngoi-nha-so"]').forEach(function(el) {
+      el.addEventListener('click', function(e) {
+        if (window.parent && window.parent !== window) {
+          e.preventDefault();
+          window.parent.postMessage('CLOSE_TOOL_MODAL', '*');
+        }
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

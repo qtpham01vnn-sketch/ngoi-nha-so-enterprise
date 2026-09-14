@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thẻ Ôn Từ Vựng — Ngôi Nhà Số</title>
+  <style>
+    :root {
+      --bg-page: #f9f8f6; --bg-surface: #ffffff; --bg-subtle: #f3f1ec; --border-subtle: #e5e1d8;
+      --text-main: #242220; --text-muted: #68645e; --accent: #2d5a88;
+      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg-page); color: var(--text-main); font-family: var(--font-family); padding-bottom: 40px; text-align: center; }
+    .app-wrap { max-width: 640px; margin: 0 auto; padding: 24px 16px; }
+    .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; text-align: left; }
+    .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); text-decoration: none; font-size: 13px; font-weight: 500; padding: 6px 12px; border-radius: 6px; background: var(--bg-surface); border: 1px solid var(--border-subtle); min-height: 40px; }
+    .flashcard { background: var(--bg-surface); border: 2px solid var(--accent); border-radius: 16px; padding: 48px 24px; min-height: 220px; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 20px; }
+    .card-word { font-size: 36px; font-weight: 800; color: var(--accent); }
+    .card-meaning { font-size: 20px; color: var(--text-muted); margin-top: 12px; display: none; }
+    .btn { padding: 10px 20px; border-radius: 6px; font-weight: 600; cursor: pointer; border: 1px solid transparent; min-height: 44px; }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .tool-footer { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border-subtle); }
+  </style>
+</head>
+<body>
+  <div class="app-wrap">
+    <nav class="top-nav">
+      <a href="../ngoi-nha-so.html" class="back-link">← Về Ngôi nhà số</a>
+      <span style="font-size:13px; color:var(--text-muted);">C33 • Thẻ từ vựng</span>
+    </nav>
+    <div style="font-size:14px; color:var(--text-muted); margin-bottom:12px;" id="card-progress">Thẻ 1 / 4 • Chạm vào thẻ để lật xem nghĩa</div>
+    <div class="flashcard" id="flashcard" onclick="flipCard()">
+      <div class="card-word" id="card-front">Courage</div>
+      <div class="card-meaning" id="card-back">Sự dũng cảm, can đảm</div>
+    </div>
+    <div style="display:flex; justify-content:center; gap:12px;">
+      <button class="btn" style="background:var(--bg-subtle);" onclick="prevCard()">← Thẻ trước</button>
+      <button class="btn btn-primary" onclick="nextCard()">Thẻ tiếp theo →</button>
+    </div>
+    <footer class="tool-footer">Thuộc hệ <a href="../ngoi-nha-so.html">Ngôi nhà số</a> • Quy tắc Bản 1</footer>
+  </div>
+  <script>
+  (function() {
+    const list = [
+      { w: 'Courage', m: 'Sự dũng cảm, can đảm' },
+      { w: 'Gratitude', m: 'Lòng biết ơn' },
+      { w: 'Perseverance', m: 'Sự kiên trì, bền bỉ' },
+      { w: 'Curiosity', m: 'Tính tò mò, ham học hỏi' }
+    ];
+    let idx = 0;
+    let flipped = false;
+    window.flipCard = function() {
+      flipped = !flipped;
+      document.getElementById('card-back').style.display = flipped ? 'block' : 'none';
+    };
+    function update() {
+      flipped = false;
+      document.getElementById('card-back').style.display = 'none';
+      document.getElementById('card-front').textContent = list[idx].w;
+      document.getElementById('card-back').textContent = list[idx].m;
+      document.getElementById('card-progress').textContent = `Thẻ ${idx + 1} / ${list.length} • Chạm vào thẻ để lật xem nghĩa`;
+    }
+    window.nextCard = function() { idx = (idx + 1) % list.length; update(); };
+    window.prevCard = function() { idx = (idx - 1 + list.length) % list.length; update(); };
+    update();
+  })();
+  </script>
+
+<script>
+// Enterprise App Integration
+(function() {
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.back-link, a[href*="ngoi-nha-so"]').forEach(function(el) {
+      el.addEventListener('click', function(e) {
+        if (window.parent && window.parent !== window) {
+          e.preventDefault();
+          window.parent.postMessage('CLOSE_TOOL_MODAL', '*');
+        }
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

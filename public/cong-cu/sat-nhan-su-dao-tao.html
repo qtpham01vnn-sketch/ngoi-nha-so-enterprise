@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chuyên viên Đào tạo & Soạn tài liệu AI — Ngôi Nhà Số</title>
+  <style>
+    :root {
+      --bg-page: #f9f8f6;
+      --bg-surface: #ffffff;
+      --border-subtle: #e5e1d8;
+      --border-strong: #cac4b7;
+      --text-main: #242220;
+      --text-muted: #68645e;
+      --accent: #2d5a88;
+      --accent-hover: #224569;
+      --accent-light: #eaf1f7;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg-page); color: var(--text-main); font-family: var(--font-body); padding: 24px 16px; line-height: 1.6; }
+    .container { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+    .back-nav { display: inline-flex; align-items: center; gap: 8px; color: var(--accent); text-decoration: none; font-weight: 500; font-size: 14px; }
+    .card { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+    .header-title { font-size: 24px; font-weight: 700; margin-bottom: 6px; }
+    .header-sub { font-size: 14px; color: var(--text-muted); }
+    .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+    .form-label { font-size: 14px; font-weight: 600; }
+    .form-input, .form-select, .form-textarea { padding: 10px 14px; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); font-size: 15px; width: 100%; font-family: inherit; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 20px; border-radius: var(--radius-sm); font-size: 15px; font-weight: 600; cursor: pointer; border: none; background: var(--accent); color: #fff; transition: background 150ms; }
+    .btn:hover { background: var(--accent-hover); }
+    .btn-copy { background: var(--accent-light); color: var(--accent); border: 1px solid var(--accent); }
+    .btn-copy:hover { background: var(--accent); color: #fff; }
+    .result-box { background: #faf9f6; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 18px; white-space: pre-wrap; font-size: 14px; line-height: 1.7; min-height: 160px; }
+    .badge-role { display: inline-block; padding: 4px 10px; background: #e0e7ff; color: #3730a3; border-radius: 4px; font-weight: 600; font-size: 12px; margin-bottom: 12px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="../ngoi-nha-so.html" class="back-nav">← Trở về Ngôi Nhà Số</a>
+    <div class="card">
+      <span class="badge-role">👥 NHÂN SỰ AI #04 • ĐÀO TẠO & TÀI LIỆU</span>
+      <h1 class="header-title">🎓 Chuyên viên Đào tạo & Soạn tài liệu AI</h1>
+      <p class="header-sub">Soạn bài giảng, giáo án đào tạo học viên (AIVA/Nội bộ), tóm tắt sách và tạo bài tập thực hành.</p>
+      <hr style="margin: 16px 0; border: none; border-top: 1px solid var(--border-subtle);">
+      <div class="form-group">
+        <label class="form-label">Loại tài liệu đào tạo</label>
+        <select class="form-select" id="doc-type">
+          <option value="lesson_plan">Giáo án / Khung bài giảng chi tiết (60-90 phút)</option>
+          <option value="handbook">Sổ tay hướng dẫn thực hành từng bước (Step-by-step Guide)</option>
+          <option value="quiz_test">Bộ câu hỏi trắc nghiệm & tình huống kiểm tra học viên</option>
+          <option value="summary_book">Tóm tắt sách / tài liệu cốt lõi (Core Insights & Action Items)</option>
+          <option value="faq_training">Bộ giải đáp 10 câu hỏi thắc mắc thường gặp của học viên</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Chủ đề đào tạo</label>
+        <input type="text" class="form-input" id="training-topic" placeholder="Ví dụ: Ứng dụng AI tự động hóa công việc, Vận hành lò nung chuẩn kỹ thuật...">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Trình độ học viên</label>
+        <select class="form-select" id="student-level">
+          <option value="Người mới bắt đầu (Beginner) - Cần giải thích đơn giản, trực quan, không dùng thuật ngữ khó">Người mới bắt đầu (Cơ bản, trực quan)</option>
+          <option value="Đã có kinh nghiệm cơ bản (Intermediate) - Cần bài tập thực chiến và mẹo tối ưu nhanh">Đã có kinh nghiệm cơ bản (Thực chiến)</option>
+          <option value="Cấp quản lý / Chuyên sâu (Advanced) - Chú trọng tư duy hệ thống và chỉ số">Chuyên sâu / Quản lý</option>
+        </select>
+      </div>
+      <button class="btn" style="width: 100%;" onclick="generatePrompt()">⚡ Soạn Giáo Án Đào Tạo AI</button>
+    </div>
+    <div class="card">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <h2 style="font-size: 16px; font-weight: 700;">Giáo Án Chi Tiết (Dán vào AI):</h2>
+        <button class="btn btn-copy" id="btn-copy" onclick="copyResult()">📋 Sao chép Lệnh</button>
+      </div>
+      <div class="result-box" id="result-output">Nhập thông tin bên trên rồi nhấn nút để nhận tài liệu đào tạo chuyên nghiệp.</div>
+    </div>
+  </div>
+  <script>
+    function generatePrompt() {
+      const type = document.getElementById('doc-type').value;
+      const topic = document.getElementById('training-topic').value.trim() || 'Chủ đề đào tạo';
+      const level = document.getElementById('student-level').value;
+
+      let prompt = `Bạn là Giảng viên & Chuyên gia Thiết kế Đào tạo hàng đầu (Instructional Designer & Senior Trainer).\nHãy soạn tài liệu giảng dạy cho:\n\n📚 CHỦ ĐỀ: ${topic}\n👥 TRÌNH ĐỘ HỌC VIÊN: ${level}\n\n`;
+
+      if (type === 'lesson_plan') {
+        prompt += `📖 NHIỆM VỤ: Soạn Khung Giáo Án Bài Giảng (60-90 phút):\n1. Mục tiêu bài học (Học xong sẽ làm được gì cụ thể?).\n2. Phần 1: Khởi động & Nêu bật lý do tại sao bài học này quan trọng (10 phút).\n3. Phần 2: Kiến thức cốt lõi (3-4 điểm then chốt có ví dụ minh họa) (35 phút).\n4. Phần 3: Bài tập thực hành tại lớp có hướng dẫn từng bước (25 phút).\n5. Phần 4: Đúc kết & Giao bài tập về nhà (10 phút).`;
+      } else if (type === 'handbook') {
+        prompt += `📋 NHIỆM VỤ: Viết Sổ tay hướng dẫn thực hành (Quick Guide) dạng Checklist từng bước (Step 1, Step 2, Step 3...) dễ làm theo ngay.`;
+      } else if (type === 'quiz_test') {
+        prompt += `✍️ NHIỆM VỤ: Soạn 5 câu hỏi trắc nghiệm (có đáp án + giải thích) và 2 bài tập tình huống thực tế kèm tiêu chí đánh giá.`;
+      } else if (type === 'summary_book') {
+        prompt += `💡 NHIỆM VỤ: Tóm tắt cô đọng: 3 bài học lớn nhất, 5 nguyên lý bất biến và 3 hành động áp dụng ngay vào thực tế.`;
+      } else {
+        prompt += `❓ NHIỆM VỤ: Soạn 10 câu hỏi thường gặp (FAQ) kèm câu trả lời mẫu ngắn gọn, chuẩn xác và dễ hiểu nhất.`;
+      }
+
+      prompt += `\n\nHãy trình bày mạch lạc, dễ nhớ và mang tính ứng dụng cao!`;
+      document.getElementById('result-output').textContent = prompt;
+    }
+    function copyResult() {
+      const text = document.getElementById('result-output').textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = document.getElementById('btn-copy');
+        btn.textContent = '✅ Đã sao chép!';
+        setTimeout(() => btn.textContent = '📋 Sao chép Lệnh', 2000);
+      });
+    }
+  </script>
+
+<script>
+// Enterprise App Integration
+(function() {
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.back-link, a[href*="ngoi-nha-so"]').forEach(function(el) {
+      el.addEventListener('click', function(e) {
+        if (window.parent && window.parent !== window) {
+          e.preventDefault();
+          window.parent.postMessage('CLOSE_TOOL_MODAL', '*');
+        }
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

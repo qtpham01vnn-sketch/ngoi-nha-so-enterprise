@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cổng Kiểm Trước Khi Gửi — Ngôi Nhà Số</title>
+  <style>
+    :root {
+      --bg-page: #f9f8f6; --bg-surface: #ffffff; --bg-subtle: #f3f1ec; --border-subtle: #e5e1d8;
+      --text-main: #242220; --text-muted: #68645e; --accent: #2d5a88; --success: #15803d;
+      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg-page); color: var(--text-main); font-family: var(--font-family); padding-bottom: 40px; }
+    .app-wrap { max-width: 680px; margin: 0 auto; padding: 24px 16px; }
+    .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); text-decoration: none; font-size: 13px; font-weight: 500; padding: 6px 12px; border-radius: 6px; background: var(--bg-surface); border: 1px solid var(--border-subtle); min-height: 40px; }
+    .hero-card { background: var(--bg-surface); border: 2px solid var(--accent); border-radius: 14px; padding: 24px; text-align: center; margin-bottom: 24px; }
+    .check-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 8px; margin-bottom: 8px; font-size: 15px; cursor: pointer; }
+    .btn-send { padding: 14px 28px; border-radius: 8px; font-weight: 700; font-size: 16px; border: none; cursor: pointer; width: 100%; margin-top: 16px; transition: all 150ms ease; }
+    .btn-disabled { background: var(--bg-subtle); color: var(--text-muted); cursor: not-allowed; }
+    .btn-active { background: var(--success); color: #fff; box-shadow: 0 4px 12px rgba(21,128,61,0.2); }
+    .tool-footer { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border-subtle); }
+  </style>
+</head>
+<body>
+  <div class="app-wrap">
+    <nav class="top-nav">
+      <a href="../ngoi-nha-so.html" class="back-link">← Về Ngôi nhà số</a>
+      <span style="font-size:13px; color:var(--text-muted);">C51 • Cổng kiểm duyệt</span>
+    </nav>
+    <div class="hero-card">
+      <div style="font-size:13px; font-weight:700; color:var(--accent); text-transform:uppercase;">TIẾN ĐỘ KIỂM TRA CHECKLIST</div>
+      <div style="font-size:40px; font-weight:800; color:var(--accent); margin:8px 0;" id="progress-val">0 / 5</div>
+      <div style="font-size:14px; color:var(--text-muted);" id="progress-sub">Chưa tích đủ checklist thì nút Gửi còn bị khóa</div>
+    </div>
+    <div id="checklist-container"></div>
+    <button class="btn-send btn-disabled" id="btn-submit" disabled>🔒 Hãy tích đủ 5 điều trước khi gửi</button>
+    <footer class="tool-footer">Thuộc hệ <a href="../ngoi-nha-so.html">Ngôi nhà số</a> • Quy tắc Bản 1</footer>
+  </div>
+  <script>
+  (function() {
+    const list = [
+      'Đã đính kèm đúng file cần gửi (kiểm tra lại tên file và định dạng)',
+      'Đã ghi đúng họ tên, xưng hô và địa chỉ người nhận',
+      'Đã kiểm tra kỹ các con số, giá tiền và hạn nộp trong nội dung',
+      'Đã đọc lại toàn văn để soát lỗi chính tả và ngắt câu',
+      'Nội dung đã đầy đủ lời cảm ơn và thông tin liên hệ khi cần'
+    ];
+    let checked = [false, false, false, false, false];
+    function render() {
+      const container = document.getElementById('checklist-container');
+      container.innerHTML = list.map((item, idx) => `
+        <div class="check-item" onclick="toggleCheck(${idx})">
+          <input type="checkbox" ${checked[idx] ? 'checked' : ''} style="width:20px; height:20px; pointer-events:none;">
+          <span>${item}</span>
+        </div>
+      `).join('');
+      const total = checked.filter(Boolean).length;
+      document.getElementById('progress-val').textContent = `${total} / 5`;
+      const btn = document.getElementById('btn-submit');
+      if (total === 5) {
+        btn.className = 'btn-send btn-active';
+        btn.disabled = false;
+        btn.textContent = '✓ ĐÃ AN TOÀN ĐỂ GỬI ĐI!';
+        document.getElementById('progress-sub').textContent = 'Tuyệt vời! Mọi điều kiện an toàn đã sẵn sàng.';
+      } else {
+        btn.className = 'btn-send btn-disabled';
+        btn.disabled = true;
+        btn.textContent = `🔒 Cần tích thêm ${5 - total} mục nữa`;
+        document.getElementById('progress-sub').textContent = 'Chưa tích đủ checklist thì nút Gửi còn bị khóa';
+      }
+    }
+    window.toggleCheck = function(idx) { checked[idx] = !checked[idx]; render(); };
+    document.getElementById('btn-submit').addEventListener('click', () => { alert('Mọi thứ đã được kiểm duyệt an toàn! Bạn có thể tự tin gửi đi.'); });
+    render();
+  })();
+  </script>
+
+<script>
+// Enterprise App Integration
+(function() {
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.back-link, a[href*="ngoi-nha-so"]').forEach(function(el) {
+      el.addEventListener('click', function(e) {
+        if (window.parent && window.parent !== window) {
+          e.preventDefault();
+          window.parent.postMessage('CLOSE_TOOL_MODAL', '*');
+        }
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ba Dòng Mỗi Tối — Ngôi Nhà Số</title>
+  <style>
+    :root {
+      --bg-page: #f9f8f6; --bg-surface: #ffffff; --bg-subtle: #f3f1ec; --border-subtle: #e5e1d8;
+      --text-main: #242220; --text-muted: #68645e; --accent: #2d5a88;
+      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg-page); color: var(--text-main); font-family: var(--font-family); padding-bottom: 40px; }
+    .app-wrap { max-width: 680px; margin: 0 auto; padding: 24px 16px; }
+    .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); text-decoration: none; font-size: 13px; font-weight: 500; padding: 6px 12px; border-radius: 6px; background: var(--bg-surface); border: 1px solid var(--border-subtle); min-height: 40px; }
+    .card { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); margin-bottom: 24px; }
+    .form-group { margin-bottom: 16px; }
+    .form-label { font-size: 14px; font-weight: 700; color: var(--accent); margin-bottom: 6px; display: block; }
+    .form-input { width: 100%; padding: 12px 14px; border: 1px solid var(--border-subtle); border-radius: 6px; font-size: 15px; background: #fff; }
+    .btn { padding: 12px 24px; border-radius: 6px; font-weight: 600; cursor: pointer; border: 1px solid transparent; min-height: 44px; }
+    .btn-primary { background: var(--accent); color: #fff; width: 100%; }
+    .history-card { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 16px; margin-bottom: 12px; }
+    .tool-footer { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border-subtle); }
+  </style>
+</head>
+<body>
+  <div class="app-wrap">
+    <nav class="top-nav">
+      <a href="../ngoi-nha-so.html" class="back-link">← Về Ngôi nhà số</a>
+      <span style="font-size:13px; color:var(--text-muted);">C67 • Ba dòng mỗi tối</span>
+    </nav>
+    <div style="font-size:24px; font-weight:800; margin-bottom:6px;">Nhật ký 3 dòng tĩnh tâm trước khi ngủ</div>
+    <div style="font-size:14px; color:var(--text-muted); margin-bottom:20px;">Khép lại một ngày trọn vẹn và an yên.</div>
+    <div class="card">
+      <div class="form-group">
+        <label class="form-label">1. Một việc tốt đẹp bạn đã làm được hôm nay:</label>
+        <input type="text" class="form-input" id="inp-done" placeholder="VD: Hoàn thành bản vẽ sớm và phụ vợ nấu cơm">
+      </div>
+      <div class="form-group">
+        <label class="form-label">2. Một điều bạn cảm thấy biết ơn trong ngày:</label>
+        <input type="text" class="form-input" id="inp-grateful" placeholder="VD: Biết ơn vì gia đình bình an, thời tiết mát mẻ">
+      </div>
+      <div class="form-group">
+        <label class="form-label">3. Một việc quan trọng nhất bạn sẽ làm ngày mai:</label>
+        <input type="text" class="form-input" id="inp-tomorrow" placeholder="VD: Kiểm tra tiến độ lắp đặt lò nung lúc 8h">
+      </div>
+      <button class="btn btn-primary" id="btn-save">Lưu 3 dòng hôm nay</button>
+    </div>
+    <div style="font-weight:700; margin-bottom:12px;">Các ngày đã ghi lại:</div>
+    <div id="history-list"></div>
+    <footer class="tool-footer">Thuộc hệ <a href="../ngoi-nha-so.html">Ngôi nhà số</a> • Quy tắc Bản 1</footer>
+  </div>
+  <script>
+  (function() {
+    const STORAGE_KEY = 'nns_tool_ba_dong_data';
+    let logs = [];
+    try { const raw = localStorage.getItem(STORAGE_KEY); if(raw) logs = JSON.parse(raw); }catch(e){}
+    function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(logs)); }
+    function render() {
+      document.getElementById('history-list').innerHTML = logs.map((it, idx) => `
+        <div class="history-card">
+          <div style="font-size:12px; color:var(--text-muted); font-weight:700; margin-bottom:8px;">${it.date}</div>
+          <div style="font-size:14px; margin-bottom:4px;">• <strong>Đã làm:</strong> ${it.done}</div>
+          <div style="font-size:14px; margin-bottom:4px;">• <strong>Biết ơn:</strong> ${it.grateful}</div>
+          <div style="font-size:14px;">• <strong>Ngày mai:</strong> ${it.tomorrow}</div>
+        </div>
+      `).join('');
+    }
+    document.getElementById('btn-save').addEventListener('click', () => {
+      const done = document.getElementById('inp-done').value.trim();
+      const grateful = document.getElementById('inp-grateful').value.trim();
+      const tomorrow = document.getElementById('inp-tomorrow').value.trim();
+      if (!done && !grateful && !tomorrow) return;
+      logs.unshift({ date: new Date().toLocaleDateString('vi-VN'), done, grateful, tomorrow });
+      save(); render();
+      document.getElementById('inp-done').value = '';
+      document.getElementById('inp-grateful').value = '';
+      document.getElementById('inp-tomorrow').value = '';
+      alert('Đã lưu nhật ký hôm nay. Chúc bạn ngủ ngon!');
+    });
+    render();
+  })();
+  </script>
+
+<script>
+// Enterprise App Integration
+(function() {
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.back-link, a[href*="ngoi-nha-so"]').forEach(function(el) {
+      el.addEventListener('click', function(e) {
+        if (window.parent && window.parent !== window) {
+          e.preventDefault();
+          window.parent.postMessage('CLOSE_TOOL_MODAL', '*');
+        }
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

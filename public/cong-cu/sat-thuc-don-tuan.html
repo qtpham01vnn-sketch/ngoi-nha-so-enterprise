@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thực Đơn Tuần & Đi Chợ — Ngôi Nhà Số</title>
+  <style>
+    :root {
+      --bg-page: #f9f8f6;
+      --bg-surface: #ffffff;
+      --bg-subtle: #f3f1ec;
+      --border-subtle: #e5e1d8;
+      --border-strong: #cac4b7;
+      --text-main: #242220;
+      --text-muted: #68645e;
+      --accent: #2d5a88;
+      --accent-hover: #224569;
+      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --fs-base: 16px;
+      --fs-hero: 36px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg-page); color: var(--text-main); font-family: var(--font-family);
+      font-size: var(--fs-base); line-height: 1.6; padding-bottom: 40px; font-variant-numeric: tabular-nums;
+    }
+    .app-wrap { max-width: 760px; margin: 0 auto; padding: 24px 16px; }
+    .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .back-link {
+      display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); text-decoration: none;
+      font-size: 13px; font-weight: 500; padding: 6px 12px; border-radius: 6px; background: var(--bg-surface);
+      border: 1px solid var(--border-subtle); min-height: 40px;
+    }
+    .hero-card {
+      background: var(--bg-surface); border: 2px solid var(--accent); border-radius: 14px;
+      padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center;
+    }
+    .hero-number { font-size: var(--fs-hero); font-weight: 800; color: var(--accent); }
+    .day-row {
+      background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 8px;
+      padding: 12px 16px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;
+    }
+    .form-input {
+      padding: 8px 12px; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 14px;
+      background: #fff; width: 60%;
+    }
+    .market-box {
+      background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 10px;
+      padding: 20px; margin-top: 24px;
+    }
+    .market-item {
+      display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 6px;
+      background: var(--bg-subtle); margin: 4px; font-size: 14px; cursor: pointer;
+    }
+    .market-item.done { text-decoration: line-through; opacity: 0.5; }
+    .tool-footer { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border-subtle); }
+    .tool-footer a { color: var(--accent); text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="app-wrap">
+    <nav class="top-nav">
+      <a href="../ngoi-nha-so.html" class="back-link">← Về Ngôi nhà số</a>
+      <span style="font-size:13px; color:var(--text-muted);">C17 • Thực đơn tuần</span>
+    </nav>
+
+    <div class="hero-card">
+      <div>
+        <div style="font-size:13px; font-weight:700; color:var(--accent); text-transform:uppercase;">TỔNG HỢP NGUYÊN LIỆU ĐI CHỢ</div>
+        <div style="font-size:14px; color:var(--text-muted); margin-top:4px;">Tự động lọc các món trong tuần</div>
+      </div>
+      <div class="hero-number" id="hero-count">7 món</div>
+    </div>
+
+    <div style="font-weight:600; margin-bottom:12px;">Kế hoạch bữa ăn các ngày trong tuần:</div>
+    <div id="days-container"></div>
+
+    <div class="market-box">
+      <div style="font-weight:600; margin-bottom:12px;">Danh sách đồ đi chợ (chạm để tích đã mua):</div>
+      <div id="market-list"></div>
+    </div>
+
+    <footer class="tool-footer">
+      Thuộc hệ <a href="../ngoi-nha-so.html">Ngôi nhà số</a> • Quy tắc Bản 1 (<a href="https://hocvienai.com/tl/quy-tac-ngoi-nha-so" target="_blank" rel="noopener">hocvienai.com/tl/quy-tac-ngoi-nha-so</a>)
+    </footer>
+  </div>
+
+  <script>
+  (function() {
+    const STORAGE_KEY = 'nns_tool_thuc_don_tuan_data';
+    const days = ['Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy', 'Chủ Nhật'];
+    let menuData = {
+      'Thứ Hai': 'Thịt kho tàu, Rau muống luộc',
+      'Thứ Ba': 'Cá thu sốt cà chua, Canh cải',
+      'Thứ Tư': 'Thịt bò xào ớt chuông, Canh bí',
+      'Thứ Năm': 'Gà hấp lá chanh, Dưa chua',
+      'Thứ Sáu': 'Sườn xào chua ngọt, Rau luộc',
+      'Thứ Bảy': 'Lẩu hải sản cuối tuần',
+      'Chủ Nhật': 'Phở bò gia đình'
+    };
+
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) menuData = JSON.parse(raw);
+    } catch(e){}
+
+    function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(menuData)); }
+
+    function render() {
+      const container = document.getElementById('days-container');
+      container.innerHTML = days.map(d => `
+        <div class="day-row">
+          <strong>${d}</strong>
+          <input type="text" class="form-input" value="${menuData[d] || ''}" onchange="updateMenu('${d}', this.value)" placeholder="Nhập món ăn...">
+        </div>
+      `).join('');
+
+      updateMarketList();
+    }
+
+    window.updateMenu = function(day, val) {
+      menuData[day] = val;
+      save();
+      updateMarketList();
+    };
+
+    function updateMarketList() {
+      const items = new Set();
+      Object.values(menuData).forEach(val => {
+        if (val) {
+          val.split(',').forEach(item => {
+            const clean = item.trim();
+            if (clean) items.add(clean);
+          });
+        }
+      });
+
+      document.getElementById('hero-count').textContent = `${items.size} món`;
+      const marketDiv = document.getElementById('market-list');
+      marketDiv.innerHTML = Array.from(items).map(item => `
+        <span class="market-item" onclick="this.classList.toggle('done')">✓ ${item}</span>
+      `).join('');
+    }
+
+    render();
+  })();
+  </script>
+
+<script>
+// Enterprise App Integration
+(function() {
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.back-link, a[href*="ngoi-nha-so"]').forEach(function(el) {
+      el.addEventListener('click', function(e) {
+        if (window.parent && window.parent !== window) {
+          e.preventDefault();
+          window.parent.postMessage('CLOSE_TOOL_MODAL', '*');
+        }
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đổi Đơn Vị Nấu Ăn — Ngôi Nhà Số</title>
+  <style>
+    :root {
+      --bg-page: #f9f8f6; --bg-surface: #ffffff; --bg-subtle: #f3f1ec; --border-subtle: #e5e1d8;
+      --text-main: #242220; --text-muted: #68645e; --accent: #2d5a88;
+      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg-page); color: var(--text-main); font-family: var(--font-family); padding-bottom: 40px; font-variant-numeric: tabular-nums; }
+    .app-wrap { max-width: 680px; margin: 0 auto; padding: 24px 16px; }
+    .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); text-decoration: none; font-size: 13px; font-weight: 500; padding: 6px 12px; border-radius: 6px; background: var(--bg-surface); border: 1px solid var(--border-subtle); min-height: 40px; }
+    .hero-card { background: var(--bg-surface); border: 2px solid var(--accent); border-radius: 14px; padding: 24px; text-align: center; margin-bottom: 24px; }
+    .hero-res { font-size: 44px; font-weight: 800; color: var(--accent); }
+    .form-card { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 20px; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    .form-input, .form-select { padding: 10px 14px; border: 1px solid var(--border-subtle); border-radius: 6px; font-size: 16px; width: 100%; min-height: 44px; }
+    .tool-footer { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border-subtle); }
+  </style>
+</head>
+<body>
+  <div class="app-wrap">
+    <nav class="top-nav">
+      <a href="../ngoi-nha-so.html" class="back-link">← Về Ngôi nhà số</a>
+      <span style="font-size:13px; color:var(--text-muted);">C19 • Đổi đơn vị bếp</span>
+    </nav>
+    <div class="hero-card">
+      <div style="font-size:13px; font-weight:700; color:var(--text-muted); text-transform:uppercase;">KẾT QUẢ QUY ĐỔI</div>
+      <div class="hero-res" id="res-val">240 ml</div>
+      <div style="font-size:15px; color:var(--text-muted);" id="res-desc">1 Cup (chén đong) chuẩn quốc tế</div>
+    </div>
+    <div class="form-card">
+      <div class="form-grid">
+        <div>
+          <label style="font-size:13px; font-weight:600;">Số lượng nhập:</label>
+          <input type="number" step="0.1" class="form-input" id="inp-val" value="1">
+        </div>
+        <div>
+          <label style="font-size:13px; font-weight:600;">Đơn vị gốc:</label>
+          <select class="form-select" id="inp-from">
+            <option value="cup">Cup (Chén / Cốc đong)</option>
+            <option value="tbsp">Thìa canh (Muỗng canh / Tbsp)</option>
+            <option value="tsp">Thìa cà phê (Muỗng cà phê / Tsp)</option>
+            <option value="oz">Ounce chất lỏng (fl oz)</option>
+            <option value="bat">Bát con ăn cơm</option>
+          </select>
+        </div>
+      </div>
+      <div style="font-size:13px; color:var(--text-muted); line-height:1.6;">
+        • 1 Cup = 240 ml (hoặc ~125g bột mì, ~200g đường)<br>
+        • 1 Thìa canh (Tbsp) = 15 ml<br>
+        • 1 Thìa cà phê (Tsp) = 5 ml<br>
+        • 1 Bát ăn cơm gạt ngang = ~250 ml
+      </div>
+    </div>
+    <footer class="tool-footer">Thuộc hệ <a href="../ngoi-nha-so.html">Ngôi nhà số</a> • Quy tắc Bản 1</footer>
+  </div>
+  <script>
+  (function() {
+    const mlMap = { cup: 240, tbsp: 15, tsp: 5, oz: 29.57, bat: 250 };
+    function calc() {
+      const v = parseFloat(document.getElementById('inp-val').value) || 0;
+      const unit = document.getElementById('inp-from').value;
+      const ml = v * (mlMap[unit] || 1);
+      document.getElementById('res-val').textContent = `${ml.toFixed(1).replace('.0','')} ml`;
+      document.getElementById('res-desc').textContent = `Tương đương ~${(ml/15).toFixed(1)} thìa canh (Tbsp) hoặc ~${(ml/5).toFixed(1)} thìa cà phê (Tsp)`;
+    }
+    document.getElementById('inp-val').addEventListener('input', calc);
+    document.getElementById('inp-from').addEventListener('change', calc);
+    calc();
+  })();
+  </script>
+
+<script>
+// Enterprise App Integration
+(function() {
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.back-link, a[href*="ngoi-nha-so"]').forEach(function(el) {
+      el.addEventListener('click', function(e) {
+        if (window.parent && window.parent !== window) {
+          e.preventDefault();
+          window.parent.postMessage('CLOSE_TOOL_MODAL', '*');
+        }
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

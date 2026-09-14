@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bánh Xe Hôm Nay Ăn Gì — Ngôi Nhà Số</title>
+  <style>
+    :root {
+      --bg-page: #f9f8f6; --bg-surface: #ffffff; --bg-subtle: #f3f1ec; --border-subtle: #e5e1d8;
+      --text-main: #242220; --text-muted: #68645e; --accent: #2d5a88;
+      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg-page); color: var(--text-main); font-family: var(--font-family); padding-bottom: 40px; text-align: center; }
+    .app-wrap { max-width: 640px; margin: 0 auto; padding: 24px 16px; }
+    .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; text-align: left; }
+    .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); text-decoration: none; font-size: 13px; font-weight: 500; padding: 6px 12px; border-radius: 6px; background: var(--bg-surface); border: 1px solid var(--border-subtle); min-height: 40px; }
+    .hero-card { background: var(--bg-surface); border: 2px solid var(--accent); border-radius: 14px; padding: 36px 20px; margin-bottom: 24px; }
+    .hero-food { font-size: 40px; font-weight: 800; color: var(--accent); margin: 16px 0; }
+    .btn { padding: 14px 28px; border-radius: 8px; font-weight: 700; cursor: pointer; border: 1px solid transparent; min-height: 52px; font-size: 18px; }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .tool-footer { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border-subtle); }
+  </style>
+</head>
+<body>
+  <div class="app-wrap">
+    <nav class="top-nav">
+      <a href="../ngoi-nha-so.html" class="back-link">← Về Ngôi nhà số</a>
+      <span style="font-size:13px; color:var(--text-muted);">C66 • Hôm nay ăn gì</span>
+    </nav>
+    <div class="hero-card">
+      <div style="font-size:13px; font-weight:700; color:var(--text-muted); text-transform:uppercase;">QUYẾT ĐỊNH MÓN ĂN HÔM NAY</div>
+      <div class="hero-food" id="food-result">🍜 Phở Bò Tái Lăn</div>
+      <div style="margin-top:20px;">
+        <button class="btn btn-primary" id="btn-spin">🎲 Quay món khác ngay</button>
+      </div>
+    </div>
+    <div style="background:var(--bg-surface); border:1px solid var(--border-subtle); border-radius:10px; padding:16px; text-align:left;">
+      <label style="font-size:13px; font-weight:600; display:block; margin-bottom:6px;">Danh sách các món ưa thích (mỗi dòng một món):</label>
+      <textarea id="inp-foods" rows="6" style="width:100%; padding:10px; border:1px solid var(--border-subtle); border-radius:6px; font-size:14px;">Phở Bò Tái Lăn
+Bún Chả Hà Nội
+Cơm Tấm Sườn Bì Chả
+Bún Bò Huế
+Lẩu Thái Chua Cay
+Gà Nướng Mật Ong
+Bánh Cuốn Nóng
+Cơm Rang Dưa Bò</textarea>
+    </div>
+    <footer class="tool-footer">Thuộc hệ <a href="../ngoi-nha-so.html">Ngôi nhà số</a> • Quy tắc Bản 1</footer>
+  </div>
+  <script>
+  (function() {
+    document.getElementById('btn-spin').addEventListener('click', () => {
+      const foods = document.getElementById('inp-foods').value.split('\n').map(x => x.trim()).filter(Boolean);
+      if (foods.length === 0) return;
+      let count = 0;
+      const interval = setInterval(() => {
+        const item = foods[Math.floor(Math.random() * foods.length)];
+        document.getElementById('food-result').textContent = item;
+        count++;
+        if (count > 15) clearInterval(interval);
+      }, 70);
+    });
+  })();
+  </script>
+
+<script>
+// Enterprise App Integration
+(function() {
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.back-link, a[href*="ngoi-nha-so"]').forEach(function(el) {
+      el.addEventListener('click', function(e) {
+        if (window.parent && window.parent !== window) {
+          e.preventDefault();
+          window.parent.postMessage('CLOSE_TOOL_MODAL', '*');
+        }
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

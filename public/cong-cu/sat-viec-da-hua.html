@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bảng Việc Đã Hứa — Ngôi Nhà Số</title>
+  <style>
+    :root {
+      --bg-page: #f9f8f6; --bg-surface: #ffffff; --bg-subtle: #f3f1ec; --border-subtle: #e5e1d8;
+      --text-main: #242220; --text-muted: #68645e; --accent: #2d5a88; --danger: #b91c1c;
+      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg-page); color: var(--text-main); font-family: var(--font-family); padding-bottom: 40px; }
+    .app-wrap { max-width: 720px; margin: 0 auto; padding: 24px 16px; }
+    .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); text-decoration: none; font-size: 13px; font-weight: 500; padding: 6px 12px; border-radius: 6px; background: var(--bg-surface); border: 1px solid var(--border-subtle); min-height: 40px; }
+    .hero-card { background: var(--bg-surface); border: 2px solid var(--accent); border-radius: 14px; padding: 20px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .form-card { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 20px; margin-bottom: 24px; }
+    .form-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 12px; }
+    .form-input { padding: 10px 14px; border: 1px solid var(--border-subtle); border-radius: 6px; font-size: 14px; width: 100%; min-height: 44px; }
+    .btn { padding: 10px 18px; border-radius: 6px; font-weight: 600; cursor: pointer; border: 1px solid transparent; min-height: 44px; }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .promise-row { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 12px 16px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+    .promise-row.done { text-decoration: line-through; opacity: 0.6; background: var(--bg-subtle); }
+    .tool-footer { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border-subtle); }
+    @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="app-wrap">
+    <nav class="top-nav">
+      <a href="../ngoi-nha-so.html" class="back-link">← Về Ngôi nhà số</a>
+      <span style="font-size:13px; color:var(--text-muted);">C43 • Việc đã hứa</span>
+    </nav>
+    <div class="hero-card">
+      <div>
+        <div style="font-size:13px; font-weight:700; color:var(--accent); text-transform:uppercase;">LỜI HỨA CẦN THỰC HIỆN</div>
+        <div style="font-size:14px; color:var(--text-muted); margin-top:4px;">Giữ chữ tín với gia đình, bạn bè & đối tác</div>
+      </div>
+      <div style="font-size:36px; font-weight:800; color:var(--accent);" id="count-display">0 việc</div>
+    </div>
+    <div class="form-card">
+      <div class="form-grid">
+        <input type="text" class="form-input" id="inp-what" placeholder="Hứa việc gì? (vd: Gửi file báo giá)">
+        <input type="text" class="form-input" id="inp-who" placeholder="Với ai? (vd: Anh Hùng)">
+        <input type="date" class="form-input" id="inp-when">
+      </div>
+      <button class="btn btn-primary" id="btn-add" style="margin-top:12px; width:100%;">+ Thêm lời hứa</button>
+    </div>
+    <div id="promise-list"></div>
+    <footer class="tool-footer">Thuộc hệ <a href="../ngoi-nha-so.html">Ngôi nhà số</a> • Quy tắc Bản 1</footer>
+  </div>
+  <script>
+  (function() {
+    const STORAGE_KEY = 'nns_tool_viec_da_hua_data';
+    let list = [
+      { id: 1, what: 'Gửi bản vẽ thiết kế lò nung', who: 'Anh Nam', when: '2026-09-18', done: false }
+    ];
+    try { const raw = localStorage.getItem(STORAGE_KEY); if(raw) list = JSON.parse(raw); }catch(e){}
+    function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(list)); }
+    function render() {
+      const pending = list.filter(x => !x.done).length;
+      document.getElementById('count-display').textContent = `${pending} việc`;
+      document.getElementById('promise-list').innerHTML = list.map((item, idx) => `
+        <div class="promise-row ${item.done ? 'done' : ''}" onclick="togglePromise(${idx})">
+          <div>
+            <strong>${item.what}</strong>
+            <div style="font-size:12px; color:var(--text-muted);">Hứa với: <strong>${item.who}</strong> • Hạn: ${item.when || 'Chưa đặt hạn'}</div>
+          </div>
+          <button style="background:none; border:none; color:var(--text-muted); cursor:pointer;" onclick="event.stopPropagation(); delPromise(${idx})">✕</button>
+        </div>
+      `).join('');
+    }
+    window.togglePromise = function(idx) { list[idx].done = !list[idx].done; save(); render(); };
+    window.delPromise = function(idx) { list.splice(idx, 1); save(); render(); };
+    document.getElementById('btn-add').addEventListener('click', () => {
+      const what = document.getElementById('inp-what').value.trim();
+      const who = document.getElementById('inp-who').value.trim();
+      const when = document.getElementById('inp-when').value;
+      if (!what || !who) { alert('Vui lòng nhập việc đã hứa và người nhận!'); return; }
+      list.unshift({ id: Date.now(), what, who, when, done: false });
+      save(); render();
+      document.getElementById('inp-what').value = '';
+      document.getElementById('inp-who').value = '';
+    });
+    render();
+  })();
+  </script>
+
+<script>
+// Enterprise App Integration
+(function() {
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.back-link, a[href*="ngoi-nha-so"]').forEach(function(el) {
+      el.addEventListener('click', function(e) {
+        if (window.parent && window.parent !== window) {
+          e.preventDefault();
+          window.parent.postMessage('CLOSE_TOOL_MODAL', '*');
+        }
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

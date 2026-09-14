@@ -1,0 +1,8 @@
+{
+  "framework": "vite",
+  "rewrites": [
+    { "source": "/cong-cu/(.*)", "destination": "/cong-cu/$1" },
+    { "source": "/avatar_tuan_pham.png", "destination": "/avatar_tuan_pham.png" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
