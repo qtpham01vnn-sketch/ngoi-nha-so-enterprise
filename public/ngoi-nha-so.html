@@ -1,0 +1,2866 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ngôi Nhà Số — Tuấn Phạm</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#2d5a88">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Ngôi Nhà Số">
+  <style>
+    /* ==========================================================================
+       1. CSS RESET & THIẾT KẾ CƠ BẢN (WARM SLATE + ACCENT DESIGN SYSTEM)
+       ========================================================================== */
+    :root {
+      --bg-page: #f9f8f6;
+      --bg-surface: #ffffff;
+      --bg-surface-subtle: #f3f1ec;
+      --bg-surface-hover: #eae7e0;
+      --border-subtle: #e5e1d8;
+      --border-strong: #cac4b7;
+      
+      --text-main: #242220;
+      --text-muted: #68645e;
+      --text-faint: #9e9a91;
+      
+      /* Đúng 1 màu nhấn */
+      --accent: #2d5a88;
+      --accent-hover: #224569;
+      --accent-light: #eaf1f7;
+      --accent-tint: rgba(45, 90, 136, 0.08);
+
+      /* Màu cảnh báo / Xóa */
+      --danger: #b91c1c;
+      --danger-hover: #991b1b;
+      --danger-light: #fef2f2;
+      --danger-border: #fca5a5;
+
+      /* Ưu tiên */
+      --prio-high-bg: #fef2f2;
+      --prio-high-text: #b91c1c;
+      --prio-med-bg: #fffbeb;
+      --prio-med-text: #b45309;
+      --prio-low-bg: #f3f4f6;
+      --prio-low-text: #4b5563;
+
+      /* Khoảng cách bội số của 8 */
+      --sp-8: 8px;
+      --sp-16: 16px;
+      --sp-24: 24px;
+      --sp-32: 32px;
+      --sp-40: 40px;
+      --sp-48: 48px;
+
+      /* Bo góc & bóng đổ tinh tế */
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+      --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.03);
+      --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.08);
+
+      /* Typography */
+      --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --fs-sm: 13px;
+      --fs-base: 16px;
+      --fs-large: 26px;
+      --fs-stat: 36px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      font-size: var(--fs-base);
+      line-height: 1.6;
+      font-variant-numeric: tabular-nums;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: 80px;
+      min-height: 100vh;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    button, input, textarea, select {
+      font: inherit;
+      color: inherit;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    /* ==========================================================================
+       2. NÚT VÀ CÁC THÀNH PHẦN NỀN TẢNG (3 CẤP NÚT)
+       ========================================================================== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--sp-8);
+      padding: 10px 18px;
+      border-radius: var(--radius-sm);
+      font-size: var(--fs-base);
+      font-weight: 500;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: background-color 150ms ease, border-color 150ms ease, transform 100ms ease;
+      user-select: none;
+      min-height: 44px;
+    }
+    .btn:active { transform: scale(0.98); }
+    
+    .btn-primary { background-color: var(--accent); color: #ffffff; }
+    .btn-primary:hover { background-color: var(--accent-hover); }
+
+    .btn-secondary {
+      background-color: var(--bg-surface);
+      color: var(--text-main);
+      border-color: var(--border-strong);
+    }
+    .btn-secondary:hover { background-color: var(--bg-surface-subtle); }
+
+    .btn-subtle {
+      background-color: transparent;
+      color: var(--text-muted);
+      padding: 8px 12px;
+    }
+    .btn-subtle:hover {
+      background-color: var(--bg-surface-subtle);
+      color: var(--text-main);
+    }
+
+    .btn-danger {
+      background-color: var(--danger-light);
+      color: var(--danger);
+      border-color: var(--danger-border);
+    }
+    .btn-danger:hover {
+      background-color: var(--danger);
+      color: #ffffff;
+    }
+
+    .btn-sm { min-height: 36px; padding: 6px 12px; font-size: var(--fs-sm); }
+
+    .icon-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      min-height: 40px;
+      padding: 0;
+      border-radius: var(--radius-sm);
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+    .icon-btn:hover {
+      background-color: var(--bg-surface-subtle);
+      color: var(--text-main);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: var(--fs-sm);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .badge-high { background: var(--prio-high-bg); color: var(--prio-high-text); border: 1px solid var(--danger-border); }
+    .badge-med { background: var(--prio-med-bg); color: var(--prio-med-text); border: 1px solid #fde68a; }
+    .badge-low { background: var(--prio-low-bg); color: var(--prio-low-text); border: 1px solid var(--border-subtle); }
+    .badge-accent { background: var(--accent-light); color: var(--accent); }
+
+    /* ==========================================================================
+       3. KHUNG BỐ CỤC CHÍNH (CONTAINER & HEADER)
+       ========================================================================== */
+    .app-container {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: var(--sp-24) var(--sp-16);
+    }
+
+    .system-banners {
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-8);
+      margin-bottom: var(--sp-16);
+    }
+    .alert-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--sp-16);
+      padding: var(--sp-16);
+      border-radius: var(--radius-md);
+      background: var(--bg-surface);
+      border: 1px solid var(--border-strong);
+      box-shadow: var(--shadow-sm);
+    }
+    .alert-banner.warning { background-color: #fffbeb; border-color: #f59e0b; color: #92400e; }
+    .alert-banner.danger { background-color: var(--danger-light); border-color: var(--danger-border); color: var(--danger); }
+    .alert-banner.info { background-color: var(--accent-light); border-color: #93c5fd; color: var(--accent); }
+
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--sp-16);
+      margin-bottom: var(--sp-24);
+      flex-wrap: wrap;
+    }
+    .brand-area {
+      display: flex;
+      align-items: baseline;
+      gap: var(--sp-8);
+    }
+    .brand-title {
+      font-size: var(--fs-large);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .brand-owner {
+      font-size: var(--fs-sm);
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-8);
+    }
+
+    /* ==========================================================================
+       4. BỐN DẢI BẢNG ĐIỀU KHIỂN BẢN 4
+       ========================================================================== */
+    .dashboard-stack {
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-32);
+    }
+
+    /* DẢI 1 — CHÀO VÀ TÌNH TRẠNG */
+    .dai-1-status {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: var(--sp-24);
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--sp-16);
+    }
+    .greeting-block h2 {
+      font-size: var(--fs-large);
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 4px;
+    }
+    .greeting-date {
+      color: var(--text-muted);
+      font-size: var(--fs-sm);
+      font-weight: 500;
+    }
+    .metrics-block {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-16);
+      flex-wrap: wrap;
+    }
+    .metric-pill {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-8);
+      background: var(--bg-surface-subtle);
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: var(--fs-sm);
+      font-weight: 500;
+      color: var(--text-main);
+      border: 1px solid var(--border-subtle);
+    }
+    .bell-pill { position: relative; cursor: pointer; }
+    .bell-badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      background: var(--danger);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* DẢI 2 — BA VIỆC GẦN NHẤT SẮP TỚI */
+    .dai-2-focus {
+      background: var(--bg-surface);
+      border: 2px solid var(--accent);
+      border-radius: var(--radius-lg);
+      padding: var(--sp-24);
+      box-shadow: var(--shadow-md);
+      position: relative;
+    }
+    .dai-2-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--sp-16);
+    }
+    .dai-2-title {
+      font-size: var(--fs-large);
+      font-weight: 700;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: var(--sp-8);
+    }
+    .due-tasks-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-8);
+    }
+    .due-task-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+      border-radius: var(--radius-md);
+      background: var(--bg-surface-subtle);
+      border: 1px solid var(--border-subtle);
+      gap: var(--sp-16);
+      transition: background-color 150ms ease, border-color 150ms ease;
+    }
+    .due-task-item:hover { background: #ffffff; border-color: var(--accent); }
+    .due-task-item.is-overdue { border-left: 4px solid var(--danger); background: var(--danger-light); }
+    .due-task-item.is-today { border-left: 4px solid var(--accent); }
+    .task-left {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-16);
+      flex: 1;
+      min-width: 0;
+    }
+    .custom-check {
+      width: 24px;
+      height: 24px;
+      min-width: 24px;
+      border-radius: 6px;
+      border: 2px solid var(--border-strong);
+      background: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 150ms ease;
+    }
+    .custom-check:hover { border-color: var(--accent); }
+    .custom-check.checked {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    .task-meta-wrap { display: flex; flex-direction: column; min-width: 0; }
+    .task-title-line {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-8);
+      font-weight: 600;
+      font-size: var(--fs-base);
+      word-break: break-word;
+    }
+    .task-sub-line {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-8);
+      font-size: var(--fs-sm);
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+    .due-time-tag { font-weight: 600; }
+    .due-time-tag.overdue { color: var(--danger); }
+    .due-time-tag.today { color: var(--accent); }
+    .task-actions { display: flex; align-items: center; gap: var(--sp-8); }
+
+    /* DẢI 3 — THÓI QUEN HÔM NAY */
+    .dai-3-habits {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: var(--sp-24);
+      box-shadow: var(--shadow-sm);
+    }
+    .dai-3-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--sp-16);
+    }
+    .dai-3-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: var(--sp-8);
+    }
+    .habits-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: var(--sp-16);
+    }
+    .habit-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-radius: var(--radius-md);
+      background: var(--bg-surface-subtle);
+      border: 1px solid var(--border-subtle);
+      gap: var(--sp-16);
+      cursor: pointer;
+      transition: all 150ms ease;
+    }
+    .habit-card:hover { border-color: var(--accent); background: #fff; }
+    .habit-card.completed { background: var(--accent-light); border-color: rgba(45, 90, 136, 0.3); }
+    .habit-info { display: flex; align-items: center; gap: var(--sp-8); font-weight: 500; }
+    .habit-streak { font-size: var(--fs-sm); color: var(--text-muted); font-weight: 600; }
+
+    /* DẢI 4 — KHU GHIM VÀ LƯỚI PHÒNG / CÔNG CỤ */
+    .dai-4-grid-section {
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-24);
+    }
+    
+    .pinned-section {
+      background: var(--bg-surface);
+      border: 1px dashed var(--border-strong);
+      border-radius: var(--radius-lg);
+      padding: var(--sp-16) var(--sp-24);
+    }
+    .pinned-header {
+      font-size: var(--fs-sm);
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: var(--sp-16);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .pinned-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: var(--sp-16);
+    }
+
+    .tab-nav-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid var(--border-subtle);
+      padding-bottom: 4px;
+      gap: var(--sp-8);
+      overflow-x: auto;
+    }
+    .tab-btn-group {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-8);
+      flex-wrap: nowrap;
+    }
+    .tab-btn {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-8);
+      padding: 10px 16px;
+      font-size: var(--fs-base);
+      font-weight: 600;
+      color: var(--text-muted);
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+      position: relative;
+      white-space: nowrap;
+      min-height: 44px;
+    }
+    .tab-btn:hover { color: var(--text-main); background: var(--bg-surface-subtle); }
+    .tab-btn.active { color: var(--accent); background: var(--bg-surface); }
+    .tab-btn.active::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--accent);
+      border-radius: 2px;
+    }
+
+    .tiles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: var(--sp-16);
+    }
+
+    .tile-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: var(--sp-16);
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 120px;
+      position: relative;
+      cursor: pointer;
+      transition: transform 150ms ease, box-shadow 150ms ease, border-color 150ms ease;
+    }
+    .tile-card:hover { border-color: var(--accent); box-shadow: var(--shadow-md); }
+    .tile-card.size-lon { grid-column: span 2; min-height: 160px; }
+    .tile-card.size-nho { min-height: 90px; }
+    
+    .tile-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: var(--sp-8);
+    }
+    .tile-icon-wrap {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-surface-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+      border: 1px solid var(--border-subtle);
+      flex-shrink: 0;
+    }
+    .tile-badge-count {
+      background: var(--danger);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 999px;
+    }
+    .tile-content { margin-top: var(--sp-16); }
+    .tile-title {
+      font-weight: 600;
+      font-size: 17px;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .tile-desc {
+      font-size: var(--fs-sm);
+      color: var(--text-muted);
+      margin-top: 4px;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .tile-corner-pin {
+      position: absolute;
+      top: 8px;
+      right: 42px;
+      color: var(--accent);
+    }
+    .tile-more-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+    .tile-more-btn:hover { background: var(--bg-surface-subtle); color: var(--text-main); }
+
+    .add-tool-tile {
+      background: transparent;
+      border: 2px dashed var(--border-strong);
+      border-radius: var(--radius-md);
+      padding: var(--sp-16);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: var(--sp-8);
+      color: var(--text-muted);
+      cursor: pointer;
+      min-height: 120px;
+      transition: all 150ms ease;
+    }
+    .add-tool-tile:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--bg-surface);
+    }
+
+    .sort-mode-bar {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      padding: var(--sp-16);
+      border-radius: var(--radius-md);
+      margin-bottom: var(--sp-16);
+    }
+    .sort-controls { display: flex; gap: 4px; }
+
+    /* ==========================================================================
+       5. PHÒNG CHI TIẾT
+       ========================================================================== */
+    .room-view { display: none; }
+    .room-header-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--sp-24);
+      gap: var(--sp-16);
+      flex-wrap: wrap;
+    }
+    .room-back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--sp-8);
+      font-weight: 600;
+      color: var(--text-muted);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+    }
+    .room-back-btn:hover { background: var(--bg-surface-subtle); color: var(--text-main); }
+
+    .viec-group-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: var(--sp-16);
+      margin-bottom: var(--sp-24);
+      box-shadow: var(--shadow-sm);
+    }
+    .group-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: var(--sp-16);
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .quick-add-input-wrap {
+      display: flex;
+      gap: var(--sp-8);
+      margin-bottom: var(--sp-16);
+    }
+    .quick-input {
+      flex: 1;
+      padding: 10px 14px;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-sm);
+      font-size: var(--fs-base);
+      background: #fff;
+    }
+    .quick-input:focus { border-color: var(--accent); }
+    .workload-meter {
+      background: var(--bg-surface-subtle);
+      padding: 12px 16px;
+      border-radius: var(--radius-md);
+      margin-bottom: var(--sp-16);
+      border: 1px solid var(--border-subtle);
+      font-size: var(--fs-sm);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--sp-8);
+    }
+    .workload-meter.overloaded {
+      background: #fffbeb;
+      border-color: #fde68a;
+      color: #92400e;
+    }
+
+    .habit-49-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+      max-width: 280px;
+      margin-top: 8px;
+    }
+    .habit-cell {
+      width: 32px;
+      height: 32px;
+      border-radius: 4px;
+      background: var(--bg-surface-subtle);
+      border: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-faint);
+    }
+    .habit-cell.filled {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    .habit-cell.today-cell {
+      outline: 2px solid var(--accent);
+      outline-offset: 1px;
+    }
+
+    .quicknote-textarea {
+      width: 100%;
+      min-height: 120px;
+      padding: 14px;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-md);
+      font-size: var(--fs-base);
+      resize: vertical;
+      margin-bottom: var(--sp-16);
+      background: #fff;
+    }
+    .quicknote-textarea:focus { border-color: var(--accent); }
+
+    /* ==========================================================================
+       6. TRUNG TÂM BÁO GIỜ
+       ========================================================================== */
+    .alarm-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(20, 20, 20, 0.7);
+      backdrop-filter: blur(8px);
+      z-index: 99999;
+      align-items: center;
+      justify-content: center;
+      padding: var(--sp-16);
+    }
+    .alarm-modal {
+      background: #ffffff;
+      border: 3px solid var(--accent);
+      border-radius: var(--radius-lg);
+      padding: var(--sp-32);
+      max-width: 540px;
+      width: 100%;
+      box-shadow: var(--shadow-lg);
+      text-align: center;
+    }
+    .alarm-icon-big { width: 64px; height: 64px; margin: 0 auto var(--sp-16); color: var(--accent); }
+    .alarm-title-main { font-size: 26px; font-weight: 800; margin-bottom: var(--sp-8); line-height: 1.3; }
+    .alarm-meta-line { font-size: var(--fs-base); color: var(--text-muted); margin-bottom: var(--sp-24); }
+    .alarm-actions { display: flex; flex-direction: column; gap: 12px; }
+    .alarm-actions-row { display: flex; gap: var(--sp-8); }
+
+    /* ==========================================================================
+       7. CỬA SỔ MODAL, TOAST & TIỆN ÍCH
+       ========================================================================== */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: var(--sp-16);
+    }
+    .modal-box {
+      background: #fff;
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 640px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+    }
+    .modal-header {
+      padding: var(--sp-16) var(--sp-24);
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .modal-header h3 { font-size: 19px; font-weight: 700; }
+    .modal-body {
+      padding: var(--sp-24);
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-16);
+    }
+    .modal-footer {
+      padding: var(--sp-16) var(--sp-24);
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: var(--sp-8);
+      background: var(--bg-surface-subtle);
+    }
+
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-label { font-size: var(--fs-sm); font-weight: 600; color: var(--text-main); }
+    .form-input, .form-select, .form-textarea {
+      padding: 10px 14px;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-sm);
+      font-size: var(--fs-base);
+      background: #fff;
+      width: 100%;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--accent); }
+    .form-hint { font-size: 12px; color: var(--text-muted); }
+
+    .icon-picker-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(52px, 1fr));
+      gap: var(--sp-8);
+      max-height: 280px;
+      overflow-y: auto;
+      padding: 4px;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+    }
+    .icon-choice {
+      width: 48px;
+      height: 48px;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      background: var(--bg-surface);
+      transition: all 100ms ease;
+    }
+    .icon-choice:hover { border-color: var(--accent); background: var(--accent-light); }
+
+    .toast-container {
+      position: fixed;
+      bottom: var(--sp-24);
+      right: var(--sp-24);
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-8);
+      max-width: 400px;
+      width: calc(100% - 48px);
+    }
+    .toast {
+      background: var(--text-main);
+      color: #fff;
+      padding: 14px 18px;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--sp-16);
+      font-size: var(--fs-base);
+    }
+    .toast-undo-btn {
+      color: #93c5fd;
+      font-weight: 700;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      text-decoration: underline;
+      padding: 4px 8px;
+    }
+
+    .empty-state-box {
+      padding: var(--sp-32) var(--sp-16);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      color: var(--text-muted);
+    }
+    .empty-state-text { font-size: var(--fs-base); font-weight: 500; color: var(--text-main); }
+    .empty-state-hint { font-size: var(--fs-sm); color: var(--text-muted); max-width: 360px; }
+
+    @media (max-width: 640px) {
+      .app-container { padding: var(--sp-16) var(--sp-8); }
+      .top-bar { flex-direction: column; align-items: flex-start; }
+      .tile-card.size-lon { grid-column: span 1; }
+      .modal-box {
+        position: fixed;
+        bottom: 0; left: 0; right: 0;
+        max-height: 85vh;
+        border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+      }
+      .dai-1-status { flex-direction: column; align-items: flex-start; }
+      .metrics-block { width: 100%; justify-content: space-between; }
+      .due-task-item { flex-direction: column; align-items: flex-start; }
+      .task-actions { width: 100%; justify-content: flex-end; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- TẤM BÁO GIỜ TRỰC DIỆN -->
+  <div id="alarm-overlay" class="alarm-overlay" role="alertdialog" aria-modal="true">
+    <div class="alarm-modal">
+      <div class="alarm-icon-big" id="alarm-icon-box"></div>
+      <h2 class="alarm-title-main" id="alarm-title-text">Báo giờ việc cần làm</h2>
+      <p class="alarm-meta-line" id="alarm-meta-text">Lúc 08:00 • Từ phòng Việc Hôm Nay</p>
+      <div class="alarm-actions">
+        <button class="btn btn-primary" id="btn-alarm-done" style="font-size: 18px; padding: 14px;">XONG RỒI</button>
+        <div class="alarm-actions-row">
+          <button class="btn btn-secondary" style="flex:1" id="btn-alarm-snooze">Báo lại sau 5 phút</button>
+          <button class="btn btn-secondary" style="flex:1" id="btn-alarm-open-room">Mở phòng đó</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="app-container">
+
+    <div id="system-banners" class="system-banners">
+      <div class="alert-banner warning" id="banner-backup-warning" style="display:flex; align-items:center; justify-content:space-between; padding:12px 18px; border-radius:var(--radius-md);">
+        <div style="display:flex; align-items:center; gap:10px; font-weight:500;">
+          <span style="font-size:16px;">🔔</span>
+          <span>Chưa sao lưu lần nào.</span>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button class="btn btn-primary btn-sm" id="btn-banner-export" style="background:#b45309; border-color:#b45309;">Xuất ngay</button>
+          <button class="btn btn-secondary btn-sm" id="btn-banner-dismiss">Để sau</button>
+        </div>
+      </div>
+    </div>
+
+    <header class="top-bar">
+      <div class="brand-area">
+        <h1 class="brand-title">Ngôi Nhà Số</h1>
+        <span class="brand-owner">Tuấn Phạm • Bắt đầu ngày 7:30</span>
+      </div>
+      <div class="top-actions">
+        <button class="btn btn-primary btn-sm" id="btn-pwa-install" style="display:none;" title="Cài đặt Ngôi Nhà Số thành App trên máy">
+          📲 Cài đặt App
+        </button>
+        <button class="btn btn-subtle" id="btn-toggle-sort" title="Bật/tắt chế độ đổi thứ tự ô">
+          <span id="sort-icon-box"></span> Sắp xếp
+        </button>
+        <button class="btn btn-secondary btn-sm" id="btn-open-settings" title="Cài đặt hệ thống, sao lưu và dữ liệu">
+          <span id="settings-icon-box"></span> Cài đặt
+        </button>
+      </div>
+    </header>
+
+    <main id="view-dashboard" class="dashboard-stack">
+
+      <!-- DẢI 1 — CHÀO VÀ TÌNH TRẠNG (AVATAR + STAT BADGE) -->
+      <section class="dai-1-status" aria-label="Chào và tình trạng">
+        <div style="display:flex; align-items:center; gap:var(--sp-16); flex:1; min-width:280px;">
+          <div class="user-avatar-wrap" id="user-avatar-box" style="width:58px; height:58px; border-radius:50%; background:var(--accent-light); display:flex; align-items:center; justify-content:center; border:2px solid var(--border-subtle); overflow:hidden;">
+            <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>
+            </svg>
+          </div>
+          <div class="greeting-block">
+            <h2 id="greet-heading" style="font-size:24px; font-weight:700; line-height:1.2;">Chào buổi tối, Tuấn.</h2>
+            <div class="greeting-date" id="greet-date" style="color:var(--text-muted); font-size:13px; margin-top:2px;">Thứ Hai, ngày 14 tháng 9 năm 2026</div>
+            <div class="greeting-sub-pills" style="display:flex; gap:8px; margin-top:8px; flex-wrap:wrap;">
+              <div class="metric-pill" id="badge-last-backup" style="padding:3px 10px; font-size:12px;" title="Trạng thái sao lưu">
+                <span id="icon-backup-pill"></span> <span id="text-backup-pill">Sao lưu gần nhất: chưa lần nào</span>
+              </div>
+              <div class="metric-pill" id="badge-total-tasks" style="padding:3px 10px; font-size:12px;" title="Tổng việc còn lại trong hệ thống">
+                <span id="icon-tasks-pill"></span> <span id="text-tasks-pill">Việc còn lại: 1</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="metrics-block" style="display:flex; align-items:center; gap:12px;">
+          <div class="stat-circle-badge" id="stat-circle-box" style="display:flex; flex-direction:column; align-items:center; justify-content:center; width:68px; height:68px; border-radius:50%; background:var(--bg-surface-subtle); border:1px solid var(--border-subtle); text-align:center;">
+            <span id="stat-ratio-text" style="font-size:16px; font-weight:700; color:var(--text-main); line-height:1.1;">0/1</span>
+            <span style="font-size:10px; color:var(--text-muted); line-height:1.1;">việc hôm nay</span>
+          </div>
+          <button class="icon-btn bell-pill" id="btn-header-bell" title="Trung tâm báo giờ">
+            <span id="icon-bell-box"></span>
+            <span class="bell-badge" id="bell-counter" style="display:none;">0</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- DẢI 2 — BA VIỆC GẦN NHẤT SẮP TỚI -->
+      <section class="dai-2-focus" aria-label="Ba việc gần nhất">
+        <div class="dai-2-header">
+          <h2 class="dai-2-title">
+            <span id="icon-focus-box"></span> Việc cần làm sắp tới
+          </h2>
+          <span class="badge badge-accent" id="due-count-badge">Tự động gom</span>
+        </div>
+        <div class="due-tasks-list" id="due-tasks-container"></div>
+      </section>
+
+      <!-- DẢI 3 — THÓI QUEN HÔM NAY -->
+      <section class="dai-3-habits" aria-label="Thói quen hôm nay">
+        <div class="dai-3-header">
+          <h3 class="dai-3-title">
+            <span id="icon-habit-box"></span> Thói quen hôm nay
+          </h3>
+          <span style="font-size: var(--fs-sm); color: var(--text-muted);" id="habits-progress-text">0/0 hoàn thành</span>
+        </div>
+        <div class="habits-grid" id="habits-container"></div>
+      </section>
+
+      <!-- DẢI 4 — KHU GHIM VÀ LƯỚI PHÒNG / CÔNG CỤ -->
+      <section class="dai-4-grid-section" aria-label="Lưới công cụ và phòng">
+        
+        <div class="pinned-section" id="pinned-section" style="display:none;">
+          <div class="pinned-header">
+            <span>Đã ghim nổi bật (Tối đa 6)</span>
+            <span id="pinned-count-text">0/6</span>
+          </div>
+          <div class="pinned-grid" id="pinned-container"></div>
+        </div>
+
+        <div class="tab-nav-wrapper">
+          <div class="tab-btn-group" id="tab-buttons-container"></div>
+          <button class="btn btn-subtle btn-sm" id="btn-add-tab" title="Thêm tab mới">+ Tab mới</button>
+        </div>
+
+        <div class="sort-mode-bar" id="sort-mode-bar">
+          <span><strong>Chế độ sắp xếp:</strong> Dùng nút Lên / Xuống trên từng ô để đổi thứ tự.</span>
+          <button class="btn btn-secondary btn-sm" id="btn-exit-sort">Xong</button>
+        </div>
+
+        <div class="tiles-grid" id="tiles-container"></div>
+
+      </section>
+    </main>
+
+    <!-- GIAO DIỆN PHÒNG CHI TIẾT -->
+    <section id="view-room" class="room-view">
+      <div class="room-header-bar">
+        <button class="room-back-btn" id="btn-room-back">
+          <span id="icon-back-box"></span> Trở về Bảng điều khiển (Phím 0)
+        </button>
+        <h2 id="room-view-title" style="font-size: var(--fs-large); font-weight: 700;">Tên phòng</h2>
+        <div id="room-header-actions"></div>
+      </div>
+      <div id="room-view-content"></div>
+    </section>
+
+  </div>
+
+  <!-- MODALS -->
+  <div id="modal-settings" class="modal-backdrop">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>Cài đặt & Dữ liệu hệ thống</h3>
+        <button class="icon-btn" id="btn-close-settings">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="alert-banner info" style="font-size: 14px;">
+          <span><strong>Lưu ý bảo mật:</strong> File này không mã hóa, đừng lưu mật khẩu, mã ngân hàng hay số giấy tờ cá nhân nhạy cảm.</span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Tình trạng dung lượng bộ nhớ (Trình duyệt)</label>
+          <div style="display:flex; justify-content:space-between; font-size:13px; color:var(--text-muted);">
+            <span id="storage-used-text">Đã dùng: ~15 KB</span>
+            <span id="storage-percent-text">0.3% / 5MB</span>
+          </div>
+        </div>
+
+        <hr style="border:none; border-top:1px solid var(--border-subtle);">
+
+        <div class="form-group">
+          <label class="form-label">Sao lưu & Khôi phục</label>
+          <div style="display:flex; gap:8px; margin-top:8px; flex-wrap:wrap;">
+            <button class="btn btn-primary btn-sm" id="btn-export-backup">Xuất file sao lưu (.json)</button>
+            <label class="btn btn-secondary btn-sm" style="cursor:pointer;">
+              Nạp từ file sao lưu
+              <input type="file" id="input-import-file" accept=".json" style="display:none;">
+            </label>
+            <button class="btn btn-danger btn-sm" id="btn-reset-data" style="margin-left:auto;">Đặt lại dữ liệu gốc</button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="btn-settings-close-bottom">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: THÊM CÔNG CỤ -->
+  <div id="modal-add-tool" class="modal-backdrop">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>Thêm công cụ mới vào bảng</h3>
+        <button class="icon-btn" id="btn-close-add-tool">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Dán mã khối JSON hoặc Mảng công cụ</label>
+          <textarea class="form-textarea" id="input-json-block" rows="5" placeholder='{"ten":"Lò Nung V4","link":"cong-cu/sat-chiet-khau.html","icon":"tien","co":"nho","tab":"Công việc","ghiChu":"Tính chiết khấu"}'></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-subtle" id="btn-cancel-add-tool">Hủy</button>
+        <button class="btn btn-primary" id="btn-submit-add-tool">Lưu công cụ</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  (function() {
+    'use strict';
+
+    const NNS_ICONS = {
+      'viec': '<path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>',
+      'dong-ho': '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
+      'tien': '<line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>',
+      'vi': '<rect x="2" y="5" width="20" height="14" rx="2"/><path d="M16 12h4"/><circle cx="16" cy="12" r="1" fill="currentColor"/>',
+      'gio-hang': '<circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/>',
+      'ngoi-nha': '<path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>',
+      'cai-cay': '<path d="M12 19v3"/><path d="M12 19c-4 0-7-3-7-7a7 7 0 0113.5-2.6A5 5 0 0119 12c0 4-3 7-7 7z"/>',
+      'giot-nuoc': '<path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"/>',
+      'sach': '<path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>',
+      'but': '<path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18z"/>',
+      'ghi-chu': '<path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>',
+      'lich': '<rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>',
+      'chuong': '<path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/>',
+      'ngoi-sao': '<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>',
+      'trai-tim': '<path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>',
+      'mot-nguoi': '<path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>',
+      'nhom-nguoi': '<path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/>',
+      'dien-thoai': '<rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/>',
+      'phong-bi': '<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>',
+      'bong-chat': '<path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>',
+      'may-anh': '<path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/>',
+      'khung-anh': '<rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/>',
+      'tep': '<path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/><polyline points="13 2 13 9 20 9"/>',
+      'thu-muc': '<path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/>',
+      'bang-tinh': '<rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/>',
+      'may-tinh': '<rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>',
+      'bieu-do': '<line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>',
+      'dich-ngam': '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+      'chia-khoa': '<path d="M21 2l-2 2m-1.5 1.5L14 9l-3-3-9 9a4.24 4.24 0 006 6l9-9 3.5-3.5M19 5l2 2"/>',
+      'o-khoa': '<rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>',
+      'banh-xe': '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/>',
+      'xuc-xac': '<rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="7" cy="7" r="1.5" fill="currentColor"/><circle cx="17" cy="17" r="1.5" fill="currentColor"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/>',
+      'hop-qua': '<polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/>',
+      'banh-kem': '<path d="M20 21v-8a2 2 0 00-2-2H6a2 2 0 00-2 2v8"/><path d="M4 21h16"/><circle cx="12" cy="3" r="1" fill="currentColor"/>',
+      'bat-dua': '<path d="M2 12a10 10 0 0020 0H2z"/><path d="M6 21h12"/><line x1="3" y1="3" x2="21" y2="9"/>',
+      'ly-ca-phe': '<path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/>',
+      'xe-may': '<circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6h-3l-3 7h9.5"/>',
+      'o-to': '<rect x="1" y="9" width="22" height="9" rx="2"/><circle cx="6.5" cy="18.5" r="2.5"/><circle cx="17.5" cy="18.5" r="2.5"/>',
+      'may-bay': '<path d="M17.8 19.2L16 11l3.5-3.5C21 6 21.5 4 21 3.5c-.5-.5-2.5 0-4 1.5L13.5 8.5 5.3 6.7c-.7-.1-1.3.2-1.7.7l-.6.8 5.6 3.6L5 15.5l-2.3-.5-.7.8 2.5 1.8 1.8 2.5.8-.7-.5-2.3 3.7-3.6 3.6 5.6.8-.6c.5-.4.8-1 .7-1.7z"/>',
+      'chiec-o': '<path d="M12 2v20a2 2 0 01-2-2"/><path d="M21 12A9 9 0 003 12z"/>'
+    };
+
+    function renderSvg(name, size = 20) {
+      const path = NNS_ICONS[name] || NNS_ICONS['tep'];
+      return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${path}</svg>`;
+    }
+
+    const ALL_100_TOOLS = [
+  {
+    "id": "t_chiet_khau",
+    "ten": "Tính chiết khấu tối đa",
+    "link": "cong-cu/sat-chiet-khau.html",
+    "icon": "DollarSign",
+    "co": "nho",
+    "tab": "tab-cong-viec",
+    "ghiChu": "Giảm tới đâu thì hết lãi",
+    "thuTu": 1
+  },
+  {
+    "id": "t_gia_ban_loi_nhuan",
+    "ten": "Tính giá bán & biên lãi",
+    "link": "cong-cu/sat-gia-ban-loi-nhuan.html",
+    "icon": "TrendingUp",
+    "co": "nho",
+    "tab": "tab-cong-viec",
+    "ghiChu": "Tính giá bán và lãi thật",
+    "thuTu": 2
+  },
+  {
+    "id": "t_kiem_truoc_gui",
+    "ten": "Cổng kiểm trước khi gửi",
+    "link": "cong-cu/sat-kiem-truoc-gui.html",
+    "icon": "ShieldCheck",
+    "co": "nho",
+    "tab": "tab-cong-viec",
+    "ghiChu": "Checklist kiểm duyệt tài liệu",
+    "thuTu": 3
+  },
+  {
+    "id": "t_bien_ban_hop",
+    "ten": "Biên bản họp ra việc",
+    "link": "cong-cu/sat-bien-ban-hop.html",
+    "icon": "FileText",
+    "co": "nho",
+    "tab": "tab-cong-viec",
+    "ghiChu": "Tách việc người nhận hạn chót",
+    "thuTu": 4
+  },
+  {
+    "id": "t_can_hai_lua_chon",
+    "ten": "Cân hai lựa chọn (Decision)",
+    "link": "cong-cu/sat-can-hai-lua-chon.html",
+    "icon": "Scale",
+    "co": "nho",
+    "tab": "tab-cong-viec",
+    "ghiChu": "Chấm điểm cân nhắc 2 phương án",
+    "thuTu": 5
+  },
+  {
+    "id": "t_giai_nghia_giay_to",
+    "ten": "Giải nghĩa hợp đồng & giấy tờ",
+    "link": "cong-cu/sat-giai-nghia-giay-to.html",
+    "icon": "FileQuestion",
+    "co": "nho",
+    "tab": "tab-cong-viec",
+    "ghiChu": "Tóm tắt điều khoản rủi ro",
+    "thuTu": 6
+  },
+  {
+    "id": "t_viec_da_hua",
+    "ten": "Bảng việc đã hứa",
+    "link": "cong-cu/sat-viec-da-hua.html",
+    "icon": "CheckSquare",
+    "co": "nho",
+    "tab": "tab-cong-viec",
+    "ghiChu": "Hứa gì với ai khi nào",
+    "thuTu": 7
+  },
+  {
+    "id": "t_luong_net_gross",
+    "ten": "Tính lương Net <-> Gross",
+    "link": "cong-cu/sat-tinh-luong-net-gross.html",
+    "icon": "Calculator",
+    "co": "nho",
+    "tab": "tab-cong-viec",
+    "ghiChu": "Chuẩn BHXH, BHYT & Thuế TNCN",
+    "thuTu": 8
+  },
+  {
+    "id": "t_eisenhower",
+    "ten": "Ma trận Eisenhower",
+    "link": "cong-cu/sat-ma-tran-eisenhower.html",
+    "icon": "LayoutGrid",
+    "co": "nho",
+    "tab": "tab-cong-viec",
+    "ghiChu": "Khẩn cấp vs Quan trọng",
+    "thuTu": 9
+  },
+  {
+    "id": "t_okr_kpi",
+    "ten": "Thiết lập OKR & KPI phòng ban",
+    "link": "cong-cu/sat-okr-kpi.html",
+    "icon": "Target",
+    "co": "nho",
+    "tab": "tab-cong-viec",
+    "ghiChu": "Đo lường mục tiêu chuẩn",
+    "thuTu": 10
+  },
+  {
+    "id": "t_hoa_von",
+    "ten": "Tính điểm hòa vốn (Break-even)",
+    "link": "cong-cu/sat-diem-hoa-von.html",
+    "icon": "PieChart",
+    "co": "nho",
+    "tab": "tab-cong-viec",
+    "ghiChu": "Sản lượng tối thiểu cần đạt",
+    "thuTu": 11
+  },
+  {
+    "id": "t_roas_roi",
+    "ten": "Tính ROI & ROAS Quảng Cáo",
+    "link": "cong-cu/sat-roas-roi.html",
+    "icon": "BarChart3",
+    "co": "nho",
+    "tab": "tab-cong-viec",
+    "ghiChu": "Đo lường hiệu quả chiến dịch",
+    "thuTu": 12
+  },
+  {
+    "id": "t_kiem_toan_5s",
+    "ten": "Checklist kiểm toán 5S Xưởng",
+    "link": "cong-cu/sat-kiem-toan-5s.html",
+    "icon": "ClipboardCheck",
+    "co": "nho",
+    "tab": "tab-cong-viec",
+    "ghiChu": "Sàng lọc, Sắp xếp, Sạch sẽ",
+    "thuTu": 13
+  },
+  {
+    "id": "t_email_dam_phan",
+    "ten": "Soạn email đàm phán & từ chối",
+    "link": "cong-cu/sat-email-dam-phan.html",
+    "icon": "Mail",
+    "co": "nho",
+    "tab": "tab-cong-viec",
+    "ghiChu": "Lịch sự, giữ quan hệ đối tác",
+    "thuTu": 14
+  },
+  {
+    "id": "t_ban_giao_ts",
+    "ten": "Biên bản bàn giao công việc",
+    "link": "cong-cu/sat-ban-giao-ts.html",
+    "icon": "FileCheck",
+    "co": "nho",
+    "tab": "tab-cong-viec",
+    "ghiChu": "Bàn giao tài sản & quy trình",
+    "thuTu": 15
+  },
+  {
+    "id": "t_theo_doi_cong_no",
+    "ten": "Theo dõi công nợ & Tuổi nợ",
+    "link": "cong-cu/sat-theo-doi-cong-no.html",
+    "icon": "Calendar",
+    "co": "nho",
+    "tab": "tab-cong-viec",
+    "ghiChu": "Nhắc nợ đúng hạn chuẩn",
+    "thuTu": 16
+  },
+  {
+    "id": "t_ma_tran_swot",
+    "ten": "Ma trận SWOT phân tích",
+    "link": "cong-cu/sat-ma-tran-swot.html",
+    "icon": "Layers",
+    "co": "nho",
+    "tab": "tab-cong-viec",
+    "ghiChu": "Điểm mạnh, yếu, cơ hội, thách thức",
+    "thuTu": 17
+  },
+  {
+    "id": "t_khau_hao_ts",
+    "ten": "Tính khấu hao máy móc xưởng",
+    "link": "cong-cu/sat-khau-hao-ts.html",
+    "icon": "Cpu",
+    "co": "nho",
+    "tab": "tab-cong-viec",
+    "ghiChu": "Khấu hao đường thẳng & nhanh",
+    "thuTu": 18
+  },
+  {
+    "id": "t_danh_gia_pv",
+    "ten": "Bộ tiêu chí phỏng vấn ứng viên",
+    "link": "cong-cu/sat-danh-gia-pv.html",
+    "icon": "UserCheck",
+    "co": "nho",
+    "tab": "tab-cong-viec",
+    "ghiChu": "Đánh giá năng lực & văn hóa",
+    "thuTu": 19
+  },
+  {
+    "id": "t_don_gia_gio",
+    "ten": "Tính đơn giá nhân công theo giờ",
+    "link": "cong-cu/sat-don-gia-gio.html",
+    "icon": "Clock",
+    "co": "nho",
+    "tab": "tab-cong-viec",
+    "ghiChu": "Định giá giờ làm chuẩn",
+    "thuTu": 20
+  },
+  {
+    "id": "t_5_whys",
+    "ten": "Phương pháp 5 Whys tìm gốc rễ",
+    "link": "cong-cu/sat-5-whys.html",
+    "icon": "HelpCircle",
+    "co": "nho",
+    "tab": "tab-cong-viec",
+    "ghiChu": "Tìm nguyên nhân cốt lõi sự cố",
+    "thuTu": 21
+  },
+  {
+    "id": "t_tao_barcode",
+    "ten": "Tạo mã vạch Barcode hàng hóa",
+    "link": "cong-cu/sat-tao-barcode.html",
+    "icon": "QrCode",
+    "co": "nho",
+    "tab": "tab-cong-viec",
+    "ghiChu": "Mã vạch Code128, EAN13",
+    "thuTu": 22
+  },
+  {
+    "id": "t_chuyen_doi_pheu",
+    "ten": "Tính tỷ lệ chuyển đổi phễu",
+    "link": "cong-cu/sat-chuyen-doi-pheu.html",
+    "icon": "Filter",
+    "co": "nho",
+    "tab": "tab-cong-viec",
+    "ghiChu": "Tối ưu từng bước khách hàng",
+    "thuTu": 23
+  },
+  {
+    "id": "t_khung_hoang_pr",
+    "ten": "Kịch bản xử lý khủng hoảng PR",
+    "link": "cong-cu/sat-khung-hoang-pr.html",
+    "icon": "AlertTriangle",
+    "co": "nho",
+    "tab": "tab-cong-viec",
+    "ghiChu": "Quy trình ứng phó truyền thông",
+    "thuTu": 24
+  },
+  {
+    "id": "t_gia_thanh_lo",
+    "ten": "Tính giá thành sản xuất theo lô",
+    "link": "cong-cu/sat-gia-thanh-lo.html",
+    "icon": "Boxes",
+    "co": "nho",
+    "tab": "tab-cong-viec",
+    "ghiChu": "Định mức nguyên vật liệu & nhân công",
+    "thuTu": 25
+  },
+  {
+    "id": "t_tra_bai_cho_vo",
+    "ten": "Bí Kíp Trả Bài Cho Vợ Chuẩn",
+    "link": "cong-cu/sat-tra-bai-cho-vo.html",
+    "icon": "HeartHandshake",
+    "co": "nho",
+    "tab": "tab-vo-chong",
+    "ghiChu": "Quy tắc số 9 theo tuổi & thế võ",
+    "thuTu": 26
+  },
+  {
+    "id": "t_hen_ho_vo_chong",
+    "ten": "Vòng quay hẹn hò đổi gió",
+    "link": "cong-cu/sat-hen-ho-vo-chong.html",
+    "icon": "Sparkles",
+    "co": "nho",
+    "tab": "tab-vo-chong",
+    "ghiChu": "Hâm nóng tình cảm cuối tuần",
+    "thuTu": 27
+  },
+  {
+    "id": "t_do_danh_xin_loi_vo",
+    "ten": "101 bí quyết dỗ dành & xin lỗi",
+    "link": "cong-cu/sat-do-danh-xin-loi-vo.html",
+    "icon": "Heart",
+    "co": "nho",
+    "tab": "tab-vo-chong",
+    "ghiChu": "Xoa dịu cơn giận nóc nhà",
+    "thuTu": 28
+  },
+  {
+    "id": "t_36_cau_hoi_tam_su",
+    "ten": "36 câu hỏi gắn kết tâm hồn",
+    "link": "cong-cu/sat-36-cau-hoi-tam-su.html",
+    "icon": "MessageCircle",
+    "co": "nho",
+    "tab": "tab-vo-chong",
+    "ghiChu": "Tâm sự thấu hiểu sâu sắc",
+    "thuTu": 29
+  },
+  {
+    "id": "t_chu_ky_phu_nu",
+    "ten": "Lịch chu kỳ & tâm trạng vợ",
+    "link": "cong-cu/sat-chu-ky-phu-nu.html",
+    "icon": "CalendarHeart",
+    "co": "nho",
+    "tab": "tab-vo-chong",
+    "ghiChu": "Dự đoán ngày nên chiều chuộng",
+    "thuTu": 30
+  },
+  {
+    "id": "t_chia_tien",
+    "ten": "Chia tiền bữa ăn & hóa đơn",
+    "link": "cong-cu/sat-chia-tien.html",
+    "icon": "Receipt",
+    "co": "nho",
+    "tab": "tab-vo-chong",
+    "ghiChu": "Món riêng phí và tip",
+    "thuTu": 31
+  },
+  {
+    "id": "t_gia_that",
+    "ten": "Bóc giá thật khuyến mãi",
+    "link": "cong-cu/sat-gia-that.html",
+    "icon": "Tag",
+    "co": "nho",
+    "tab": "tab-vo-chong",
+    "ghiChu": "Quy về giá một đơn vị",
+    "thuTu": 32
+  },
+  {
+    "id": "t_thuc_don_tuan",
+    "ten": "Thực đơn tuần & gom chợ",
+    "link": "cong-cu/sat-thuc-don-tuan.html",
+    "icon": "UtensilsCrossed",
+    "co": "nho",
+    "tab": "tab-vo-chong",
+    "ghiChu": "Tự gom nguyên liệu chợ",
+    "thuTu": 33
+  },
+  {
+    "id": "t_bam_gio_nau_an",
+    "ten": "Bấm giờ nấu ăn đa món",
+    "link": "cong-cu/sat-bam-gio-nau-an.html",
+    "icon": "Timer",
+    "co": "nho",
+    "tab": "tab-vo-chong",
+    "ghiChu": "Bấm giờ nhiều bếp",
+    "thuTu": 34
+  },
+  {
+    "id": "t_doi_don_vi",
+    "ten": "Đổi đơn vị nấu ăn & làm bánh",
+    "link": "cong-cu/sat-doi-don-vi.html",
+    "icon": "RotateCcw",
+    "co": "nho",
+    "tab": "tab-vo-chong",
+    "ghiChu": "Đổi gram ml muỗng cốc",
+    "thuTu": 35
+  },
+  {
+    "id": "t_chon_viec_nha",
+    "ten": "Bốc thăm phân chia việc nhà",
+    "link": "cong-cu/sat-chon-viec-nha.html",
+    "icon": "Dices",
+    "co": "nho",
+    "tab": "tab-vo-chong",
+    "ghiChu": "Bốc thăm rửa bát quét nhà",
+    "thuTu": 36
+  },
+  {
+    "id": "t_banh_xe_an_gi",
+    "ten": "Bánh xe hôm nay ăn gì",
+    "link": "cong-cu/sat-banh-xe-an-gi.html",
+    "icon": "PieChart",
+    "co": "nho",
+    "tab": "tab-vo-chong",
+    "ghiChu": "Vòng quay chọn món ăn",
+    "thuTu": 37
+  },
+  {
+    "id": "t_cau_hoi_bua_toi",
+    "ten": "Câu hỏi gắn kết bữa tối",
+    "link": "cong-cu/sat-cau-hoi-bua-toi.html",
+    "icon": "Smile",
+    "co": "nho",
+    "tab": "tab-vo-chong",
+    "ghiChu": "Câu hỏi gợi mở cả nhà",
+    "thuTu": 38
+  },
+  {
+    "id": "t_ngay_quan_trong",
+    "ten": "Sổ ngày kỷ niệm & sinh nhật",
+    "link": "cong-cu/sat-ngay-quan-trong.html",
+    "icon": "CalendarDays",
+    "co": "nho",
+    "tab": "tab-vo-chong",
+    "ghiChu": "Kỷ niệm ngày cưới & sinh nhật",
+    "thuTu": 39
+  },
+  {
+    "id": "t_do_den_truong",
+    "ten": "Đồ đến trường cho con",
+    "link": "cong-cu/sat-do-den-truong.html",
+    "icon": "Backpack",
+    "co": "nho",
+    "tab": "tab-vo-chong",
+    "ghiChu": "Soạn sách vở theo thời khóa",
+    "thuTu": 40
+  },
+  {
+    "id": "t_nghi_mat",
+    "ten": "Nhắc nghỉ mắt 20-20-20",
+    "link": "cong-cu/sat-nghi-mat.html",
+    "icon": "Eye",
+    "co": "nho",
+    "tab": "tab-doi-song",
+    "ghiChu": "20 phút nhìn xa 50p đứng",
+    "thuTu": 41
+  },
+  {
+    "id": "t_gian_co",
+    "ten": "Giãn cơ tại bàn 8 động tác",
+    "link": "cong-cu/sat-gian-co.html",
+    "icon": "UserCheck",
+    "co": "nho",
+    "tab": "tab-doi-song",
+    "ghiChu": "Giãn cơ vai cổ lưng",
+    "thuTu": 42
+  },
+  {
+    "id": "t_nhip_tho_478",
+    "ten": "Nhịp thở 4-7-8 ngủ sâu",
+    "link": "cong-cu/sat-nhip-tho-478.html",
+    "icon": "Activity",
+    "co": "nho",
+    "tab": "tab-doi-song",
+    "ghiChu": "Xả stress & dễ ngủ",
+    "thuTu": 43
+  },
+  {
+    "id": "t_chu_ky_giac_ngu",
+    "ten": "Tính chu kỳ giấc ngủ khoa học",
+    "link": "cong-cu/sat-chu-ky-giac-ngu.html",
+    "icon": "Moon",
+    "co": "nho",
+    "tab": "tab-doi-song",
+    "ghiChu": "Thức dậy tỉnh táo tràn năng lượng",
+    "thuTu": 44
+  },
+  {
+    "id": "t_bmi_bmr_calo",
+    "ten": "Tính BMI, BMR & Calo chuẩn",
+    "link": "cong-cu/sat-bmi-bmr-calo.html",
+    "icon": "Flame",
+    "co": "nho",
+    "tab": "tab-doi-song",
+    "ghiChu": "Nhu cầu calo giảm/tăng cân",
+    "thuTu": 45
+  },
+  {
+    "id": "t_tu_thuoc_gd",
+    "ten": "Sổ theo dõi tủ thuốc gia đình",
+    "link": "cong-cu/sat-tu-thuoc-gd.html",
+    "icon": "ShieldPlus",
+    "co": "nho",
+    "tab": "tab-doi-song",
+    "ghiChu": "Hạn dùng thuốc & liều lượng",
+    "thuTu": 46
+  },
+  {
+    "id": "t_ngan_sach_503020",
+    "ten": "Ngân sách tài chính 50/30/20",
+    "link": "cong-cu/sat-ngan-sach-503020.html",
+    "icon": "Wallet",
+    "co": "nho",
+    "tab": "tab-doi-song",
+    "ghiChu": "Thiết yếu, mong muốn, tích lũy",
+    "thuTu": 47
+  },
+  {
+    "id": "t_tien_dien_bac_thang",
+    "ten": "Tính tiền điện bậc thang EVN",
+    "link": "cong-cu/sat-tien-dien-bac-thang.html",
+    "icon": "Zap",
+    "co": "nho",
+    "tab": "tab-doi-song",
+    "ghiChu": "Ước tính tiền điện hàng tháng",
+    "thuTu": 48
+  },
+  {
+    "id": "t_chi_so_dien_nuoc",
+    "ten": "Sổ ghi chỉ số điện - nước",
+    "link": "cong-cu/sat-chi-so-dien-nuoc.html",
+    "icon": "Gauge",
+    "co": "nho",
+    "tab": "tab-doi-song",
+    "ghiChu": "Theo dõi mức tiêu thụ tháng",
+    "thuTu": 49
+  },
+  {
+    "id": "t_vali_du_lich",
+    "ten": "Checklist vali du lịch & công tác",
+    "link": "cong-cu/sat-vali-du-lich.html",
+    "icon": "Briefcase",
+    "co": "nho",
+    "tab": "tab-doi-song",
+    "ghiChu": "Không lo quên đồ cá nhân",
+    "thuTu": 50
+  },
+  {
+    "id": "t_nhat_ky_cam_xuc",
+    "ten": "Nhật ký cảm xúc & Năng lượng",
+    "link": "cong-cu/sat-nhat-ky-cam-xuc.html",
+    "icon": "BookHeart",
+    "co": "nho",
+    "tab": "tab-doi-song",
+    "ghiChu": "Theo dõi tâm trạng mỗi ngày",
+    "thuTu": 51
+  },
+  {
+    "id": "t_the_tu_vung",
+    "ten": "Thẻ ôn từ vựng Flashcard",
+    "link": "cong-cu/sat-the-tu-vung.html",
+    "icon": "BookOpen",
+    "co": "nho",
+    "tab": "tab-doi-song",
+    "ghiChu": "Lật flashcard ôn ngoại ngữ",
+    "thuTu": 52
+  },
+  {
+    "id": "t_tao_qr",
+    "ten": "Thẻ QR Wi-Fi dán tường",
+    "link": "cong-cu/sat-tao-qr.html",
+    "icon": "QrCode",
+    "co": "nho",
+    "tab": "tab-doi-song",
+    "ghiChu": "Tạo QR quét vào wifi nhanh",
+    "thuTu": 53
+  },
+  {
+    "id": "t_dem_nuoc",
+    "ten": "Đếm 8 ly nước mỗi ngày",
+    "link": "cong-cu/sat-dem-nuoc.html",
+    "icon": "Droplets",
+    "co": "nho",
+    "tab": "tab-doi-song",
+    "ghiChu": "Nhắc nhở uống đủ 2.5 lít",
+    "thuTu": 54
+  },
+  {
+    "id": "t_ba_dong_moi_toi",
+    "ten": "Ba dòng nhật ký biết ơn",
+    "link": "cong-cu/sat-ba-dong-moi-toi.html",
+    "icon": "PenLine",
+    "co": "nho",
+    "tab": "tab-doi-song",
+    "ghiChu": "Nuôi dưỡng tâm an lành",
+    "thuTu": 55
+  },
+  {
+    "id": "t_nhan_su_content",
+    "ten": "Chuyên viên Sáng tạo Nội dung AI",
+    "link": "cong-cu/sat-nhan-su-content.html",
+    "icon": "Sparkles",
+    "co": "nho",
+    "tab": "tab-nhan-su-ai",
+    "ghiChu": "Viết bài FB kịch bản video blog",
+    "thuTu": 56
+  },
+  {
+    "id": "t_nhan_su_ban_hang",
+    "ten": "Chuyên viên Bán hàng & Chốt sale AI",
+    "link": "cong-cu/sat-nhan-su-ban-hang.html",
+    "icon": "Briefcase",
+    "co": "nho",
+    "tab": "tab-nhan-su-ai",
+    "ghiChu": "Kịch bản chốt đơn xử lý từ chối",
+    "thuTu": 57
+  },
+  {
+    "id": "t_nhan_su_marketing",
+    "ten": "Chuyên viên Marketing Viral AI",
+    "link": "cong-cu/sat-nhan-su-marketing.html",
+    "icon": "BarChart3",
+    "co": "nho",
+    "tab": "tab-nhan-su-ai",
+    "ghiChu": "Kế hoạch ra mắt viral minigame",
+    "thuTu": 58
+  },
+  {
+    "id": "t_nhan_su_dao_tao",
+    "ten": "Chuyên viên Đào tạo AIVA AI",
+    "link": "cong-cu/sat-nhan-su-dao-tao.html",
+    "icon": "GraduationCap",
+    "co": "nho",
+    "tab": "tab-nhan-su-ai",
+    "ghiChu": "Giáo án bài giảng đào tạo AIVA",
+    "thuTu": 59
+  },
+  {
+    "id": "t_nhan_su_quan_ly",
+    "ten": "Trợ lý Quản lý & Vận hành SOP AI",
+    "link": "cong-cu/sat-nhan-su-quan-ly.html",
+    "icon": "ClipboardCheck",
+    "co": "nho",
+    "tab": "tab-nhan-su-ai",
+    "ghiChu": "SOP quy trình KPI thông báo",
+    "thuTu": 60
+  },
+  {
+    "id": "t_tro_ly_tin_nhan",
+    "ten": "Trợ lý Tin nhắn & CSKH AI",
+    "link": "cong-cu/sat-tro-ly-tin-nhan.html",
+    "icon": "MessageSquare",
+    "co": "nho",
+    "tab": "tab-nhan-su-ai",
+    "ghiChu": "Từ chối khéo nhắc nợ lịch sự",
+    "thuTu": 61
+  },
+  {
+    "id": "t_ai_phap_ly",
+    "ten": "Trợ lý Soạn Hợp Đồng Pháp Lý AI",
+    "link": "cong-cu/sat-ai-hop-dong-phap-ly.html",
+    "icon": "Scale",
+    "co": "nho",
+    "tab": "tab-nhan-su-ai",
+    "ghiChu": "Rà soát điều khoản & rủi ro",
+    "thuTu": 62
+  },
+  {
+    "id": "t_ai_video_tiktok",
+    "ten": "Trợ lý Kịch Bản Video TikTok AI",
+    "link": "cong-cu/sat-ai-video-tiktok.html",
+    "icon": "Video",
+    "co": "nho",
+    "tab": "tab-nhan-su-ai",
+    "ghiChu": "Kịch bản ngắn 3 giây giữ chân",
+    "thuTu": 63
+  },
+  {
+    "id": "t_ai_midjourney",
+    "ten": "Trợ lý Tạo Prompt Vẽ Ảnh Midjourney",
+    "link": "cong-cu/sat-ai-midjourney-prompt.html",
+    "icon": "Image",
+    "co": "nho",
+    "tab": "tab-nhan-su-ai",
+    "ghiChu": "Prompt nghệ thuật siêu thực",
+    "thuTu": 64
+  },
+  {
+    "id": "t_ai_seo_master",
+    "ten": "Trợ lý Tối Ưu SEO Web & Blog AI",
+    "link": "cong-cu/sat-ai-seo-master.html",
+    "icon": "Search",
+    "co": "nho",
+    "tab": "tab-nhan-su-ai",
+    "ghiChu": "Tiêu đề chuẩn SEO & dàn ý bài",
+    "thuTu": 65
+  },
+  {
+    "id": "t_ai_email_ngoai_giao",
+    "ten": "Trợ lý Email Doanh Nghiệp AI",
+    "link": "cong-cu/sat-ai-email-ngoai-giao.html",
+    "icon": "MailCheck",
+    "co": "nho",
+    "tab": "tab-nhan-su-ai",
+    "ghiChu": "Thư đàm phán hợp tác song phương",
+    "thuTu": 66
+  },
+  {
+    "id": "t_ai_jd_recruitment",
+    "ten": "Trợ lý Soạn Mô Tả Tuyển Dụng (JD)",
+    "link": "cong-cu/sat-ai-jd-recruitment.html",
+    "icon": "UserPlus",
+    "co": "nho",
+    "tab": "tab-nhan-su-ai",
+    "ghiChu": "JD chuẩn hút nhân tài",
+    "thuTu": 67
+  },
+  {
+    "id": "t_ai_minigame_promo",
+    "ten": "Trợ lý Thiết Kế Minigame AI",
+    "link": "cong-cu/sat-ai-minigame-promo.html",
+    "icon": "Gift",
+    "co": "nho",
+    "tab": "tab-nhan-su-ai",
+    "ghiChu": "Ý tưởng game tương tác hút khách",
+    "thuTu": 68
+  },
+  {
+    "id": "t_ai_tom_tat_sach",
+    "ten": "Trợ lý Tóm Tắt Sách & Tài Liệu",
+    "link": "cong-cu/sat-ai-tom-tat-sach.html",
+    "icon": "BookMarked",
+    "co": "nho",
+    "tab": "tab-nhan-su-ai",
+    "ghiChu": "Đúc kết ý chính sách kinh doanh",
+    "thuTu": 69
+  },
+  {
+    "id": "t_ai_phan_tich_so",
+    "ten": "Trợ lý Phân Tích Báo Cáo Doanh Thu",
+    "link": "cong-cu/sat-ai-phan-tich-so.html",
+    "icon": "LineChart",
+    "co": "nho",
+    "tab": "tab-nhan-su-ai",
+    "ghiChu": "Đọc số liệu đưa khuyến nghị",
+    "thuTu": 70
+  },
+  {
+    "id": "t_ai_thuong_hieu_cn",
+    "ten": "Trợ lý Xây Brand Cá Nhân AI",
+    "link": "cong-cu/sat-ai-thuong-hieu-cn.html",
+    "icon": "Award",
+    "co": "nho",
+    "tab": "tab-nhan-su-ai",
+    "ghiChu": "Chiến lược định vị chuyên gia",
+    "thuTu": 71
+  },
+  {
+    "id": "t_ai_dich_thuat_pro",
+    "ten": "Trợ lý Dịch Thuật Bản Địa Hóa AI",
+    "link": "cong-cu/sat-ai-dich-thuat-pro.html",
+    "icon": "Languages",
+    "co": "nho",
+    "tab": "tab-nhan-su-ai",
+    "ghiChu": "Dịch mượt mà chuẩn ngữ cảnh",
+    "thuTu": 72
+  },
+  {
+    "id": "t_ai_mentor_chien_luoc",
+    "ten": "Trợ lý Cố Vấn Chiến Lược Mentor AI",
+    "link": "cong-cu/sat-ai-mentor-chien-luoc.html",
+    "icon": "Compass",
+    "co": "nho",
+    "tab": "tab-nhan-su-ai",
+    "ghiChu": "Gợi mở tư duy kinh doanh đột phá",
+    "thuTu": 73
+  },
+  {
+    "id": "t_tinh_lai_kep",
+    "ten": "Tính lãi kép & Tích lũy tài sản",
+    "link": "cong-cu/sat-tinh-lai-kep.html",
+    "icon": "Coins",
+    "co": "nho",
+    "tab": "tab-tai-chinh",
+    "ghiChu": "Mô phỏng sức mạnh lãi kép",
+    "thuTu": 74
+  },
+  {
+    "id": "t_lich_tra_no",
+    "ten": "Lịch trả nợ vay ngân hàng",
+    "link": "cong-cu/sat-lich-tra-no-ngan-hang.html",
+    "icon": "CalendarClock",
+    "co": "nho",
+    "tab": "tab-tai-chinh",
+    "ghiChu": "Dư nợ giảm dần vs Cố định",
+    "thuTu": 75
+  },
+  {
+    "id": "t_ty_gia_vang",
+    "ten": "Quy đổi ngoại tệ & Giá vàng SJC",
+    "link": "cong-cu/sat-ty-gia-gia-vang.html",
+    "icon": "Banknote",
+    "co": "nho",
+    "tab": "tab-tai-chinh",
+    "ghiChu": "Tỷ giá USD, EUR, JPY, Vàng SJC",
+    "thuTu": 76
+  },
+  {
+    "id": "t_thue_tndn",
+    "ten": "Ước tính thuế TNDN doanh nghiệp",
+    "link": "cong-cu/sat-thue-tndn.html",
+    "icon": "Percent",
+    "co": "nho",
+    "tab": "tab-tai-chinh",
+    "ghiChu": "Tính thuế 20% trên lợi nhuận",
+    "thuTu": 77
+  },
+  {
+    "id": "t_hoan_von_payback",
+    "ten": "Tính thời gian hoàn vốn (Payback)",
+    "link": "cong-cu/sat-hoan-von-payback.html",
+    "icon": "Hourglass",
+    "co": "nho",
+    "tab": "tab-tai-chinh",
+    "ghiChu": "Đo lường thời gian thu hồi vốn",
+    "thuTu": 78
+  },
+  {
+    "id": "t_mua_vs_thue_nha",
+    "ten": "So sánh Mua nhà vs Thuê nhà",
+    "link": "cong-cu/sat-mua-vs-thue-nha.html",
+    "icon": "Home",
+    "co": "nho",
+    "tab": "tab-tai-chinh",
+    "ghiChu": "Phân tích tài chính dài hạn",
+    "thuTu": 79
+  },
+  {
+    "id": "t_chi_phi_dam_cuoi",
+    "ten": "Dự toán chi phí sự kiện & cưới",
+    "link": "cong-cu/sat-chi-phi-dam-cuoi.html",
+    "icon": "PartyPopper",
+    "co": "nho",
+    "tab": "tab-tai-chinh",
+    "ghiChu": "Bảng ngân sách trọn gói",
+    "thuTu": 80
+  },
+  {
+    "id": "t_vong_doi_clv",
+    "ten": "Tính giá trị vòng đời khách (CLV)",
+    "link": "cong-cu/sat-vong-doi-clv.html",
+    "icon": "Users",
+    "co": "nho",
+    "tab": "tab-tai-chinh",
+    "ghiChu": "LTV / CLV trong bán hàng",
+    "thuTu": 81
+  },
+  {
+    "id": "t_chu_ky_email",
+    "ten": "Tạo chữ ký Email HTML chuẩn",
+    "link": "cong-cu/sat-chu-ky-email.html",
+    "icon": "FileSignature",
+    "co": "nho",
+    "tab": "tab-tai-chinh",
+    "ghiChu": "Chữ ký chuyên nghiệp cho công ty",
+    "thuTu": 82
+  },
+  {
+    "id": "t_dem_nguoc",
+    "ten": "Đếm ngược tới hạn quan trọng",
+    "link": "cong-cu/sat-dem-nguoc.html",
+    "icon": "TimerReset",
+    "co": "nho",
+    "tab": "tab-tai-chinh",
+    "ghiChu": "Còn bao nhiêu ngày giờ giây",
+    "thuTu": 83
+  },
+  {
+    "id": "t_dong_ho_tap_trung",
+    "ten": "Đồng hồ tập trung Pomodoro",
+    "link": "cong-cu/sat-dong-ho-tap-trung.html",
+    "icon": "Clock3",
+    "co": "nho",
+    "tab": "tab-tai-chinh",
+    "ghiChu": "25 phút làm 5 phút nghỉ",
+    "thuTu": 84
+  },
+  {
+    "id": "t_mua_dan",
+    "ten": "Đồ cần mua dần",
+    "link": "cong-cu/sat-mua-dan.html",
+    "icon": "ShoppingCart",
+    "co": "nho",
+    "tab": "tab-tai-chinh",
+    "ghiChu": "Ghi nhớ đồ cần mua",
+    "thuTu": 85
+  },
+  {
+    "id": "t_he_do_luong",
+    "ten": "Chuyển đổi hệ đo lường quốc tế",
+    "link": "cong-cu/sat-he-do-luong.html",
+    "icon": "ArrowRightLeft",
+    "co": "nho",
+    "tab": "tab-tai-chinh",
+    "ghiChu": "Metric <-> Imperial",
+    "thuTu": 86
+  },
+  {
+    "id": "t_tao_mat_khau",
+    "ten": "Tạo & Kiểm tra độ mạnh mật khẩu",
+    "link": "cong-cu/sat-tao-mat-khau.html",
+    "icon": "KeyRound",
+    "co": "nho",
+    "tab": "tab-tai-chinh",
+    "ghiChu": "Bảo mật tài khoản doanh nghiệp",
+    "thuTu": 87
+  },
+  {
+    "id": "t_vong_quay_may_man",
+    "ten": "Vòng quay may mắn tùy biến",
+    "link": "cong-cu/sat-vong-quay-may-man.html",
+    "icon": "CircleDot",
+    "co": "nho",
+    "tab": "tab-giai-tri",
+    "ghiChu": "Chia quà / phạt trong tiệc",
+    "thuTu": 88
+  },
+  {
+    "id": "t_xuc_xac_3d",
+    "ten": "Xúc xắc 3D ngẫu nhiên",
+    "link": "cong-cu/sat-xuc-xac-3d.html",
+    "icon": "Dice5",
+    "co": "nho",
+    "tab": "tab-giai-tri",
+    "ghiChu": "Tung 1 đến 6 viên xúc xắc",
+    "thuTu": 89
+  },
+  {
+    "id": "t_quay_so_cong_bang",
+    "ten": "Chia đội bốc thăm công bằng",
+    "link": "cong-cu/sat-quay-so-cong-bang.html",
+    "icon": "Shuffle",
+    "co": "nho",
+    "tab": "tab-giai-tri",
+    "ghiChu": "Chia nhóm ngẫu nhiên",
+    "thuTu": 90
+  },
+  {
+    "id": "t_game_wordle",
+    "ten": "Game Đoán Chữ Wordle Tiếng Việt",
+    "link": "cong-cu/sat-game-wordle.html",
+    "icon": "Gamepad2",
+    "co": "nho",
+    "tab": "tab-giai-tri",
+    "ghiChu": "Luyện tư duy từ vựng 5 chữ cái",
+    "thuTu": 91
+  },
+  {
+    "id": "t_game_memory",
+    "ten": "Game Luyện Trí Nhớ Ghép Cặp",
+    "link": "cong-cu/sat-game-memory.html",
+    "icon": "Sparkle",
+    "co": "nho",
+    "tab": "tab-giai-tri",
+    "ghiChu": "Lật hình rèn luyện trí nhớ",
+    "thuTu": 92
+  },
+  {
+    "id": "t_game_2048",
+    "ten": "Game 2048 Cổ Điển",
+    "link": "cong-cu/sat-game-2048.html",
+    "icon": "Grid",
+    "co": "nho",
+    "tab": "tab-giai-tri",
+    "ghiChu": "Thư giãn trí tuệ ghép số",
+    "thuTu": 93
+  },
+  {
+    "id": "t_game_typing",
+    "ten": "Thử thách tốc độ gõ phím WPM",
+    "link": "cong-cu/sat-game-typing.html",
+    "icon": "Keyboard",
+    "co": "nho",
+    "tab": "tab-giai-tri",
+    "ghiChu": "Đo tốc độ gõ chữ mỗi phút",
+    "thuTu": 94
+  },
+  {
+    "id": "t_am_thanh_lofi",
+    "ten": "Âm thanh trắng & Tiếng mưa Lo-Fi",
+    "link": "cong-cu/sat-am-thanh-lofi.html",
+    "icon": "Headphones",
+    "co": "nho",
+    "tab": "tab-giai-tri",
+    "ghiChu": "Thư giãn tập trung làm việc",
+    "thuTu": 95
+  },
+  {
+    "id": "t_game_phan_xa",
+    "ten": "Game Vua Phản Xạ Nhanh",
+    "link": "cong-cu/sat-game-phan-xa.html",
+    "icon": "Zap",
+    "co": "nho",
+    "tab": "tab-giai-tri",
+    "ghiChu": "Đo tốc độ phản xạ mili-giây",
+    "thuTu": 96
+  },
+  {
+    "id": "t_cau_do_hack_nao",
+    "ten": "Bộ câu đố Hack Não khởi động",
+    "link": "cong-cu/sat-cau-do-hack-nao.html",
+    "icon": "HelpCircle",
+    "co": "nho",
+    "tab": "tab-giai-tri",
+    "ghiChu": "Khởi động cuộc họp vui vẻ",
+    "thuTu": 97
+  },
+  {
+    "id": "t_truth_or_dare",
+    "ten": "Thật hay Thách (Truth or Dare)",
+    "link": "cong-cu/sat-truth-or-dare.html",
+    "icon": "Flame",
+    "co": "nho",
+    "tab": "tab-giai-tri",
+    "ghiChu": "Trò chơi gắn kết tiệc tùng",
+    "thuTu": 98
+  },
+  {
+    "id": "t_game_sudoku",
+    "ten": "Game Sudoku 3 Cấp Độ",
+    "link": "cong-cu/sat-game-sudoku.html",
+    "icon": "TableProperties",
+    "co": "nho",
+    "tab": "tab-giai-tri",
+    "ghiChu": "Dễ - Vừa - Khó rèn luyện não",
+    "thuTu": 99
+  },
+  {
+    "id": "t_tarot_hang_ngay",
+    "ten": "Rút quẻ Tarot & Thông điệp ngày",
+    "link": "cong-cu/sat-tarot-hang-ngay.html",
+    "icon": "SunMedium",
+    "co": "nho",
+    "tab": "tab-giai-tri",
+    "ghiChu": "Năng lượng tích cực mỗi ngày",
+    "thuTu": 100
+  }
+];
+
+    const STORAGE_KEY = 'nns_v6_data';
+    const DEFAULT_DATA = {
+      version: 6,
+      updatedAt: Date.now(),
+      deviceId: 'dev_tuan',
+      settings: {
+        soundEnabled: true,
+        lastBackupAt: null
+      },
+      tabs: [
+      {
+            "id": "tab-hom-nay",
+            "ten": "Hôm nay & Tiêu điểm",
+            "icon": "ngoi-nha",
+            "thuTu": 1
+      },
+      {
+            "id": "tab-cong-viec",
+            "ten": "Công Việc & KD",
+            "icon": "may-tinh",
+            "thuTu": 2
+      },
+      {
+            "id": "tab-vo-chong",
+            "ten": "Hạnh Phúc Vợ Chồng",
+            "icon": "trai-tim",
+            "thuTu": 3
+      },
+      {
+            "id": "tab-doi-song",
+            "ten": "Đời Sống & Sức Khỏe",
+            "icon": "giot-nuoc",
+            "thuTu": 4
+      },
+      {
+            "id": "tab-nhan-su-ai",
+            "ten": "Đội Ngũ Nhân Sự AI",
+            "icon": "nhom-nguoi",
+            "thuTu": 5
+      },
+      {
+            "id": "tab-tai-chinh",
+            "ten": "Tài Chính & Quản Trị",
+            "icon": "tien",
+            "thuTu": 6
+      },
+      {
+            "id": "tab-giai-tri",
+            "ten": "Game & Giải Trí",
+            "icon": "xuc-xac",
+            "thuTu": 7
+      },
+      {
+            "id": "tab-tat-ca",
+            "ten": "Tất Cả 100 Công Cụ",
+            "icon": "bang-tinh",
+            "thuTu": 8
+      }
+],
+      congCu: ALL_100_TOOLS,
+      phong: {
+        'viec': {
+          an: false,
+          co: 'lon',
+          tab: 'tab-hom-nay',
+          ghim: false,
+          thuTu: 1,
+          tasks: [
+            { id: 'tsk-1', ten: 'Đào tạo học viên Aiva kiến thức mới', nhom: 'hom-nay', priority: 'CAO', phut: 60, tag: 'aiva', due: getIsoDate(0), trongTam: true, done: false, createdAt: Date.now() }
+          ]
+        },
+        'thoi-quen': {
+          an: false,
+          co: 'nho',
+          tab: 'tab-hom-nay',
+          ghim: false,
+          thuTu: 2,
+          habits: [
+            { id: 'hab-1', ten: 'Tập thể dục buổi sáng', icon: 'mot-nguoi', currentStreak: 1, longestStreak: 7, history: generateDefaultHistory(1) },
+            { id: 'hab-2', ten: 'Đi ngủ trước 11h', icon: 'dong-ho', currentStreak: 1, longestStreak: 5, history: generateDefaultHistory(1) },
+            { id: 'hab-3', ten: 'Uống 2,5 lít nước', icon: 'giot-nuoc', currentStreak: 1, longestStreak: 14, history: generateDefaultHistory(1) }
+          ]
+        },
+        'ghi-nhanh': {
+          an: false,
+          co: 'nho',
+          tab: 'tab-hom-nay',
+          ghim: false,
+          thuTu: 3,
+          notes: [
+            { id: 'note-1', content: 'Chào mừng Tuấn Phạm đến với Ngôi Nhà Số V4.', pinned: true, createdAt: Date.now() }
+          ]
+        }
+      }
+    };
+
+    let AppState = JSON.parse(JSON.stringify(DEFAULT_DATA));
+    let currentTabId = 'tab-hom-nay';
+    let isSortMode = false;
+    let activeRoomId = null;
+
+    function getIsoDate(offsetDays = 0) {
+      const d = new Date();
+      d.setDate(d.getDate() + offsetDays);
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${y}-${m}-${day}`;
+    }
+
+    function generateDefaultHistory(daysCount) {
+      const hist = {};
+      for (let i = 0; i < daysCount; i++) {
+        hist[getIsoDate(-i)] = true;
+      }
+      return hist;
+    }
+
+    function initStorage() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === 'object') {
+            AppState = Object.assign({}, DEFAULT_DATA, parsed);
+            
+            // Dam bao co tab Nhan su AI va Tat ca
+            if (!AppState.tabs.some(t => t.id === 'tab-nhan-su-ai')) {
+              AppState.tabs.push({ id: 'tab-nhan-su-ai', ten: 'Nhân sự AI', icon: 'nhom-nguoi', thuTu: 4 });
+            }
+            if (!AppState.tabs.some(t => t.id === 'tab-tat-ca')) {
+              AppState.tabs.push({ id: 'tab-tat-ca', ten: 'Tất cả', icon: 'bang-tinh', thuTu: 5 });
+            }
+
+            // Sync cong cu day du
+            if (!AppState.congCu || AppState.congCu.length === 0) {
+              AppState.congCu = ALL_100_TOOLS;
+            } else {
+              ALL_100_TOOLS.forEach(dt => {
+                const existing = AppState.congCu.find(t => t.link === dt.link);
+                if (!existing) {
+                  AppState.congCu.push(dt);
+                } else if (dt.tab === 'tab-nhan-su-ai' && existing.tab !== 'tab-nhan-su-ai') {
+                  existing.tab = 'tab-nhan-su-ai';
+                }
+              });
+            }
+          }
+        } else {
+          saveState();
+        }
+      } catch (err) {
+        console.warn('Khởi tạo lại trạng thái an toàn:', err);
+        AppState = JSON.parse(JSON.stringify(DEFAULT_DATA));
+        saveState();
+      }
+    }
+
+    function saveState() {
+      try {
+        AppState.updatedAt = Date.now();
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(AppState));
+      } catch (err) {
+        console.error('Lỗi ghi LocalStorage:', err);
+      }
+    }
+
+    function renderAll() {
+      renderHeader();
+      renderDai2Tasks();
+      renderDai3Habits();
+      renderDai4TabsAndTiles();
+    }
+
+    function renderHeader() {
+      const now = new Date();
+      const hour = now.getHours();
+      let greetText = 'Chào buổi sáng, Tuấn.';
+      if (hour >= 12 && hour < 18) greetText = 'Chào buổi chiều, Tuấn.';
+      else if (hour >= 18) greetText = 'Chào buổi tối, Tuấn.';
+
+      const daysOfWeek = ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'];
+      const dayName = daysOfWeek[now.getDay()];
+      document.getElementById('greet-heading').textContent = greetText;
+      document.getElementById('greet-date').textContent = `${dayName}, ngày ${now.getDate()} tháng ${now.getMonth() + 1} năm ${now.getFullYear()}`;
+
+      document.getElementById('sort-icon-box').innerHTML = renderSvg('banh-xe', 16);
+      document.getElementById('settings-icon-box').innerHTML = renderSvg('banh-xe', 16);
+      document.getElementById('icon-backup-pill').innerHTML = renderSvg('lich', 14);
+      document.getElementById('icon-tasks-pill').innerHTML = renderSvg('viec', 14);
+      document.getElementById('icon-bell-box').innerHTML = renderSvg('chuong', 18);
+      document.getElementById('icon-focus-box').innerHTML = renderSvg('dich-ngam', 22);
+      document.getElementById('icon-habit-box').innerHTML = renderSvg('cai-cay', 20);
+
+      const allTasks = AppState.phong.viec?.tasks || [];
+      const pendingTasks = allTasks.filter(t => !t.done).length;
+      const doneTasks = allTasks.filter(t => t.done).length;
+      const totalTasks = allTasks.length;
+
+      document.getElementById('text-tasks-pill').textContent = `Việc còn lại: ${pendingTasks}`;
+      document.getElementById('stat-ratio-text').textContent = `${doneTasks}/${totalTasks}`;
+
+      const lastBackup = AppState.settings?.lastBackupAt;
+      const backupPillText = document.getElementById('text-backup-pill');
+      const backupBanner = document.getElementById('banner-backup-warning');
+
+      if (lastBackup) {
+        backupPillText.textContent = `Sao lưu: ${new Date(lastBackup).toLocaleDateString('vi-VN')}`;
+        if (backupBanner) backupBanner.style.display = 'none';
+      } else {
+        backupPillText.textContent = 'Sao lưu gần nhất: chưa lần nào';
+        if (backupBanner && !sessionStorage.getItem('backup_dismissed')) {
+          backupBanner.style.display = 'flex';
+        }
+      }
+
+      const btnExp = document.getElementById('btn-banner-export');
+      if (btnExp) {
+        btnExp.onclick = () => {
+          exportBackupData();
+          if (backupBanner) backupBanner.style.display = 'none';
+        };
+      }
+      const btnDis = document.getElementById('btn-banner-dismiss');
+      if (btnDis) {
+        btnDis.onclick = () => {
+          sessionStorage.setItem('backup_dismissed', '1');
+          if (backupBanner) backupBanner.style.display = 'none';
+        };
+      }
+    }
+
+    function renderDai2Tasks() {
+      const container = document.getElementById('due-tasks-container');
+      const todayStr = getIsoDate(0);
+      const tasks = (AppState.phong.viec?.tasks || []).filter(t => !t.done && t.due);
+
+      if (tasks.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state-box" style="padding: 16px;">
+            <div class="empty-state-text">Thảnh thơi! Bảy ngày tới không có việc nào đến hạn</div>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = tasks.slice(0, 3).map(task => {
+        const isOverdue = task.due < todayStr;
+        const isToday = task.due === todayStr;
+        const dueLabel = isOverdue ? 'Quá hạn' : (isToday ? 'Hôm nay' : task.due);
+
+        return `
+          <div class="due-task-item ${isOverdue ? 'is-overdue' : (isToday ? 'is-today' : '')}">
+            <div class="task-left">
+              <button class="custom-check ${task.done ? 'checked' : ''}" onclick="toggleTaskDone('${task.id}')">
+                ${task.done ? renderSvg('viec', 14) : ''}
+              </button>
+              <div class="task-meta-wrap">
+                <div class="task-title-line">${escapeHtml(task.ten)}</div>
+                <div class="task-sub-line">
+                  <span class="due-time-tag ${isOverdue ? 'overdue' : 'today'}">${dueLabel}</span>
+                  <span>•</span>
+                  <span>Ưu tiên ${task.priority}</span>
+                </div>
+              </div>
+            </div>
+            <div class="task-actions">
+              <button class="btn btn-subtle btn-sm" onclick="openRoom('viec')">Mở phòng</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderDai3Habits() {
+      const container = document.getElementById('habits-container');
+      const habits = AppState.phong['thoi-quen']?.habits || [];
+      const todayStr = getIsoDate(0);
+      let doneCount = 0;
+
+      container.innerHTML = habits.map(hab => {
+        const isDoneToday = !!(hab.history && hab.history[todayStr]);
+        if (isDoneToday) doneCount++;
+
+        return `
+          <div class="habit-card ${isDoneToday ? 'completed' : ''}" onclick="toggleHabit('${hab.id}')">
+            <div class="habit-info">
+              <span style="color:var(--accent);">${renderSvg(hab.icon || 'cai-cay', 20)}</span>
+              <span>${escapeHtml(hab.ten)}</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span class="habit-streak">${hab.currentStreak || 0} ngày</span>
+              <div class="custom-check ${isDoneToday ? 'checked' : ''}" style="width:20px; height:20px; min-width:20px;">
+                ${isDoneToday ? renderSvg('viec', 12) : ''}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      document.getElementById('habits-progress-text').textContent = `${doneCount}/${habits.length} hoàn thành`;
+    }
+
+    function renderDai4TabsAndTiles() {
+      const tabContainer = document.getElementById('tab-buttons-container');
+      tabContainer.innerHTML = AppState.tabs.map(tab => {
+        let count = 0;
+        if (tab.id === 'tab-tat-ca') {
+          count = AppState.congCu.length;
+        } else if (tab.id === 'tab-hom-nay') {
+          const roomCount = Object.keys(AppState.phong).filter(k => !AppState.phong[k].an).length;
+          const toolCount = AppState.congCu.filter(t => t.tab === 'tab-hom-nay').length;
+          count = roomCount + toolCount;
+        } else {
+          count = AppState.congCu.filter(t => t.tab === tab.id).length;
+        }
+        const label = tab.id === 'tab-tat-ca' ? `Tất cả (${count})` : `${escapeHtml(tab.ten)} (${count})`;
+
+        return `
+          <button class="tab-btn ${tab.id === currentTabId ? 'active' : ''}" onclick="switchTab('${tab.id}')">
+            <span>${renderSvg(tab.icon || 'thu-muc', 16)}</span>
+            <span>${label}</span>
+          </button>
+        `;
+      }).join('');
+
+      const gridContainer = document.getElementById('tiles-container');
+      const items = [];
+
+      if (currentTabId === 'tab-tat-ca') {
+        // Show all rooms + all tools
+        Object.keys(AppState.phong).forEach(roomId => {
+          const room = AppState.phong[roomId];
+          if (!room.an) {
+            items.push({
+              type: 'phong',
+              id: roomId,
+              ten: roomId === 'viec' ? 'Việc Hôm Nay' : (roomId === 'thoi-quen' ? 'Thói Quen' : 'Ghi Nhanh'),
+              desc: roomId === 'viec' ? 'Quản lý 3 nhóm việc' : (roomId === 'thoi-quen' ? 'Lưới 49 ngày' : 'Ghi chú nhanh'),
+              icon: roomId === 'viec' ? 'viec' : (roomId === 'thoi-quen' ? 'cai-cay' : 'ghi-chu'),
+              co: room.co || 'vua',
+              thuTu: room.thuTu || 1,
+              tabLabel: 'Hôm nay'
+            });
+          }
+        });
+
+        AppState.congCu.forEach(t => {
+          const tabObj = AppState.tabs.find(tb => tb.id === t.tab);
+          items.push({
+            type: 'cong-cu',
+            ...t,
+            tabLabel: tabObj ? tabObj.ten : ''
+          });
+        });
+      } else {
+        // Normal single tab
+        Object.keys(AppState.phong).forEach(roomId => {
+          const room = AppState.phong[roomId];
+          if (!room.an && (room.tab === currentTabId || (!room.tab && currentTabId === 'tab-hom-nay'))) {
+            items.push({
+              type: 'phong',
+              id: roomId,
+              ten: roomId === 'viec' ? 'Việc Hôm Nay' : (roomId === 'thoi-quen' ? 'Thói Quen' : 'Ghi Nhanh'),
+              desc: roomId === 'viec' ? 'Quản lý 3 nhóm việc' : (roomId === 'thoi-quen' ? 'Lưới 49 ngày' : 'Ghi chú nhanh'),
+              icon: roomId === 'viec' ? 'viec' : (roomId === 'thoi-quen' ? 'cai-cay' : 'ghi-chu'),
+              co: room.co || 'vua',
+              thuTu: room.thuTu || 1
+            });
+          }
+        });
+
+        AppState.congCu.forEach(t => {
+          if (t.tab === currentTabId) {
+            items.push({ type: 'cong-cu', ...t });
+          }
+        });
+      }
+
+      items.sort((a,b) => (a.thuTu||0) - (b.thuTu||0));
+
+      let html = items.map(item => `
+        <div class="tile-card" onclick="handleTileClick('${item.type}', '${item.id || ''}', '${item.link || ''}')">
+          <div class="tile-top">
+            <div class="tile-icon-wrap">${renderSvg(item.icon || 'tep', 22)}</div>
+            ${item.tabLabel ? `<span class="badge badge-accent" style="font-size:10px; font-weight:600; padding:2px 6px;">${escapeHtml(item.tabLabel)}</span>` : ''}
+          </div>
+          <div class="tile-content">
+            <div class="tile-title">${escapeHtml(item.ten)}</div>
+            ${item.desc || item.ghiChu ? `<div class="tile-desc">${escapeHtml(item.desc || item.ghiChu)}</div>` : ''}
+          </div>
+        </div>
+      `).join('');
+
+      html += `
+        <div class="add-tool-tile" onclick="openAddToolModal()">
+          <span style="font-size:24px;">+</span>
+          <span style="font-weight:600; font-size:14px;">Thêm công cụ</span>
+        </div>
+      `;
+
+      gridContainer.innerHTML = html;
+    }
+
+    window.switchTab = function(tabId) {
+      currentTabId = tabId;
+      renderDai4TabsAndTiles();
+    };
+
+    let currentToolLink = '';
+    window.handleTileClick = function(type, id, link) {
+      if (type === 'phong') {
+        openRoom(id);
+      } else if (link) {
+        currentToolLink = link;
+        const toolObj = AppState.congCu.find(t => t.link === link);
+        document.getElementById('tool-runner-title').textContent = toolObj ? toolObj.ten : 'Công Cụ Ngôi Nhà Số';
+        document.getElementById('btn-tool-tab').href = link;
+        document.getElementById('tool-runner-iframe').src = link;
+        document.getElementById('modal-tool-runner').style.display = 'flex';
+      }
+    };
+
+    window.closeToolRunner = function() {
+      document.getElementById('modal-tool-runner').style.display = 'none';
+      document.getElementById('tool-runner-iframe').src = '';
+    };
+
+    window.refreshToolRunner = function() {
+      if (currentToolLink) {
+        document.getElementById('tool-runner-iframe').src = currentToolLink;
+      }
+    };
+
+    window.toggleTaskDone = function(taskId) {
+      const t = AppState.phong.viec?.tasks.find(x => x.id === taskId);
+      if (t) {
+        t.done = !t.done;
+        saveState();
+        renderAll();
+      }
+    };
+
+    window.toggleHabit = function(habitId) {
+      const hab = AppState.phong['thoi-quen']?.habits.find(h => h.id === habitId);
+      if (!hab) return;
+      const todayStr = getIsoDate(0);
+      if (!hab.history) hab.history = {};
+      if (hab.history[todayStr]) {
+        delete hab.history[todayStr];
+        hab.currentStreak = Math.max(0, (hab.currentStreak || 1) - 1);
+      } else {
+        hab.history[todayStr] = true;
+        hab.currentStreak = (hab.currentStreak || 0) + 1;
+      }
+      saveState();
+      renderAll();
+    };
+
+    window.openRoom = function(roomId) {
+      activeRoomId = roomId;
+      document.getElementById('view-dashboard').style.display = 'none';
+      document.getElementById('view-room').style.display = 'block';
+      document.getElementById('icon-back-box').innerHTML = renderSvg('ngoi-nha', 18);
+      document.getElementById('room-view-title').textContent = roomId === 'viec' ? 'Việc Hôm Nay' : (roomId === 'thoi-quen' ? 'Thói Quen' : 'Ghi Nhanh');
+
+      const content = document.getElementById('room-view-content');
+      if (roomId === 'viec') {
+        content.innerHTML = `
+          <div class="viec-group-box">
+            <div class="group-head">Danh sách việc</div>
+            <div class="quick-add-input-wrap">
+              <input type="text" class="quick-input" id="inp-quick-task" placeholder="Nhập việc cần làm rồi ấn Enter...">
+            </div>
+            <div id="viec-tasks-list">
+              ${(AppState.phong.viec?.tasks || []).map(t => `
+                <div class="due-task-item" style="margin-bottom:6px; background:#fff;">
+                  <span style="${t.done ? 'text-decoration:line-through; opacity:0.6;' : ''}">${escapeHtml(t.ten)}</span>
+                  <button class="btn btn-subtle btn-sm" onclick="toggleTaskDone('${t.id}'); openRoom('viec');">
+                    ${t.done ? 'Mở lại' : 'Hoàn thành'}
+                  </button>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+        document.getElementById('inp-quick-task').addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' && e.target.value.trim()) {
+            AppState.phong.viec.tasks.unshift({
+              id: 'tsk_' + Date.now(),
+              ten: e.target.value.trim(),
+              nhom: 'hom-nay',
+              priority: 'THUONG',
+              due: getIsoDate(0),
+              done: false,
+              createdAt: Date.now()
+            });
+            saveState();
+            openRoom('viec');
+          }
+        });
+      } else if (roomId === 'thoi-quen') {
+        content.innerHTML = `
+          <div class="viec-group-box">
+            <div class="group-head">Thói quen hàng ngày</div>
+            ${(AppState.phong['thoi-quen']?.habits || []).map(h => `
+              <div class="due-task-item" style="margin-bottom:6px; background:#fff;">
+                <span>${renderSvg(h.icon, 18)} <strong>${escapeHtml(h.ten)}</strong> (${h.currentStreak || 0} ngày liên tục)</span>
+                <button class="btn btn-primary btn-sm" onclick="toggleHabit('${h.id}'); openRoom('thoi-quen');">Tích hoàn thành</button>
+              </div>
+            `).join('')}
+          </div>
+        `;
+      } else if (roomId === 'ghi-nhanh') {
+        content.innerHTML = `
+          <div class="viec-group-box">
+            <textarea class="quicknote-textarea" id="inp-note-area" placeholder="Nhập ghi chú nhanh..."></textarea>
+            <button class="btn btn-primary btn-sm" id="btn-save-note">Lưu ghi chú</button>
+          </div>
+          <div id="notes-list">
+            ${(AppState.phong['ghi-nhanh']?.notes || []).map(n => `
+              <div class="due-task-item" style="margin-bottom:6px; background:#fff;">
+                <div style="white-space:pre-wrap;">${escapeHtml(n.content)}</div>
+              </div>
+            `).join('')}
+          </div>
+        `;
+        document.getElementById('btn-save-note').addEventListener('click', () => {
+          const val = document.getElementById('inp-note-area').value.trim();
+          if (val) {
+            AppState.phong['ghi-nhanh'].notes.unshift({ id: 'n_' + Date.now(), content: val, createdAt: Date.now() });
+            saveState();
+            openRoom('ghi-nhanh');
+          }
+        });
+      }
+    };
+
+    window.closeRoom = function() {
+      activeRoomId = null;
+      document.getElementById('view-room').style.display = 'none';
+      document.getElementById('view-dashboard').style.display = 'flex';
+      renderAll();
+    };
+
+    window.openAddToolModal = function() {
+      document.getElementById('modal-add-tool').style.display = 'flex';
+    };
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function initEvents() {
+      document.getElementById('btn-room-back').addEventListener('click', closeRoom);
+      document.getElementById('btn-close-settings').addEventListener('click', () => document.getElementById('modal-settings').style.display = 'none');
+      document.getElementById('btn-settings-close-bottom').addEventListener('click', () => document.getElementById('modal-settings').style.display = 'none');
+      document.getElementById('btn-open-settings').addEventListener('click', () => document.getElementById('modal-settings').style.display = 'flex');
+      document.getElementById('btn-close-add-tool').addEventListener('click', () => document.getElementById('modal-add-tool').style.display = 'none');
+      document.getElementById('btn-cancel-add-tool').addEventListener('click', () => document.getElementById('modal-add-tool').style.display = 'none');
+
+      document.getElementById('btn-reset-data').addEventListener('click', () => {
+        if (confirm('Đặt lại toàn bộ dữ liệu Ngôi nhà số về mặc định sạch?')) {
+          localStorage.removeItem(STORAGE_KEY);
+          AppState = JSON.parse(JSON.stringify(DEFAULT_DATA));
+          saveState();
+          document.getElementById('modal-settings').style.display = 'none';
+          renderAll();
+          alert('Đã khôi phục dữ liệu ban đầu!');
+        }
+      });
+
+      document.getElementById('btn-submit-add-tool').addEventListener('click', () => {
+        try {
+          const raw = document.getElementById('input-json-block').value.trim();
+          if (!raw) return;
+          let parsed = JSON.parse(raw);
+          if (!Array.isArray(parsed)) parsed = [parsed];
+          parsed.forEach(p => {
+            if (p.ten && p.link) {
+              AppState.congCu.push({
+                id: 't_' + Date.now(),
+                ten: p.ten,
+                link: p.link,
+                icon: p.icon || 'tep',
+                co: p.co || 'nho',
+                tab: p.tab === 'Đời sống' ? 'tab-doi-song' : (p.tab === 'Công việc' ? 'tab-cong-viec' : 'tab-hom-nay'),
+                ghiChu: p.ghiChu || '',
+                thuTu: AppState.congCu.length + 1
+              });
+            }
+          });
+          saveState();
+          document.getElementById('modal-add-tool').style.display = 'none';
+          document.getElementById('input-json-block').value = '';
+          renderAll();
+        } catch(e) {
+          alert('Lỗi định dạng JSON: ' + e.message);
+        }
+      });
+    }
+
+    // PWA Service Worker & Cài đặt App
+    if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
+      navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW registration:', err));
+    }
+
+    let deferredPrompt = null;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      const installBtn = document.getElementById('btn-pwa-install');
+      if (installBtn) {
+        installBtn.style.display = 'inline-flex';
+        installBtn.onclick = () => {
+          installBtn.style.display = 'none';
+          deferredPrompt.prompt();
+          deferredPrompt.userChoice.then(() => { deferredPrompt = null; });
+        };
+      }
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initStorage();
+      initEvents();
+      renderAll();
+    });
+  })();
+  </script>
+
+  <!-- MODAL EMBEDDED TOOL RUNNER -->
+  <div id="modal-tool-runner" style="display:none; position:fixed; inset:0; background:rgba(11,19,43,0.85); backdrop-filter:blur(8px); z-index:9999; flex-direction:column; padding:12px;">
+    <div style="background:#1e293b; border:1px solid rgba(255,255,255,0.1); border-radius:16px 16px 0 0; padding:12px 18px; display:flex; justify-content:space-between; align-items:center; color:#fff;">
+      <div style="display:flex; align-items:center; gap:10px;">
+        <button onclick="closeToolRunner()" class="btn btn-subtle btn-sm" style="background:#334155; color:#fff; border:none; border-radius:8px; padding:6px 12px; cursor:pointer;">← Quay Lại</button>
+        <span id="tool-runner-title" style="font-weight:bold; font-size:15px; color:#38bdf8;">Đang tải công cụ...</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:8px;">
+        <button id="btn-tool-refresh" onclick="refreshToolRunner()" class="btn btn-subtle btn-sm" style="background:#334155; color:#fff; border:none; border-radius:8px; padding:6px 10px; cursor:pointer;" title="Làm mới">🔄</button>
+        <a id="btn-tool-tab" href="#" target="_blank" class="btn btn-subtle btn-sm" style="background:#334155; color:#fff; text-decoration:none; border-radius:8px; padding:6px 12px; font-size:12px;" title="Mở tab riêng">↗ Tab Mới</a>
+        <button onclick="closeToolRunner()" style="background:#ef4444; color:#fff; border:none; border-radius:8px; width:30px; height:30px; cursor:pointer; font-weight:bold;">✕</button>
+      </div>
+    </div>
+    <div style="flex:1; background:#0b132b; border-radius:0 0 16px 16px; overflow:hidden; border:1px solid rgba(255,255,255,0.1); border-top:none;">
+      <iframe id="tool-runner-iframe" src="" style="width:100%; height:100%; border:none;" allow="autoplay; camera; microphone; clipboard-write; clipboard-read"></iframe>
+    </div>
+  </div>
+
+</body>
+</html>
