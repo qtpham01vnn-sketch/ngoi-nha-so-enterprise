@@ -3,67 +3,141 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bí Kíp Trả Bài Cho Vợ Chuẩn — Ngôi Nhà Số</title>
+  <title>Bí Kíp Trả Bài Cho Vợ Chuẩn Khoa Học — Ngôi Nhà Số</title>
   <style>
     :root {
-      --bg-page: #0b132b; --bg-card: #131f47; --border: rgba(56, 189, 248, 0.2);
-      --text: #f8fafc; --text-muted: #94a3b8; --accent: #38bdf8; --accent-glow: rgba(56, 189, 248, 0.3);
-      --emerald: #10b981; --rose: #f43f5e; --amber: #f59e0b; --indigo: #6366f1;
+      --bg-page: #0b132b; --bg-card: #131f47; --border: rgba(244, 63, 94, 0.3);
+      --text: #f8fafc; --text-muted: #94a3b8; --accent: #38bdf8; --rose: #f43f5e;
+      --emerald: #10b981; --amber: #f59e0b;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     body { background: var(--bg-page); color: var(--text); padding-bottom: 40px; min-height: 100vh; }
     .app-wrap { max-width: 800px; margin: 0 auto; padding: 20px 16px; }
     .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
-    .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--accent); text-decoration: none; font-size: 13px; font-weight: 600; padding: 8px 14px; border-radius: 10px; background: rgba(56, 189, 248, 0.1); border: 1px solid var(--border); transition: all 0.2s; cursor: pointer; }
-    .back-link:hover { background: rgba(56, 189, 248, 0.2); }
-    .badge { font-size: 12px; color: var(--text-muted); background: rgba(255,255,255,0.05); padding: 4px 10px; border-radius: 99px; border: 1px solid rgba(255,255,255,0.1); }
+    .back-link { display: inline-flex; align-items: center; gap: 6px; color: #38bdf8; text-decoration: none; font-size: 13px; font-weight: 600; padding: 8px 14px; border-radius: 10px; background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.2); cursor: pointer; }
+    .badge { font-size: 12px; color: #fda4af; background: rgba(244, 63, 94, 0.15); padding: 4px 12px; border-radius: 99px; border: 1px solid rgba(244, 63, 94, 0.3); font-weight: bold; }
     .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); margin-bottom: 20px; }
-    .card-title { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+    .card-title { font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
     .card-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.5; }
     .input-group { margin-bottom: 16px; text-align: left; }
     .input-label { display: block; font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
-    .input-field { width: 100%; padding: 12px 14px; background: #080e22; border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; color: #fff; font-size: 14px; outline: none; transition: border 0.2s; }
-    .input-field:focus { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-glow); }
-    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 13px 20px; border-radius: 12px; font-size: 14px; font-weight: 700; cursor: pointer; border: none; transition: all 0.2s; }
-    .btn-primary { background: linear-gradient(135deg, #0284c7, #6366f1); color: #fff; box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4); }
-    .btn-primary:hover { opacity: 0.95; transform: translateY(-1px); }
+    .input-field { width: 100%; padding: 12px 14px; background: #080e22; border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; color: #fff; font-size: 14px; outline: none; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 14px 20px; border-radius: 12px; font-size: 14px; font-weight: 700; cursor: pointer; border: none; transition: all 0.2s; }
     .btn-rose { background: linear-gradient(135deg, #e11d48, #f43f5e); color: #fff; box-shadow: 0 4px 15px rgba(244, 63, 94, 0.3); }
+    .btn-rose:hover { opacity: 0.95; transform: translateY(-1px); }
     .btn-emerald { background: linear-gradient(135deg, #059669, #10b981); color: #fff; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); }
-    .result-box { background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 16px; padding: 20px; margin-top: 20px; text-align: center; }
-    .res-val { font-size: 30px; font-weight: 900; color: #fff; margin: 8px 0; }
+    .result-box { background: rgba(244, 63, 94, 0.08); border: 1px solid rgba(244, 63, 94, 0.25); border-radius: 16px; padding: 20px; margin-top: 20px; text-align: center; }
+    .res-val { font-size: 30px; font-weight: 900; color: #f43f5e; margin: 8px 0; }
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
     @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
-    .tag-item { display: inline-block; background: rgba(255,255,255,0.06); padding: 6px 12px; border-radius: 8px; font-size: 12px; margin: 4px; border: 1px solid rgba(255,255,255,0.08); }
-    .tool-footer { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 24px; }
+    .chip { display: inline-block; background: rgba(255,255,255,0.06); padding: 6px 14px; border-radius: 99px; font-size: 12px; margin: 4px; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; }
+    .chip.active, .chip:hover { background: #f43f5e; color: #fff; font-weight: bold; border-color: #f43f5e; }
   </style>
 </head>
 <body>
   <div class="app-wrap">
     <nav class="top-nav">
       <a class="back-link" id="btn-back-main">← Quay lại Bảng điều khiển</a>
-      <span class="badge">Hạnh Phúc Gia Đình</span>
+      <span class="badge">VIP • Hạnh Phúc Vợ Chồng</span>
     </nav>
+
     <div class="card">
-      
-        <div class="card-title">⚡ Bí Kíp Trả Bài Cho Vợ Chuẩn</div>
-        <div class="card-desc">Quy tắc số 9 theo tuổi & thế võ. Công cụ thực chiến tích hợp trực tiếp trong hệ sinh thái Ngôi Nhà Số.</div>
-        
+      <div class="card-title">🔥 Bí Kíp "Trả Bài Cho Vợ" Chuẩn Khoa Học & Giữ Lửa Hạnh Phúc</div>
+      <div class="card-desc">Tính toán tần suất chuẩn theo quy tắc số 9 của Y học, cẩm nang 4 "thế võ" giữ lửa lãng mạn an toàn cột sống, checklist 5 bước chuẩn men và nhật ký tích điểm Chồng Ngoan.</div>
+
+      <!-- Quick Age selector -->
+      <div style="margin-bottom:16px;">
+        <label class="input-label">Chọn nhanh độ tuổi của chồng:</label>
+        <div>
+          <span class="chip" onclick="setAge(25)">25 tuổi</span>
+          <span class="chip" onclick="setAge(30)">30 tuổi</span>
+          <span class="chip active" onclick="setAge(38)">38 tuổi</span>
+          <span class="chip" onclick="setAge(42)">42 tuổi</span>
+          <span class="chip" onclick="setAge(48)">48 tuổi</span>
+          <span class="chip" onclick="setAge(55)">55 tuổi</span>
+        </div>
+      </div>
+
+      <div class="grid-2">
         <div class="input-group">
-          <label class="input-label">Dữ liệu đầu vào / Nội dung cần xử lý:</label>
-          <textarea id="t-input" class="input-field" rows="4" placeholder="Nhập thông tin hoặc yêu cầu của bạn tại đây..."></textarea>
+          <label class="input-label">Tuổi chính xác của chồng:</label>
+          <input type="number" id="tb-age" class="input-field" value="38" min="20" max="80">
         </div>
-        
-        <button class="btn btn-primary" id="btn-run-tool">🚀 Thực Thi & Xử Lý Ngay</button>
-        
-        <div id="t-result" class="result-box" style="display:none; text-align:left;">
-          <div style="font-size:12px; color:var(--accent); font-weight:bold; margin-bottom:8px;">KẾT QUẢ XỬ LÝ:</div>
-          <div id="t-res-content" style="font-size:14px; color:#fff; line-height:1.6; background:rgba(0,0,0,0.3); padding:16px; border-radius:12px; white-space:pre-wrap;"></div>
+        <div class="input-group">
+          <label class="input-label">Mức độ thể lực & công việc tuần này:</label>
+          <select id="tb-stress" class="input-field">
+            <option value="1">Sung mãn, thoải mái (100% phong độ)</option>
+            <option value="0.8">Công việc vừa phải (80% phong độ)</option>
+            <option value="0.6">Bận rộn, mệt mỏi (Ưu tiên chất lượng hơn số lượng)</option>
+          </select>
         </div>
-        
+      </div>
+
+      <button class="btn btn-rose" id="btn-calc-tb">⚡ Tính Tần Suất Chuẩn & Lời Khuyên Phong Độ</button>
+
+      <!-- RESULT BOX -->
+      <div id="tb-result" class="result-box">
+        <div style="font-size:12px; color:var(--accent); font-weight:bold; text-transform:uppercase;">Tần Suất Khoa Học Khuyến Nghị (Quy Tắc Số 9)</div>
+        <div class="res-val" id="tb-freq">2 Tuần 7 Lần (~3 - 4 lần / tuần)</div>
+        <div id="tb-advice" style="font-size:13px; color:#cbd5e1; line-height:1.6; margin-top:8px;"></div>
+      </div>
+
+      <!-- 4 THẾ VÕ -->
+      <div style="margin-top:24px;">
+        <h3 style="font-size:16px; font-weight:800; color:#fff; margin-bottom:12px;">🥋 Cẩm Nang 4 "Thế Võ" Giữ Lửa & An Toàn Cột Sống:</h3>
+        <div class="grid-2" style="gap:12px;">
+          <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:14px;">
+            <div style="font-weight:700; color:#38bdf8; font-size:14px;">1. Thế "Truyền Thống Ngọt Ngào"</div>
+            <p style="font-size:12px; color:#94a3b8; margin-top:4px;">Nhìn thẳng mắt vợ, ôm ấp hôn sâu. Phù hợp tạo cảm giác an toàn, gắn kết tình cảm sau ngày dài.</p>
+          </div>
+          <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:14px;">
+            <div style="font-weight:700; color:#10b981; font-size:14px;">2. Thế "Úp Thìa Thư Giãn" (Spoon)</div>
+            <p style="font-size:12px; color:#94a3b8; margin-top:4px;">Chồng nằm sau ôm vợ, cực kỳ êm ái, bảo vệ cột sống và không tốn nhiều sức khi cả hai mệt.</p>
+          </div>
+          <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:14px;">
+            <div style="font-weight:700; color:#f59e0b; font-size:14px;">3. Thế "Nữ Hoàng Tự Chủ" (Nàng ở trên)</div>
+            <p style="font-size:12px; color:#94a3b8; margin-top:4px;">Chồng nằm thư giãn, để vợ điều chỉnh nhịp điệu. Đổi gió giúp vợ thăng hoa và chủ động.</p>
+          </div>
+          <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:14px;">
+            <div style="font-weight:700; color:#ec4899; font-size:14px;">4. Thế "Hoa Sen Hòa Quyện" (Ngồi đối diện)</div>
+            <p style="font-size:12px; color:#94a3b8; margin-top:4px;">Ngồi đối diện ôm trọn người bạn đời, thì thầm những lời yêu thương vào tai vợ.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- CHECKLIST CHUẨN MEN -->
+      <div style="margin-top:24px; background:rgba(244,63,94,0.1); border:1px solid rgba(244,63,94,0.3); border-radius:14px; padding:16px;">
+        <div style="font-weight:700; color:#fda4af; font-size:14px;">✅ Checklist 5 Bước "Chuẩn Men" Trước Khi Vào Trận:</div>
+        <div style="display:flex; flex-direction:column; gap:8px; margin-top:10px;">
+          <label style="font-size:13px; color:#fecdd3; display:flex; align-items:center; gap:8px; cursor:pointer;">
+            <input type="checkbox" checked style="width:16px; height:16px;"> 1. Tắm rửa thơm tho, cạo râu sạch sẽ, xịt chút nước hoa dịu nhẹ.
+          </label>
+          <label style="font-size:13px; color:#fecdd3; display:flex; align-items:center; gap:8px; cursor:pointer;">
+            <input type="checkbox" checked style="width:16px; height:16px;"> 2. Bật điều hòa mát mẻ (24-26°C), bật đèn ngủ ánh vàng dịu hoặc nến thơm.
+          </label>
+          <label style="font-size:13px; color:#fecdd3; display:flex; align-items:center; gap:8px; cursor:pointer;">
+            <input type="checkbox" checked style="width:16px; height:16px;"> 3. Tắt thông báo điện thoại, cất công việc sang một bên để toàn tâm toàn ý.
+          </label>
+          <label style="font-size:13px; color:#fecdd3; display:flex; align-items:center; gap:8px; cursor:pointer;">
+            <input type="checkbox" checked style="width:16px; height:16px;"> 4. Dành 10-15 phút dạo đầu: massage vai gáy, vuốt tóc, khen ngợi vợ.
+          </label>
+          <label style="font-size:13px; color:#fecdd3; display:flex; align-items:center; gap:8px; cursor:pointer;">
+            <input type="checkbox" checked style="width:16px; height:16px;"> 5. Uống một ly nước ấm sau trận và ôm vợ ngủ (tránh lăn ra ngủ ngay!).
+          </label>
+        </div>
+      </div>
+
+      <!-- NHẬT KÝ & TÍCH ĐIỂM -->
+      <div style="margin-top:20px; text-align:center; padding:16px; background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.3); border-radius:14px;">
+        <div style="font-weight:bold; color:#6ee7b7; font-size:14px; margin-bottom:8px;">🏆 NHẬT KÝ "CHỒNG NGOAN": ĐIỂM UY TÍN <span id="score-badge" style="font-size:18px; color:#fff;">100/100</span></div>
+        <button class="btn btn-emerald" id="btn-checkin" style="max-width:280px; margin:0 auto;">🎉 ĐÃ TRẢ BÀI ĐẦY ĐỦ HÔM NAY</button>
+        <div id="checkin-msg" style="display:none; font-size:13px; color:#a7f3d0; margin-top:8px; font-weight:bold;">✨ Tuyệt vời! Bạn vừa được cộng +10 Điểm Phong Độ Chồng Ngoan! Vợ hạnh phúc, gia đình ấm êm!</div>
+      </div>
+
     </div>
     <footer class="tool-footer">Ngôi Nhà Số Enterprise • Bản Quyền Tuấn Phạm</footer>
   </div>
+
   <script>
   (function() {
     document.addEventListener('DOMContentLoaded', function() {
@@ -80,13 +154,37 @@
       }
     });
   })();
-  
-        document.getElementById('btn-run-tool').addEventListener('click', () => {
-          const inp = document.getElementById('t-input').value.trim() || 'Yêu cầu mặc định cho Bí Kíp Trả Bài Cho Vợ Chuẩn';
-          document.getElementById('t-res-content').textContent = `✅ Đã xử lý thành công cho công cụ [Bí Kíp Trả Bài Cho Vợ Chuẩn]:\n\n• Dữ liệu tiếp nhận: "${inp}"\n• Đánh giá hệ thống: Đạt chuẩn tối ưu, sẵn sàng áp dụng ngay vào quy trình!`;
-          document.getElementById('t-result').style.display = 'block';
-        });
-        
+
+  function setAge(a) {
+    document.getElementById('tb-age').value = a;
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    event.target.classList.add('active');
+    calc();
+  }
+
+  function calc() {
+    const age = parseInt(document.getElementById('tb-age').value) || 30;
+    const decade = Math.floor(age / 10);
+    const times = decade * 9;
+    const days = Math.floor(times / 10);
+    const count = times % 10;
+    
+    let text = `${days} tuần nên trả bài khoảng ${count} lần (Quy tắc số 9: ${decade} x 9 = ${times})`;
+    document.getElementById('tb-freq').textContent = text;
+    
+    let adv = "Chất lượng quan trọng hơn số lượng. Hãy ưu tiên cảm xúc, sự ân cần và thấu hiểu để vợ luôn cảm thấy được yêu thương và trân trọng!";
+    if (age >= 40) adv += " Hãy chú ý khởi động kỹ, uống đủ nước và bổ sung hàu, kẽm, tập squat đều đặn để bảo vệ thắt lưng.";
+    document.getElementById('tb-advice').textContent = adv;
+  }
+
+  document.getElementById('btn-calc-tb').addEventListener('click', calc);
+  document.getElementById('btn-checkin').addEventListener('click', function() {
+    document.getElementById('checkin-msg').style.display = 'block';
+    this.textContent = "✅ ĐÃ GHI NHẬN HÔM NAY!";
+    this.disabled = true;
+    this.style.opacity = "0.7";
+  });
+  calc();
   </script>
 </body>
 </html>
