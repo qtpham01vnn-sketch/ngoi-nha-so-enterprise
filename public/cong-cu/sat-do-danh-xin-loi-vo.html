@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>101 bí quyết dỗ dành & xin lỗi — Ngôi Nhà Số</title>
+  <title>101 Bí Quyết Dỗ Dành & Xoa Dịu Cơn Giận Của Vợ — Ngôi Nhà Số</title>
   <style>
     :root {
-      --bg-page: #0b132b; --bg-card: #131f47; --border: rgba(56, 189, 248, 0.2);
+      --bg-page: #0b132b; --bg-card: #131f47; --border: rgba(56, 189, 248, 0.25);
       --text: #f8fafc; --text-muted: #94a3b8; --accent: #38bdf8; --accent-glow: rgba(56, 189, 248, 0.3);
       --emerald: #10b981; --rose: #f43f5e; --amber: #f59e0b; --indigo: #6366f1;
     }
@@ -16,7 +16,7 @@
     .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
     .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--accent); text-decoration: none; font-size: 13px; font-weight: 600; padding: 8px 14px; border-radius: 10px; background: rgba(56, 189, 248, 0.1); border: 1px solid var(--border); transition: all 0.2s; cursor: pointer; }
     .back-link:hover { background: rgba(56, 189, 248, 0.2); }
-    .badge { font-size: 12px; color: var(--text-muted); background: rgba(255,255,255,0.05); padding: 4px 10px; border-radius: 99px; border: 1px solid rgba(255,255,255,0.1); }
+    .badge { font-size: 12px; color: var(--text-muted); background: rgba(255,255,255,0.05); padding: 4px 10px; border-radius: 99px; border: 1px solid rgba(255,255,255,0.1); font-weight: bold; }
     .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); margin-bottom: 20px; }
     .card-title { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
     .card-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.5; }
@@ -29,12 +29,14 @@
     .btn-primary:hover { opacity: 0.95; transform: translateY(-1px); }
     .btn-rose { background: linear-gradient(135deg, #e11d48, #f43f5e); color: #fff; box-shadow: 0 4px 15px rgba(244, 63, 94, 0.3); }
     .btn-emerald { background: linear-gradient(135deg, #059669, #10b981); color: #fff; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); }
+    .btn-amber { background: linear-gradient(135deg, #d97706, #f59e0b); color: #fff; }
+    .btn-copy { background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; }
+    .btn-copy:hover { background: rgba(56, 189, 248, 0.3); }
     .result-box { background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 16px; padding: 20px; margin-top: 20px; text-align: center; }
-    .res-val { font-size: 30px; font-weight: 900; color: #fff; margin: 8px 0; }
+    .res-val { font-size: 28px; font-weight: 900; color: #fff; margin: 8px 0; }
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
     .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
     @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
-    .tag-item { display: inline-block; background: rgba(255,255,255,0.06); padding: 6px 12px; border-radius: 8px; font-size: 12px; margin: 4px; border: 1px solid rgba(255,255,255,0.08); }
     .tool-footer { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 24px; }
   </style>
 </head>
@@ -42,25 +44,30 @@
   <div class="app-wrap">
     <nav class="top-nav">
       <a class="back-link" id="btn-back-main">← Quay lại Bảng điều khiển</a>
-      <span class="badge">Hạnh Phúc Gia Đình</span>
+      <span class="badge">❤️ Bí Quyết Giữ Lửa</span>
     </nav>
     <div class="card">
       
-        <div class="card-title">⚡ 101 bí quyết dỗ dành & xin lỗi</div>
-        <div class="card-desc">Xoa dịu cơn giận nóc nhà. Công cụ thực chiến tích hợp trực tiếp trong hệ sinh thái Ngôi Nhà Số.</div>
-        
-        <div class="input-group">
-          <label class="input-label">Dữ liệu đầu vào / Nội dung cần xử lý:</label>
-          <textarea id="t-input" class="input-field" rows="4" placeholder="Nhập thông tin hoặc yêu cầu của bạn tại đây..."></textarea>
-        </div>
-        
-        <button class="btn btn-primary" id="btn-run-tool">🚀 Thực Thi & Xử Lý Ngay</button>
-        
-        <div id="t-result" class="result-box" style="display:none; text-align:left;">
-          <div style="font-size:12px; color:var(--accent); font-weight:bold; margin-bottom:8px;">KẾT QUẢ XỬ LÝ:</div>
-          <div id="t-res-content" style="font-size:14px; color:#fff; line-height:1.6; background:rgba(0,0,0,0.3); padding:16px; border-radius:12px; white-space:pre-wrap;"></div>
-        </div>
-        
+    <div class="card-title">💐 101 Bí Quyết Dỗ Dành & Xin Lỗi Vợ Siêu Ngọt Ngào</div>
+    <div class="card-desc">Khi "nóc nhà" nổi bão, hãy nhớ nguyên tắc vàng: Không tranh cãi lý lẽ, hãy ôm chặt và lắng nghe! Chọn tình huống để nhận ngay mẫu câu dỗ dành chuẩn xác.</div>
+    <div class="input-group">
+      <label class="input-label">Chọn tình huống vợ đang giận:</label>
+      <select id="sel-angry" class="input-field">
+        <option value="1">Chồng đi nhậu về muộn hoặc quên nhắn tin</option>
+        <option value="2">Chồng lỡ lời nói to tiếng trong lúc nóng giận</option>
+        <option value="3">Chồng quên ngày kỷ niệm / ngày lễ quan trọng</option>
+        <option value="4">Vợ đang mệt mỏi, stress chuyện con cái & việc nhà</option>
+        <option value="5">Vợ giận hờn vô cớ (muốn được quan tâm, chiều chuộng)</option>
+      </select>
+    </div>
+    <button class="btn btn-rose" id="btn-quote">💌 Lấy Câu Dỗ Dành & Hành Động Chuẩn</button>
+    <div id="quote-res" class="result-box" style="display:none; text-align:left;">
+      <div style="font-weight:bold; color:#38bdf8; font-size:13px; margin-bottom:6px;">LỜI NÓI CHỮA LÀNH:</div>
+      <div id="q-say" style="font-size:15px; color:#fff; font-style:italic; padding:12px; background:rgba(0,0,0,0.3); border-radius:10px;"></div>
+      <div style="font-weight:bold; color:#10b981; font-size:13px; margin-top:14px; margin-bottom:6px;">HÀNH ĐỘNG CẦN LÀM NGAY:</div>
+      <div id="q-act" style="font-size:13px; color:#cbd5e1; line-height:1.6;"></div>
+    </div>
+    
     </div>
     <footer class="tool-footer">Ngôi Nhà Số Enterprise • Bản Quyền Tuấn Phạm</footer>
   </div>
@@ -81,12 +88,35 @@
     });
   })();
   
-        document.getElementById('btn-run-tool').addEventListener('click', () => {
-          const inp = document.getElementById('t-input').value.trim() || 'Yêu cầu mặc định cho 101 bí quyết dỗ dành & xin lỗi';
-          document.getElementById('t-res-content').textContent = `✅ Đã xử lý thành công cho công cụ [101 bí quyết dỗ dành & xin lỗi]:\n\n• Dữ liệu tiếp nhận: "${inp}"\n• Đánh giá hệ thống: Đạt chuẩn tối ưu, sẵn sàng áp dụng ngay vào quy trình!`;
-          document.getElementById('t-result').style.display = 'block';
-        });
-        
+    const db = {
+      "1": {
+        s: "Anh biết anh sai rồi vì để em ở nhà chờ đợi lo lắng. Anh chỉ muốn về thật nhanh ôm em thôi. Đừng giận anh nữa nhé, anh mua đúng món trà sữa/chè em thích này!",
+        a: "Không bao biện 'vì công việc'. Ôm vợ từ phía sau, đưa túi đồ ăn ngon và tự giác đi rửa mặt tắm rửa ngay."
+      },
+      "2": {
+        s: "Lúc nãy anh nóng vội nói to làm em buồn, anh thật sự xin lỗi em nhiều lắm. Vợ là người anh yêu quý nhất mà lại làm em tổn thương, anh tệ quá. Cho anh xin lỗi em nhé!",
+        a: "Cúi đầu chân thành, nắm chặt tay vợ, nhìn vào mắt vợ. Để vợ nói hết nỗi lòng mà tuyệt đối không ngắt lời."
+      },
+      "3": {
+        s: "Anh có tội lớn vì để đầu óc quay cuồng mà lỡ mất ngày đặc biệt của chúng mình. Anh không xin tha thứ ngay đâu, tối mai anh đã đặt bàn riêng để bù đắp cho công chúa của anh rồi!",
+        a: "Không cãi 'anh bận'. Ngay lập tức đặt một bó hoa tươi gửi đến công ty vợ kèm thiệp viết tay và lên lịch hẹn hò bù."
+      },
+      "4": {
+        s: "Vợ vất vả vì gia đình nhiều quá rồi. Hôm nay em cứ nghỉ ngơi đi xem phim hoặc đi gội đầu dưỡng sinh nhé, việc nhà và con cái cứ để anh lo tất!",
+        a: "Xắn tay áo rửa hết bát đĩa, quét dọn nhà cửa, tắm cho con và chuyển khoản chút 'kinh phí làm đẹp' cho vợ."
+      },
+      "5": {
+        s: "Dạo này anh mải làm việc nên ít quan tâm vợ đúng không? Lại đây anh ôm nào, vợ của anh lúc hờn dỗi nhìn vẫn đáng yêu nhất trần đời!",
+        a: "Ôm chặt vào lòng, xoa đầu, thơm nhẹ lên trán và đưa vợ đi ăn món ngon vợ thích."
+      }
+    };
+    document.getElementById('btn-quote').addEventListener('click', () => {
+      const v = document.getElementById('sel-angry').value;
+      document.getElementById('q-say').textContent = `"${db[v].s}"`;
+      document.getElementById('q-act').textContent = db[v].a;
+      document.getElementById('quote-res').style.display = 'block';
+    });
+    
   </script>
 </body>
 </html>

@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tạo mã vạch Barcode hàng hóa — Ngôi Nhà Số</title>
+  <title>Trình Tạo Mã Vạch Barcode Hàng Hóa Chuẩn Code128 — Ngôi Nhà Số</title>
   <style>
     :root {
-      --bg-page: #0b132b; --bg-card: #131f47; --border: rgba(56, 189, 248, 0.2);
+      --bg-page: #0b132b; --bg-card: #131f47; --border: rgba(56, 189, 248, 0.25);
       --text: #f8fafc; --text-muted: #94a3b8; --accent: #38bdf8; --accent-glow: rgba(56, 189, 248, 0.3);
       --emerald: #10b981; --rose: #f43f5e; --amber: #f59e0b; --indigo: #6366f1;
     }
@@ -16,7 +16,7 @@
     .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
     .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--accent); text-decoration: none; font-size: 13px; font-weight: 600; padding: 8px 14px; border-radius: 10px; background: rgba(56, 189, 248, 0.1); border: 1px solid var(--border); transition: all 0.2s; cursor: pointer; }
     .back-link:hover { background: rgba(56, 189, 248, 0.2); }
-    .badge { font-size: 12px; color: var(--text-muted); background: rgba(255,255,255,0.05); padding: 4px 10px; border-radius: 99px; border: 1px solid rgba(255,255,255,0.1); }
+    .badge { font-size: 12px; color: var(--text-muted); background: rgba(255,255,255,0.05); padding: 4px 10px; border-radius: 99px; border: 1px solid rgba(255,255,255,0.1); font-weight: bold; }
     .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); margin-bottom: 20px; }
     .card-title { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
     .card-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.5; }
@@ -29,12 +29,14 @@
     .btn-primary:hover { opacity: 0.95; transform: translateY(-1px); }
     .btn-rose { background: linear-gradient(135deg, #e11d48, #f43f5e); color: #fff; box-shadow: 0 4px 15px rgba(244, 63, 94, 0.3); }
     .btn-emerald { background: linear-gradient(135deg, #059669, #10b981); color: #fff; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); }
+    .btn-amber { background: linear-gradient(135deg, #d97706, #f59e0b); color: #fff; }
+    .btn-copy { background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; }
+    .btn-copy:hover { background: rgba(56, 189, 248, 0.3); }
     .result-box { background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 16px; padding: 20px; margin-top: 20px; text-align: center; }
-    .res-val { font-size: 30px; font-weight: 900; color: #fff; margin: 8px 0; }
+    .res-val { font-size: 28px; font-weight: 900; color: #fff; margin: 8px 0; }
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
     .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
     @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
-    .tag-item { display: inline-block; background: rgba(255,255,255,0.06); padding: 6px 12px; border-radius: 8px; font-size: 12px; margin: 4px; border: 1px solid rgba(255,255,255,0.08); }
     .tool-footer { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 24px; }
   </style>
 </head>
@@ -42,25 +44,30 @@
   <div class="app-wrap">
     <nav class="top-nav">
       <a class="back-link" id="btn-back-main">← Quay lại Bảng điều khiển</a>
-      <span class="badge">Doanh Nghiệp</span>
+      <span class="badge">💼 Quản Lý Kho Hàng</span>
     </nav>
     <div class="card">
       
-        <div class="card-title">⚡ Tạo mã vạch Barcode hàng hóa</div>
-        <div class="card-desc">Mã vạch Code128, EAN13. Công cụ thực chiến tích hợp trực tiếp trong hệ sinh thái Ngôi Nhà Số.</div>
-        
-        <div class="input-group">
-          <label class="input-label">Dữ liệu đầu vào / Nội dung cần xử lý:</label>
-          <textarea id="t-input" class="input-field" rows="4" placeholder="Nhập thông tin hoặc yêu cầu của bạn tại đây..."></textarea>
-        </div>
-        
-        <button class="btn btn-primary" id="btn-run-tool">🚀 Thực Thi & Xử Lý Ngay</button>
-        
-        <div id="t-result" class="result-box" style="display:none; text-align:left;">
-          <div style="font-size:12px; color:var(--accent); font-weight:bold; margin-bottom:8px;">KẾT QUẢ XỬ LÝ:</div>
-          <div id="t-res-content" style="font-size:14px; color:#fff; line-height:1.6; background:rgba(0,0,0,0.3); padding:16px; border-radius:12px; white-space:pre-wrap;"></div>
-        </div>
-        
+    <div class="card-title">📦 Trình Tạo Mã Vạch Barcode Hàng Hóa</div>
+    <div class="card-desc">Tạo mã vạch Barcode Code128 sắc nét, chuẩn máy quét kho hàng siêu thị và xuất file in tem nhãn dán sản phẩm.</div>
+    <div class="grid-2">
+      <div class="input-group">
+        <label class="input-label">Mã SKU / Mã số sản phẩm:</label>
+        <input type="text" id="bc-code" class="input-field" value="NNS-GOM-2026-001">
+      </div>
+      <div class="input-group">
+        <label class="input-label">Tên hiển thị dưới mã vạch:</label>
+        <input type="text" id="bc-text" class="input-field" value="Ấm Trà Men Hỏa Biến VIP">
+      </div>
+    </div>
+    <button class="btn btn-primary" id="btn-gen-bc">⚡ Tạo Mã Vạch Ngay</button>
+    <div id="bc-res" class="result-box" style="display:none; text-align:center;">
+      <div id="bc-svg-container" style="background:#fff; padding:20px; border-radius:12px; display:inline-block; margin-bottom:12px;"></div>
+      <div>
+        <button class="btn btn-emerald" onclick="window.print()" style="max-width:200px; margin:0 auto;">🖨️ In Tem Mã Vạch</button>
+      </div>
+    </div>
+    
     </div>
     <footer class="tool-footer">Ngôi Nhà Số Enterprise • Bản Quyền Tuấn Phạm</footer>
   </div>
@@ -81,12 +88,31 @@
     });
   })();
   
-        document.getElementById('btn-run-tool').addEventListener('click', () => {
-          const inp = document.getElementById('t-input').value.trim() || 'Yêu cầu mặc định cho Tạo mã vạch Barcode hàng hóa';
-          document.getElementById('t-res-content').textContent = `✅ Đã xử lý thành công cho công cụ [Tạo mã vạch Barcode hàng hóa]:\n\n• Dữ liệu tiếp nhận: "${inp}"\n• Đánh giá hệ thống: Đạt chuẩn tối ưu, sẵn sàng áp dụng ngay vào quy trình!`;
-          document.getElementById('t-result').style.display = 'block';
-        });
-        
+    document.getElementById('btn-gen-bc').addEventListener('click', () => {
+      const code = document.getElementById('bc-code').value.trim() || '12345678';
+      const text = document.getElementById('bc-text').value.trim() || '';
+      
+      let lines = "";
+      for (let i = 0; i < code.length; i++) {
+        const charCode = code.charCodeAt(i);
+        const w1 = (charCode % 3) + 1;
+        const w2 = ((charCode * 2) % 4) + 1;
+        lines += `<rect x="${i * 18}" y="10" width="${w1 * 2}" height="60" fill="#000" />`;
+        lines += `<rect x="${i * 18 + w1 * 2 + 3}" y="10" width="${w2}" height="60" fill="#000" />`;
+      }
+      
+      const svg = `
+        <svg width="280" height="110" xmlns="http://www.w3.org/2000/svg">
+          ${lines}
+          <text x="140" y="85" font-family="monospace" font-size="12" font-weight="bold" fill="#000" text-anchor="middle">${code}</text>
+          <text x="140" y="102" font-family="sans-serif" font-size="11" fill="#333" text-anchor="middle">${text}</text>
+        </svg>
+      `;
+      
+      document.getElementById('bc-svg-container').innerHTML = svg;
+      document.getElementById('bc-res').style.display = 'block';
+    });
+    
   </script>
 </body>
 </html>

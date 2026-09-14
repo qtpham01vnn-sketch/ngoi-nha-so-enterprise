@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rút quẻ Tarot & Thông điệp ngày — Ngôi Nhà Số</title>
+  <title>Rút Quẻ Bài Tarot & Thông Điệp Năng Lượng Vũ Trụ Hôm Nay — Ngôi Nhà Số</title>
   <style>
     :root {
-      --bg-page: #0b132b; --bg-card: #131f47; --border: rgba(56, 189, 248, 0.2);
+      --bg-page: #0b132b; --bg-card: #131f47; --border: rgba(56, 189, 248, 0.25);
       --text: #f8fafc; --text-muted: #94a3b8; --accent: #38bdf8; --accent-glow: rgba(56, 189, 248, 0.3);
       --emerald: #10b981; --rose: #f43f5e; --amber: #f59e0b; --indigo: #6366f1;
     }
@@ -16,7 +16,7 @@
     .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
     .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--accent); text-decoration: none; font-size: 13px; font-weight: 600; padding: 8px 14px; border-radius: 10px; background: rgba(56, 189, 248, 0.1); border: 1px solid var(--border); transition: all 0.2s; cursor: pointer; }
     .back-link:hover { background: rgba(56, 189, 248, 0.2); }
-    .badge { font-size: 12px; color: var(--text-muted); background: rgba(255,255,255,0.05); padding: 4px 10px; border-radius: 99px; border: 1px solid rgba(255,255,255,0.1); }
+    .badge { font-size: 12px; color: var(--text-muted); background: rgba(255,255,255,0.05); padding: 4px 10px; border-radius: 99px; border: 1px solid rgba(255,255,255,0.1); font-weight: bold; }
     .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); margin-bottom: 20px; }
     .card-title { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
     .card-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.5; }
@@ -29,12 +29,14 @@
     .btn-primary:hover { opacity: 0.95; transform: translateY(-1px); }
     .btn-rose { background: linear-gradient(135deg, #e11d48, #f43f5e); color: #fff; box-shadow: 0 4px 15px rgba(244, 63, 94, 0.3); }
     .btn-emerald { background: linear-gradient(135deg, #059669, #10b981); color: #fff; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); }
+    .btn-amber { background: linear-gradient(135deg, #d97706, #f59e0b); color: #fff; }
+    .btn-copy { background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; }
+    .btn-copy:hover { background: rgba(56, 189, 248, 0.3); }
     .result-box { background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 16px; padding: 20px; margin-top: 20px; text-align: center; }
-    .res-val { font-size: 30px; font-weight: 900; color: #fff; margin: 8px 0; }
+    .res-val { font-size: 28px; font-weight: 900; color: #fff; margin: 8px 0; }
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
     .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
     @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
-    .tag-item { display: inline-block; background: rgba(255,255,255,0.06); padding: 6px 12px; border-radius: 8px; font-size: 12px; margin: 4px; border: 1px solid rgba(255,255,255,0.08); }
     .tool-footer { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 24px; }
   </style>
 </head>
@@ -42,25 +44,26 @@
   <div class="app-wrap">
     <nav class="top-nav">
       <a class="back-link" id="btn-back-main">← Quay lại Bảng điều khiển</a>
-      <span class="badge">Game & Giải Trí</span>
+      <span class="badge">🎮 Năng Lượng & Tâm Trí</span>
     </nav>
     <div class="card">
       
-        <div class="card-title">⚡ Rút quẻ Tarot & Thông điệp ngày</div>
-        <div class="card-desc">Năng lượng tích cực mỗi ngày. Công cụ thực chiến tích hợp trực tiếp trong hệ sinh thái Ngôi Nhà Số.</div>
-        
-        <div class="input-group">
-          <label class="input-label">Dữ liệu đầu vào / Nội dung cần xử lý:</label>
-          <textarea id="t-input" class="input-field" rows="4" placeholder="Nhập thông tin hoặc yêu cầu của bạn tại đây..."></textarea>
-        </div>
-        
-        <button class="btn btn-primary" id="btn-run-tool">🚀 Thực Thi & Xử Lý Ngay</button>
-        
-        <div id="t-result" class="result-box" style="display:none; text-align:left;">
-          <div style="font-size:12px; color:var(--accent); font-weight:bold; margin-bottom:8px;">KẾT QUẢ XỬ LÝ:</div>
-          <div id="t-res-content" style="font-size:14px; color:#fff; line-height:1.6; background:rgba(0,0,0,0.3); padding:16px; border-radius:12px; white-space:pre-wrap;"></div>
-        </div>
-        
+    <div class="card-title">🔮 Rút Quẻ Bài Tarot & Thông Điệp Tích Cực Hôm Nay</div>
+    <div class="card-desc">Thư giãn tâm trí, hít thở sâu 3 nhịp và nhấp rút 1 lá bài để nhận thông điệp chỉ dẫn công việc, tài lộc và gia đình.</div>
+    <div style="text-align:center; padding:20px 0;">
+      <div id="tarot-card" style="width:140px; height:220px; border-radius:14px; background:linear-gradient(135deg, #4f46e5, #9333ea); margin:0 auto; display:flex; align-items:center; justify-content:center; color:#fff; font-size:40px; box-shadow:0 10px 30px rgba(79,70,229,0.4); cursor:pointer; border:2px solid rgba(255,255,255,0.2);">
+        🎴
+      </div>
+      <div style="margin-top:16px;">
+        <button class="btn btn-primary" id="btn-draw-tarot" style="max-width:240px; margin:0 auto;">✨ Rút Lá Bài Của Bạn</button>
+      </div>
+    </div>
+    <div id="tarot-res" class="result-box" style="display:none; text-align:left;">
+      <div style="font-size:12px; color:var(--accent); font-weight:bold;">LÁ BÀI HÔM NAY CỦA BẠN:</div>
+      <div class="res-val" id="tarot-name" style="color:#f59e0b; font-size:22px; text-align:left;"></div>
+      <div id="tarot-meaning" style="font-size:13px; color:#cbd5e1; line-height:1.7; margin-top:8px;"></div>
+    </div>
+    
     </div>
     <footer class="tool-footer">Ngôi Nhà Số Enterprise • Bản Quyền Tuấn Phạm</footer>
   </div>
@@ -81,12 +84,22 @@
     });
   })();
   
-        document.getElementById('btn-run-tool').addEventListener('click', () => {
-          const inp = document.getElementById('t-input').value.trim() || 'Yêu cầu mặc định cho Rút quẻ Tarot & Thông điệp ngày';
-          document.getElementById('t-res-content').textContent = `✅ Đã xử lý thành công cho công cụ [Rút quẻ Tarot & Thông điệp ngày]:\n\n• Dữ liệu tiếp nhận: "${inp}"\n• Đánh giá hệ thống: Đạt chuẩn tối ưu, sẵn sàng áp dụng ngay vào quy trình!`;
-          document.getElementById('t-result').style.display = 'block';
-        });
-        
+    const cards = [
+      { n: "☀️ THE SUN (Mặt Trời Rực Rỡ)", m: "Thông điệp: Thành công rực rỡ, may mắn và năng lượng tích cực ngập tràn! Hôm nay là ngày tuyệt vời để ký kết hợp đồng, mở mẻ lò mới hoặc bày tỏ tình cảm với người thân." },
+      { n: "⭐ THE STAR (Ngôi Sao Hy Vọng)", m: "Thông điệp: Bình an và chữa lành. Những khó khăn vừa qua đang dần tan biến, mở đường cho những cơ hội kinh doanh và nguồn cảm hứng sáng tạo mới." },
+      { n: "👑 THE EMPEROR (Hoàng Đế Quyền Uy)", m: "Thông điệp: Kỷ luật và sự kiên định. Hãy giữ vững nguyên tắc quản trị, kiểm soát chặt chẽ quy trình sản xuất xưởng và bảo vệ kế hoạch mục tiêu." },
+      { n: "🎡 WHEEL OF FORTUNE (Bánh Xe Số Phận)", m: "Thông điệp: Vận may đang xoay chuyển theo chiều hướng có lợi cho bạn! Hãy sẵn sàng đón nhận những tin vui bất ngờ về tài chính." },
+      { n: "🪄 THE MAGICIAN (Phù Thủy Quyền Năng)", m: "Thông điệp: Bạn đang nắm trong tay đầy đủ công cụ, kỹ năng và nguồn lực để biến ý tưởng thành hiện thực. Hãy hành động dứt khoát!" }
+    ];
+    
+    document.getElementById('btn-draw-tarot').addEventListener('click', () => {
+      const pick = cards[Math.floor(Math.random() * cards.length)];
+      document.getElementById('tarot-name').textContent = pick.n;
+      document.getElementById('tarot-meaning').textContent = pick.m;
+      document.getElementById('tarot-card').textContent = "✨";
+      document.getElementById('tarot-res').style.display = 'block';
+    });
+    
   </script>
 </body>
 </html>

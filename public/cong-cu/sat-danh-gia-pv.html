@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bộ tiêu chí phỏng vấn ứng viên — Ngôi Nhà Số</title>
+  <title>Bộ Tiêu Chí Chấm Điểm & Đánh Giá Phỏng Vấn Ứng Viên — Ngôi Nhà Số</title>
   <style>
     :root {
-      --bg-page: #0b132b; --bg-card: #131f47; --border: rgba(56, 189, 248, 0.2);
+      --bg-page: #0b132b; --bg-card: #131f47; --border: rgba(56, 189, 248, 0.25);
       --text: #f8fafc; --text-muted: #94a3b8; --accent: #38bdf8; --accent-glow: rgba(56, 189, 248, 0.3);
       --emerald: #10b981; --rose: #f43f5e; --amber: #f59e0b; --indigo: #6366f1;
     }
@@ -16,7 +16,7 @@
     .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
     .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--accent); text-decoration: none; font-size: 13px; font-weight: 600; padding: 8px 14px; border-radius: 10px; background: rgba(56, 189, 248, 0.1); border: 1px solid var(--border); transition: all 0.2s; cursor: pointer; }
     .back-link:hover { background: rgba(56, 189, 248, 0.2); }
-    .badge { font-size: 12px; color: var(--text-muted); background: rgba(255,255,255,0.05); padding: 4px 10px; border-radius: 99px; border: 1px solid rgba(255,255,255,0.1); }
+    .badge { font-size: 12px; color: var(--text-muted); background: rgba(255,255,255,0.05); padding: 4px 10px; border-radius: 99px; border: 1px solid rgba(255,255,255,0.1); font-weight: bold; }
     .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); margin-bottom: 20px; }
     .card-title { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
     .card-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.5; }
@@ -29,12 +29,14 @@
     .btn-primary:hover { opacity: 0.95; transform: translateY(-1px); }
     .btn-rose { background: linear-gradient(135deg, #e11d48, #f43f5e); color: #fff; box-shadow: 0 4px 15px rgba(244, 63, 94, 0.3); }
     .btn-emerald { background: linear-gradient(135deg, #059669, #10b981); color: #fff; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); }
+    .btn-amber { background: linear-gradient(135deg, #d97706, #f59e0b); color: #fff; }
+    .btn-copy { background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; }
+    .btn-copy:hover { background: rgba(56, 189, 248, 0.3); }
     .result-box { background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 16px; padding: 20px; margin-top: 20px; text-align: center; }
-    .res-val { font-size: 30px; font-weight: 900; color: #fff; margin: 8px 0; }
+    .res-val { font-size: 28px; font-weight: 900; color: #fff; margin: 8px 0; }
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
     .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
     @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
-    .tag-item { display: inline-block; background: rgba(255,255,255,0.06); padding: 6px 12px; border-radius: 8px; font-size: 12px; margin: 4px; border: 1px solid rgba(255,255,255,0.08); }
     .tool-footer { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 24px; }
   </style>
 </head>
@@ -42,25 +44,45 @@
   <div class="app-wrap">
     <nav class="top-nav">
       <a class="back-link" id="btn-back-main">← Quay lại Bảng điều khiển</a>
-      <span class="badge">Doanh Nghiệp</span>
+      <span class="badge">💼 Tuyển Dụng Nhân Sự</span>
     </nav>
     <div class="card">
       
-        <div class="card-title">⚡ Bộ tiêu chí phỏng vấn ứng viên</div>
-        <div class="card-desc">Đánh giá năng lực & văn hóa. Công cụ thực chiến tích hợp trực tiếp trong hệ sinh thái Ngôi Nhà Số.</div>
-        
-        <div class="input-group">
-          <label class="input-label">Dữ liệu đầu vào / Nội dung cần xử lý:</label>
-          <textarea id="t-input" class="input-field" rows="4" placeholder="Nhập thông tin hoặc yêu cầu của bạn tại đây..."></textarea>
-        </div>
-        
-        <button class="btn btn-primary" id="btn-run-tool">🚀 Thực Thi & Xử Lý Ngay</button>
-        
-        <div id="t-result" class="result-box" style="display:none; text-align:left;">
-          <div style="font-size:12px; color:var(--accent); font-weight:bold; margin-bottom:8px;">KẾT QUẢ XỬ LÝ:</div>
-          <div id="t-res-content" style="font-size:14px; color:#fff; line-height:1.6; background:rgba(0,0,0,0.3); padding:16px; border-radius:12px; white-space:pre-wrap;"></div>
-        </div>
-        
+    <div class="card-title">👔 Bộ Tiêu Chí Chấm Điểm Phỏng Vấn Ứng Viên</div>
+    <div class="card-desc">Thang điểm 100 theo 5 tiêu chuẩn: Thái độ & Văn hóa, Chuyên môn, Kỹ năng giao tiếp, Khả năng chịu áp lực và Tiềm năng phát triển.</div>
+    <div class="input-group">
+      <label class="input-label">Họ và tên ứng viên:</label>
+      <input type="text" id="pv-name" class="input-field" value="Nguyễn Văn A - Ứng tuyển Thợ Lò Nung">
+    </div>
+    <div class="grid-2">
+      <div class="input-group">
+        <label class="input-label">1. Thái độ & Tinh thần trách nhiệm (Tối đa 25đ):</label>
+        <input type="number" id="pv-s1" class="input-field" value="22" min="0" max="25">
+      </div>
+      <div class="input-group">
+        <label class="input-label">2. Chuyên môn & Kinh nghiệm thực tế (Tối đa 25đ):</label>
+        <input type="number" id="pv-s2" class="input-field" value="20" min="0" max="25">
+      </div>
+      <div class="input-group">
+        <label class="input-label">3. Khả năng hòa nhập & Văn hóa cty (Tối đa 20đ):</label>
+        <input type="number" id="pv-s3" class="input-field" value="18" min="0" max="20">
+      </div>
+      <div class="input-group">
+        <label class="input-label">4. Khả năng chịu áp lực công việc (Tối đa 15đ):</label>
+        <input type="number" id="pv-s4" class="input-field" value="12" min="0" max="15">
+      </div>
+      <div class="input-group">
+        <label class="input-label">5. Tiềm năng gắn bó dài hạn (Tối đa 15đ):</label>
+        <input type="number" id="pv-s5" class="input-field" value="13" min="0" max="15">
+      </div>
+    </div>
+    <button class="btn btn-emerald" id="btn-calc-pv">📝 Tổng Kết & Đưa Ra Quyết Định Tuyển</button>
+    <div id="pv-res" class="result-box" style="display:none;">
+      <div style="font-size:12px; color:var(--accent); font-weight:bold;">TỔNG ĐIỂM ĐÁNH GIÁ:</div>
+      <div class="res-val" id="pv-total" style="color:#10b981;">85 / 100 ĐIỂM</div>
+      <div id="pv-decision" style="font-size:15px; font-weight:bold; margin-top:8px;"></div>
+    </div>
+    
     </div>
     <footer class="tool-footer">Ngôi Nhà Số Enterprise • Bản Quyền Tuấn Phạm</footer>
   </div>
@@ -81,12 +103,24 @@
     });
   })();
   
-        document.getElementById('btn-run-tool').addEventListener('click', () => {
-          const inp = document.getElementById('t-input').value.trim() || 'Yêu cầu mặc định cho Bộ tiêu chí phỏng vấn ứng viên';
-          document.getElementById('t-res-content').textContent = `✅ Đã xử lý thành công cho công cụ [Bộ tiêu chí phỏng vấn ứng viên]:\n\n• Dữ liệu tiếp nhận: "${inp}"\n• Đánh giá hệ thống: Đạt chuẩn tối ưu, sẵn sàng áp dụng ngay vào quy trình!`;
-          document.getElementById('t-result').style.display = 'block';
-        });
-        
+    document.getElementById('btn-calc-pv').addEventListener('click', () => {
+      const s1 = parseFloat(document.getElementById('pv-s1').value) || 0;
+      const s2 = parseFloat(document.getElementById('pv-s2').value) || 0;
+      const s3 = parseFloat(document.getElementById('pv-s3').value) || 0;
+      const s4 = parseFloat(document.getElementById('pv-s4').value) || 0;
+      const s5 = parseFloat(document.getElementById('pv-s5').value) || 0;
+      const total = s1 + s2 + s3 + s4 + s5;
+      
+      document.getElementById('pv-total').textContent = `${total} / 100 ĐIỂM`;
+      let dec = "";
+      if (total >= 80) dec = "<span style='color:#10b981;'>🌟 ĐỀ XUẤT: TUYỂN DỤNG NGAY (Ứng viên xuất sắc, phù hợp văn hóa)</span>";
+      else if (total >= 65) dec = "<span style='color:#f59e0b;'>⚠️ ĐỀ XUẤT: CÂN NHẮC (Cần phỏng vấn vòng 2 hoặc thử việc có giám sát)</span>";
+      else dec = "<span style='color:#f43f5e;'>❌ ĐỀ XUẤT: TỪ CHỐI (Không đạt yêu cầu tối thiểu của vị trí)</span>";
+      
+      document.getElementById('pv-decision').innerHTML = dec;
+      document.getElementById('pv-res').style.display = 'block';
+    });
+    
   </script>
 </body>
 </html>
