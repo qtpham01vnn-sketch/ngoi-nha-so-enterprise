@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import localforage from 'localforage';
 import { AppStateData, TaskItem, HabitItem, NoteItem, ToolItem } from '../types';
-import { INITIAL_DATA, ALL_33_TOOLS } from '../data/initialData';
+import { INITIAL_DATA, ALL_100_TOOLS } from '../data/initialData';
 
 localforage.config({
   name: 'NgoiNhaSoApp',
@@ -47,18 +47,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   useEffect(() => {
     localforage.getItem<AppStateData>('nns_state').then(saved => {
-      if (saved && typeof saved === 'object') {
+      if (saved && typeof saved === 'object' && saved.version === INITIAL_DATA.version) {
         const merged = { ...INITIAL_DATA, ...saved };
-        if (!merged.tabs.some(t => t.id === 'tab-tat-ca')) {
-          merged.tabs.push({ id: 'tab-tat-ca', ten: 'Tất cả', icon: 'LayoutGrid', thuTu: 5 });
-        }
-        // Merge missing tools
-        ALL_33_TOOLS.forEach(dt => {
-          if (!merged.congCu.some(t => t.link === dt.link)) {
-            merged.congCu.push(dt);
-          }
-        });
+        merged.tabs = INITIAL_DATA.tabs;
+        merged.congCu = ALL_100_TOOLS;
         setState(merged);
+      } else {
+        setState(INITIAL_DATA);
+        localforage.setItem('nns_state', INITIAL_DATA);
       }
     });
   }, []);

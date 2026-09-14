@@ -6,7 +6,14 @@ import {
   Timer, RotateCcw, BookOpen, Dices, Backpack, CalendarDays, PieChart,
   MessageCircle, QrCode, Hourglass, Clock, ShoppingCart, Droplets,
   PenLine, Briefcase, BarChart3, GraduationCap, ClipboardCheck, MessageSquare,
-  Home, Heart, Bot, LayoutGrid
+  Home, Heart, Bot, LayoutGrid, HeartHandshake, Coins, Gamepad2,
+  Calculator, Target, Mail, FileCheck, Calendar, Layers, Cpu, HelpCircle,
+  Filter, AlertTriangle, Boxes, Smile, Activity, Moon, Flame, ShieldPlus,
+  Wallet, Zap, Gauge, BookHeart, Video, Image, MailCheck, UserPlus, Gift,
+  BookMarked, LineChart, Award, Languages, Compass, CalendarClock, Banknote,
+  Percent, PartyPopper, Users, FileSignature, TimerReset, Clock3, ArrowRightLeft,
+  KeyRound, CircleDot, Dice5, Sparkle, Grid, Keyboard, Headphones, TableProperties,
+  SunMedium
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { ToolItem } from '../../types';
@@ -17,11 +24,18 @@ const ICON_MAP: Record<string, any> = {
   Timer, RotateCcw, BookOpen, Dices, Backpack, CalendarDays, PieChart,
   MessageCircle, QrCode, Hourglass, Clock, ShoppingCart, Droplets,
   PenLine, Sparkles, Briefcase, BarChart3, GraduationCap, ClipboardCheck, MessageSquare,
-  Home, Heart, Bot, LayoutGrid
+  Home, Heart, Bot, LayoutGrid, HeartHandshake, Coins, Gamepad2,
+  Calculator, Target, Mail, FileCheck, Calendar, Layers, Cpu, HelpCircle,
+  Filter, AlertTriangle, Boxes, Smile, Activity, Moon, Flame, ShieldPlus,
+  Wallet, Zap, Gauge, BookHeart, Video, Image, MailCheck, UserPlus, Gift,
+  BookMarked, LineChart, Award, Languages, Compass, CalendarClock, Banknote,
+  Percent, PartyPopper, Users, FileSignature, TimerReset, Clock3, ArrowRightLeft,
+  KeyRound, CircleDot, Dice5, Sparkle, Grid, Keyboard, Headphones, TableProperties,
+  SunMedium
 };
 
 export const ToolsGridView: React.FC = () => {
-  const { state, currentTab, setCurrentTab, searchTerm, setActiveTool, togglePinTool, setActiveView } = useApp();
+  const { state, currentTab, setCurrentTab, searchTerm, setActiveTool, togglePinTool } = useApp();
 
   const getFilteredTools = () => {
     let tools = state.congCu;
@@ -53,8 +67,8 @@ export const ToolsGridView: React.FC = () => {
   return (
     <div className="space-y-4">
       {/* Category Tabs Header */}
-      <div className="flex items-center justify-between gap-3 overflow-x-auto pb-2 border-b border-white/5">
-        <div className="flex items-center gap-2">
+      <div className="flex items-center justify-between gap-2 overflow-x-auto pb-2 border-b border-white/5 scrollbar-thin">
+        <div className="flex items-center gap-1.5">
           {state.tabs.map((tab) => {
             const count = tab.id === 'tab-tat-ca' 
               ? state.congCu.length 
@@ -65,9 +79,9 @@ export const ToolsGridView: React.FC = () => {
               <button
                 key={tab.id}
                 onClick={() => setCurrentTab(tab.id)}
-                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
+                className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
                   isActive 
-                    ? 'bg-sky-500 text-white shadow-md shadow-sky-500/20' 
+                    ? 'bg-sky-500 text-white shadow-md shadow-sky-500/20 font-bold' 
                     : 'bg-[#14224a]/50 text-slate-400 hover:text-slate-200 hover:bg-[#14224a]'
                 }`}
               >
@@ -91,29 +105,32 @@ export const ToolsGridView: React.FC = () => {
           <p className="text-xs text-slate-500 mt-1">Thử tìm kiếm với từ khóa khác hoặc chuyển sang tab "Tất cả"</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3.5">
           {filteredTools.map((tool) => {
             const Icon = ICON_MAP[tool.icon] || FileText;
             const isAiTool = tool.tab === 'tab-nhan-su-ai';
+            const isLoveTool = tool.tab === 'tab-vo-chong';
 
             return (
               <div
                 key={tool.id}
                 onClick={() => setActiveTool(tool)}
-                className="glass-card glass-card-interactive rounded-2xl p-4 flex flex-col justify-between cursor-pointer group relative"
+                className="glass-card glass-card-interactive rounded-2xl p-4 flex flex-col justify-between cursor-pointer group relative hover:border-sky-400/40 transition-all hover:scale-[1.01]"
               >
                 <div>
                   <div className="flex items-start justify-between gap-2 mb-3">
                     <div className={`p-2.5 rounded-xl ${
                       isAiTool 
                         ? 'bg-emerald-500/15 text-emerald-400 ring-1 ring-emerald-500/30' 
+                        : isLoveTool
+                        ? 'bg-rose-500/15 text-rose-400 ring-1 ring-rose-500/30'
                         : 'bg-sky-500/15 text-sky-400 ring-1 ring-sky-500/30'
                     }`}>
                       <Icon className="w-5 h-5" />
                     </div>
                     <div className="flex items-center gap-1.5">
                       {tool.tab && currentTab === 'tab-tat-ca' && (
-                        <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-white/5">
+                        <span className="text-[9px] font-semibold px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-white/5 truncate max-w-[100px]">
                           {getTabLabel(tool.tab)}
                         </span>
                       )}
@@ -132,7 +149,7 @@ export const ToolsGridView: React.FC = () => {
                     </div>
                   </div>
 
-                  <h4 className="text-sm font-bold text-white group-hover:text-sky-400 transition-colors line-clamp-1">
+                  <h4 className="text-sm font-bold text-white group-hover:text-sky-300 transition-colors line-clamp-1">
                     {tool.ten}
                   </h4>
                   <p className="text-xs text-slate-400 mt-1 line-clamp-2 leading-relaxed">
@@ -142,7 +159,7 @@ export const ToolsGridView: React.FC = () => {
 
                 <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-xs text-slate-500 group-hover:text-sky-400 transition-colors">
                   <span className="text-[11px] font-medium">Chạy công cụ</span>
-                  <Play className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                  <Play className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform text-sky-400" />
                 </div>
               </div>
             );

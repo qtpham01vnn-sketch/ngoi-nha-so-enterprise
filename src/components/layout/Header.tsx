@@ -20,7 +20,7 @@ export const Header: React.FC = () => {
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Tìm nhanh 33 công cụ, việc cần làm, thói quen..."
+            placeholder={`Tìm nhanh trong ${state.congCu.length} công cụ, việc cần làm...`}
             className="w-full bg-[#14224a]/70 border border-slate-700/60 rounded-xl pl-9 pr-4 py-2 text-xs text-white placeholder:text-slate-400 focus:outline-none focus:border-sky-400 focus:ring-1 focus:ring-sky-400 transition-all"
           />
         </div>
